@@ -79,4 +79,19 @@ public class Model {
 	}
 	
 	
+	private static ArrayList<LinePropertyBean> linee = new ArrayList<LinePropertyBean>();
+
+
+
+	public static void setLinee(ArrayList<LinePropertyBean> linee) {
+		Model.linee = linee;
+	}
+
+	public static ArrayList<LinePropertyBean> getLinee() {
+		return linee;
+	}
+	
+	
+	
+	
 }

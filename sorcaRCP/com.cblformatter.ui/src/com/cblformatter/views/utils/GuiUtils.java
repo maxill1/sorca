@@ -3,8 +3,9 @@ package com.cblformatter.views.utils;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.widgets.Button;
@@ -19,6 +20,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 import com.cblformatter.model.beans.ModelObject;
+import com.cblformatter.views.EditView;
 
 public class GuiUtils {
 
@@ -114,6 +116,11 @@ public class GuiUtils {
 
 	public static void showInfo(String message, String string) {
 		showInfo(message,SWT.NONE);
+	}
+
+	public static  TreeViewer getEditViewTableViewer() {
+		// TODO Auto-generated method stub
+		return ((EditView)GuiUtils.getView(EditView.ID)).getTv();
 	}
 	
 }

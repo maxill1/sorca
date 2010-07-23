@@ -14,11 +14,16 @@ public class Perspective implements IPerspectiveFactory {
 		            IPageLayout.BOTTOM, 0.8f, editorArea);
 		 
 		    layout.addStandaloneView("CBLFormatter.OptionView", false, 
-		            IPageLayout.RIGHT, 0.5f, editorArea);
+		            IPageLayout.RIGHT, 0.7f, editorArea);
 		
 
 		    layout.addStandaloneView("CBLFormatter.FilesView", false, 
-		            IPageLayout.LEFT, 0.5f, editorArea);
+		            IPageLayout.LEFT, 0.3f, editorArea);
+		    
+
+		    layout.addStandaloneView("CBLFormatter.EditView", false, 
+		            IPageLayout.LEFT, 0.7f, editorArea);
+		   
 		   
 
 		}

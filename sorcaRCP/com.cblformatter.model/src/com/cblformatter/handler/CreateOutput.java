@@ -19,11 +19,11 @@ import java.util.LinkedHashMap;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import com.cblformatter.counters.Counter;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.OccursBean;
-import com.cblformatter.model.counters.Counter;
-import com.cblformatter.utils.LineUtils;
+import com.cblformatter.views.utils.LineUtils;
 
 public class CreateOutput {
 
@@ -43,20 +43,20 @@ public class CreateOutput {
 
 		LinkedHashMap<Integer, LinePropertyBean> cblFormatted = processFile(inputFile, indexSpaces, picSpaces, add2ToIndex, programCall ,programCallAlt, codifica, EOL, HandleErrors);
 		
-		//creo la stringa da stampare su file
-		String toPrint = preparePrint(cblFormatted, tipo);
-
-		//scrivo File
-		
-		//creo il file aggiungendo nome e tipo
-		outputFile = creaFileOutput(outputFile, inputFile, tipo);
-		
-		
-		//Esegui codifica file
-		toPrint = encodeString(toPrint);
-		
-		//scrivo il file
-		scriviSuFile(outputFile, toPrint);
+//		//creo la stringa da stampare su file
+//		String toPrint = preparePrint(cblFormatted, tipo);
+//
+//		//scrivo File
+//		
+//		//creo il file aggiungendo nome e tipo
+//		outputFile = creaFileOutput(outputFile, inputFile, tipo);
+//		
+//		
+//		//Esegui codifica file
+//		toPrint = encodeString(toPrint);
+//		
+//		//scrivo il file
+//		scriviSuFile(outputFile, toPrint);
 			
 			
 		} catch (IOException e) {
@@ -133,6 +133,8 @@ private static LinkedHashMap<Integer,LinePropertyBean> processFile(File inputFil
 	
 	//creo una lista di linee con proprietà
 	linePropertyList =	LineUtils.popolaDatiLinee(lineeNonFormattate);
+
+	Model.setLinee(LineUtils.popolaDatiLineeNUOVO(lineeNonFormattate));
 	
 	//creo lista ordinata
 	linePropertyListSort = LineUtils.cleanList(linePropertyList);

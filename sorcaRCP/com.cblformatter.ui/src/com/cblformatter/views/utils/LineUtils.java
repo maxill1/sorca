@@ -1,4 +1,4 @@
-package com.cblformatter.utils;
+package com.cblformatter.views.utils;
 
 
 
@@ -11,10 +11,15 @@ import java.util.LinkedHashMap;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import com.cblformatter.counters.OccursCounter;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.OccursBean;
-import com.cblformatter.model.counters.OccursCounter;
+import com.cblformatter.utils.Convert;
+import com.cblformatter.utils.Costants;
+import com.cblformatter.utils.Index;
+import com.cblformatter.utils.Pic;
+import com.cblformatter.utils.searchLine;
 
 public class LineUtils {
 	
@@ -434,45 +439,44 @@ public static String formatNumber(int number) {
 			Model.setRawLines(linePropertyList);
 			return linePropertyList;
 		}
+
+	public static ArrayList<LinePropertyBean> popolaDatiLineeNUOVO(LinkedHashMap<Integer,String> lineeNonFormattate) {
+		
+		String inputLine = "";
+		ArrayList<LinePropertyBean> linePropertyList =  new ArrayList<LinePropertyBean>();
+		
+		//formatto linee
+		for(int i = 1; i<lineeNonFormattate.size(); i++){
+			inputLine = lineeNonFormattate.get(i).toString();
+			
+			LinePropertyBean line = new LinePropertyBean();
+			//TODO contatore raw
+			//countRaw = Counter.contatoreRaw(inputLine, countRaw);
+			
 	
-		
-		
-		public static ArrayList<LinePropertyBean> popolaDatiLineeNUOVO(LinkedHashMap<Integer,String> lineeNonFormattate) {
+			if(LineUtils.isHeader(inputLine)){
+				inputLine = "";
+					}
 			
-			String inputLine = "";
-			ArrayList<LinePropertyBean> linePropertyList =  new ArrayList<LinePropertyBean>();
+			inputLine = LineUtils.cleanLine(inputLine);
 			
-			//formatto linee
-			for(int i = 1; i<lineeNonFormattate.size(); i++){
-				inputLine = lineeNonFormattate.get(i).toString();
-				
-				LinePropertyBean line = new LinePropertyBean();
-				//TODO contatore raw
-				//countRaw = Counter.contatoreRaw(inputLine, countRaw);
-				
-		
-				if(LineUtils.isHeader(inputLine)){
-					inputLine = "";
-						}
-				
-				inputLine = LineUtils.cleanLine(inputLine);
-				
-				line.setIndex(searchLine.searchIndex(inputLine));
-				line.setField(searchLine.searchField(inputLine));
-				line.setPicType(searchLine.searchPicType(inputLine));
-				line.setPicValue(searchLine.searchPicValue(inputLine));
-				line.setOccurs(searchLine.searchOccurs(inputLine));
-				line.setDichCount(searchLine.searchDichCount(inputLine));
-				line.setNumRiga(i);
-				
-				linePropertyList.add(line);	
-				
-						
-			}
+			line.setIndex(searchLine.searchIndex(inputLine));
+			line.setField(searchLine.searchField(inputLine));
+			line.setPicType(searchLine.searchPicType(inputLine));
+			line.setPicValue(searchLine.searchPicValue(inputLine));
+			line.setOccurs(searchLine.searchOccurs(inputLine));
+			line.setDichCount(searchLine.searchDichCount(inputLine));
+			line.setNumRiga(i);
 			
-			Model.setLinee(linePropertyList);
-			return linePropertyList;
+			linePropertyList.add(line);	
+			
+					
 		}
+		
+		Model.setLinee(linePropertyList);
+		return linePropertyList;
+	}
+	
 	
 
 }
