@@ -62,6 +62,10 @@ public class SettingsView extends ViewPart {
 				headerPresente,Model.getSettingsBean(), "headerPresente");
 		GuiUtils.addBindingContext(
 				spacePic,Model.getSettingsBean(), "picSpaces");
+
+		GuiUtils.addBindingContext(
+				spaceIndex,Model.getSettingsBean(), "indexSpaces");
+		
 		GuiUtils.addBindingContext(
 				fillerPresente,Model.getSettingsBean(), "fillerPresente");
 		GuiUtils.addBindingContext(
