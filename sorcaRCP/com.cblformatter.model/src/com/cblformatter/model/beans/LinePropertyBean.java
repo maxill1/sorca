@@ -1,12 +1,13 @@
 package com.cblformatter.model.beans;
 
-public class LineProperty {
+public class LinePropertyBean {
 	private String index;
 	private String field;
 	private String picType;
 	private int picValue;
 	private int dichCount;
 	private int occurs;
+	private String fullLine;
 	
 	public String getIndex() {
 		return index;
@@ -43,6 +44,12 @@ public class LineProperty {
 	}
 	public int getDichCount() {
 		return dichCount;
+	}
+	public void setFullLine(String fullLine) {
+		this.fullLine = fullLine;
+	}
+	public String getFullLine() {
+		return fullLine;
 	}
 
 }

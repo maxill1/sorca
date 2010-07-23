@@ -6,8 +6,8 @@ package com.cblformatter.model.counters;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import com.cblformatter.model.beans.LineProperty;
-import com.cblformatter.model.beans.Occurs;
+import com.cblformatter.model.beans.LinePropertyBean;
+import com.cblformatter.model.beans.OccursBean;
 
 public class OccursCounter {
 
@@ -130,12 +130,12 @@ public class OccursCounter {
 	public static int occursLineCount(LinkedHashMap linePropertyList, int occursNumLine, int actualNumLine) {
 		boolean hasNext = false;
 		int lineCount = 0;
-		LineProperty line;
-		LineProperty occLine = (LineProperty) linePropertyList.get(occursNumLine);
+		LinePropertyBean line;
+		LinePropertyBean occLine = (LinePropertyBean) linePropertyList.get(occursNumLine);
 		int occIndex = Integer.parseInt(occLine.getIndex());
 		
 		for(int x = actualNumLine; x< linePropertyList.size(); x++){
-			line = (LineProperty) linePropertyList.get(x);
+			line = (LinePropertyBean) linePropertyList.get(x);
 			
 			int lineIndex = Integer.parseInt(line.getIndex());
 			
@@ -158,15 +158,15 @@ public class OccursCounter {
 	public static int occursLineCount(LinkedHashMap linePropertyList, int occursNumLine) {
 		boolean hasNext = false;
 		int lineCount = 0;
-		LineProperty line;
-		LineProperty occLine = (LineProperty) linePropertyList.get(occursNumLine);
+		LinePropertyBean line;
+		LinePropertyBean occLine = (LinePropertyBean) linePropertyList.get(occursNumLine);
 		int occIndex = Integer.parseInt(occLine.getIndex());
 		int actualNumLine = occursNumLine+1;
 		
 		
 		
 		for(int x = actualNumLine; x< linePropertyList.size(); x++){
-			line = (LineProperty) linePropertyList.get(x);
+			line = (LinePropertyBean) linePropertyList.get(x);
 			
 			int lineIndex = Integer.parseInt(line.getIndex());
 			String lineField = line.getField();
@@ -193,12 +193,12 @@ public class OccursCounter {
 	}
 	
 
-	public static ArrayList createOccursHierarchy(ArrayList<Occurs> occursList) {
-		Occurs occurs;
-		Occurs occurs2;
+	public static ArrayList createOccursHierarchy(ArrayList<OccursBean> occursList) {
+		OccursBean occurs;
+		OccursBean occurs2;
 		int hierarchy = 0;
 		
-		ArrayList<Occurs> occursListH = new ArrayList<Occurs>();
+		ArrayList<OccursBean> occursListH = new ArrayList<OccursBean>();
 		
 		for(int x = 0; x<occursList.size();x++){
 			occurs =  occursList.get(x);

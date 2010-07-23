@@ -3,11 +3,10 @@ package com.cblformatter.model.counters;
 
 
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import com.cblformatter.model.beans.LineProperty;
-import com.cblformatter.model.beans.Lists;
+import com.cblformatter.model.beans.LinePropertyBean;
+import com.cblformatter.utils.LineUtils;
 
 public class Counter {
 
@@ -29,7 +28,7 @@ public class Counter {
 
 		for(; x<lista.size(); x++){
 			
-			LineProperty line = (LineProperty) lista.get(x);
+			LinePropertyBean line = (LinePropertyBean) lista.get(x);
 			int lineIndex = Integer.parseInt(line.getIndex());
 			String lineField = line.getField();
 			int lineOccurs = line.getOccurs();
@@ -67,7 +66,7 @@ public class Counter {
 
 					for(; l<fineOcc; l++){
 
-						line = (LineProperty) lista.get(l);
+						line = (LinePropertyBean) lista.get(l);
 
 						lineIndex = Integer.parseInt(line.getIndex());
 						lineField = line.getField();
@@ -118,7 +117,7 @@ public class Counter {
 		int occursLineCount = 0;				
 
 		for(; x<lista.size(); x++){
-			LineProperty line = (LineProperty) lista.get(x);
+			LinePropertyBean line = (LinePropertyBean) lista.get(x);
 
 			if(line.getOccurs() == 0){
 
@@ -127,7 +126,7 @@ public class Counter {
 			}else {
 
 				occursLineCount = OccursCounter.occursLineCount(lista, x);
-				listaOcc = Lists.occursListTrim(lista, x, occursLineCount);
+				listaOcc = LineUtils.occursListTrim(lista, x, occursLineCount);
 
 				if(occursLineCount == 0){
 					count = count - (line.getPicValue()*line.getOccurs());

@@ -1,6 +1,6 @@
 package com.cblformatter.utils;
 
-import com.cblformatter.model.beans.Settings;
+import com.cblformatter.model.beans.Model;
 
 
 
@@ -20,7 +20,7 @@ public class Costants {
 	public static String ISO88591 = "ISO-8859-1";
 	
 
-	private static String EOL = Settings.getEOL();
+	private static String EOL = Model.getSettingsBean().getEOL();
 	
 
 

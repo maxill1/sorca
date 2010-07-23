@@ -1,6 +1,6 @@
 package com.cblformatter.utils;
 
-import com.cblformatter.model.beans.Settings;
+import com.cblformatter.model.beans.Model;
 
 
 
@@ -14,7 +14,7 @@ public class Pic {
 	 */
 
 	public static String addPicSpaces(String field, String index){
-		int lunghezzaCol = Settings.getPicSpaces()-field.length()-Integer.parseInt(index.trim())-Settings.getIndexSpaces()-2;
+		int lunghezzaCol = Integer.parseInt(Model.getSettingsBean().getPicSpaces())-field.length()-Integer.parseInt(index.trim())-Integer.parseInt(Model.getSettingsBean().getIndexSpaces())-2;
 		String spaces = "";
 		
 		for(int a = 0; a<lunghezzaCol; a++){

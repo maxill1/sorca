@@ -9,7 +9,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.cblformatter.handler,
- com.cblformatter.model.beans,
- com.cblformatter.model.counters,
- com.cblformatter.utils
+Export-Package: com.cblformatter.model.beans,
+ com.cblformatter.model.beans.views
