@@ -19,5 +19,29 @@
             id="CBLFormatter.perspective">
       </perspective>
    </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.cblformatter.application.application"
+            name="sorca">
+         <property
+               name="appName"
+               value="sorca">
+         </property>
+      </product>
+   </extension>
+   <extension
+         id="sorca"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.cblformatter.application.application"
+            name="sorca">
+         <property
+               name="appName"
+               value="sorca">
+         </property>
+      </product>
+   </extension>
   
 </plugin>

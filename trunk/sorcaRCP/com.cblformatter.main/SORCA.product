@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product application="CBLFormatter.application" useFeatures="false" includeLaunchers="true">
+<product name="sorca" id="com.cblformatter.application.sorca" application="com.cblformatter.application.application" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -12,17 +12,33 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
+   <launcher name="sorca">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
    <plugins>
-      <plugin id="CBLFormatter"/>
+      <plugin id="com.cblformatter.application"/>
+      <plugin id="com.cblformatter.controls"/>
+      <plugin id="com.cblformatter.model"/>
+      <plugin id="com.cblformatter.ui"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.servlet"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.beans"/>
       <plugin id="org.eclipse.core.databinding.observable"/>
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.eclipse.core.net"/>
+      <plugin id="org.eclipse.core.net.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
@@ -30,6 +46,7 @@
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.eclipse.equinox.security"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
@@ -39,7 +56,18 @@
       <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="org.eclipse.update.core"/>
+      <plugin id="org.eclipse.update.core.linux" fragment="true"/>
    </plugins>
+
+   <features>
+      <feature id="org.eclipse.rcp" version="3.5.2.R35x_v20100119-9SA0FxwFnoCU5XxWItFdXXb27BA6"/>
+      <feature id="Feature.com.sorca.application" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.controls" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.model" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.ui" version="1.0.0.qualifier"/>
+   </features>
 
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
