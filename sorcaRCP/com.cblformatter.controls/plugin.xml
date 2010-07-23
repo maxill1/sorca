@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.cblformatter.handler.FillLinesHandler"
+            description="read the file and fill the model with lines"
+            id="SORCA.fillLines"
+            name="SORCA.fillLines">
+      </command>
+   </extension>
+
+</plugin>
