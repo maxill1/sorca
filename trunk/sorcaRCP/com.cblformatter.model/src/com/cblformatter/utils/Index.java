@@ -1,6 +1,6 @@
 package com.cblformatter.utils;
 
-import com.cblformatter.model.beans.Settings;
+import com.cblformatter.model.beans.Model;
 
 
 public class Index {
@@ -12,7 +12,7 @@ public class Index {
 	
 	public static String addIndexSpaces() {		
 
-		int indexSpaces = Settings.getIndexSpaces();
+		int indexSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
 		String print ="";
 		String spaces = "";
 			int totSpaces = indexSpaces;
@@ -33,7 +33,7 @@ public class Index {
 
 	public static String addIndexSpaces(String print) {		
 		String substring;
-		int indexSpaces = Settings.getIndexSpaces();
+		int indexSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
 		String spaces = "";
 
 			substring = print.trim().substring(0,2);
@@ -74,7 +74,7 @@ public class Index {
 
 	public static String checkIndexForErrorsAndClean(String inputLine){
 		if(!LineUtils.startWithIndex(inputLine) && ! LineUtils.startWith6Numbers(inputLine) && !inputLine.contains("*")){
-			if(Settings.isHandleErrors() && !LineUtils.isHeader(inputLine)){
+			if(Model.getSettingsBean().isHandleErrors() && !LineUtils.isHeader(inputLine)){
 				inputLine = "01 !!!!!!!ERROR!!!!!!!!" + inputLine;
 			}else{
 				inputLine = "";
@@ -92,9 +92,9 @@ public class Index {
 	
 public static String replaceIndex(int index) {
 	
-	boolean add2ToIndex = Settings.isAdd2ToIndex();
+	boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
 	
-	if(add2ToIndex && !Settings.isHeaderPresente()){
+	if(add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
 		if(index > 0){
 		index = index + 2;
 		}

@@ -16,21 +16,14 @@ import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.widgets.Shell;
 
-import com.cblformatter.model.beans.LineProperty;
-import com.cblformatter.model.beans.Lists;
-import com.cblformatter.model.beans.Occurs;
-import com.cblformatter.model.beans.Settings;
+import com.cblformatter.model.beans.LinePropertyBean;
+import com.cblformatter.model.beans.Model;
+import com.cblformatter.model.beans.OccursBean;
 import com.cblformatter.model.counters.Counter;
-import com.cblformatter.utils.Costants;
 import com.cblformatter.utils.LineUtils;
-import com.cblformatter.utils.searchLine;
 
 public class CreateOutput {
 
@@ -38,17 +31,17 @@ public class CreateOutput {
 
 		try {
 		
-		int indexSpaces = Settings.getIndexSpaces();
-		int picSpaces = Settings.getIndexSpaces();
-		boolean add2ToIndex = Settings.isAdd2ToIndex();
-		String programCall = Settings.getProgramCall();
-		String programCallAlt = Settings.getProgramCallAlt();
-		String codifica = Settings.getCodifica();
-		String EOL = Settings.getEOL();
-		boolean HandleErrors = Settings.isHandleErrors();
+		int indexSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
+		int picSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
+		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
+		String programCall = Model.getSettingsBean().getProgramCall();
+		String programCallAlt = Model.getSettingsBean().getProgramCallAlt();
+		String codifica = Model.getSettingsBean().getCodifica();
+		String EOL = Model.getSettingsBean().getEOL();
+		boolean HandleErrors = Model.getSettingsBean().isHandleErrors();
 		
 
-		LinkedHashMap<Integer, LineProperty> cblFormatted = processFile(inputFile, indexSpaces, picSpaces, add2ToIndex, programCall ,programCallAlt, codifica, EOL, HandleErrors);
+		LinkedHashMap<Integer, LinePropertyBean> cblFormatted = processFile(inputFile, indexSpaces, picSpaces, add2ToIndex, programCall ,programCallAlt, codifica, EOL, HandleErrors);
 		
 		//creo la stringa da stampare su file
 		String toPrint = preparePrint(cblFormatted, tipo);
@@ -77,9 +70,9 @@ public class CreateOutput {
 private static String encodeString(String toPrint) {
 		String codificata = "";
 		Charset charset = null;
-		if(Settings.getCodifica().equals("UTF-8")){
+		if(Model.getSettingsBean().getCodifica().equals("UTF-8")){
 			charset = Charset.forName("UTF-8");
-			}else if(Settings.getCodifica().equals("ISO-8859-1")){
+			}else if(Model.getSettingsBean().getCodifica().equals("ISO-8859-1")){
 		    charset = Charset.forName("ISO-8859-1");
 			}    
 		    
@@ -107,7 +100,7 @@ private static String encodeString(String toPrint) {
 
 
 
-private static LinkedHashMap<Integer,LineProperty> processFile(File inputFile,
+private static LinkedHashMap<Integer,LinePropertyBean> processFile(File inputFile,
 									int indexSpaces,
 									int picSpaces,
 									boolean add2ToIndex,
@@ -123,8 +116,8 @@ private static LinkedHashMap<Integer,LineProperty> processFile(File inputFile,
 	/** variabili*/
 	
 	//Liste
-	LinkedHashMap<Integer,LineProperty>linePropertyList; //grezze
-	LinkedHashMap<Integer,LineProperty> linePropertyListSort; //ordinate
+	LinkedHashMap<Integer,LinePropertyBean>linePropertyList; //grezze
+	LinkedHashMap<Integer,LinePropertyBean> linePropertyListSort; //ordinate
 	LinkedHashMap<Integer,String> lineeNonFormattate; //Stringhe non formattate
 	
 	
@@ -136,42 +129,42 @@ private static LinkedHashMap<Integer,LineProperty> processFile(File inputFile,
 
 	/***** controllo colonne e numeri ***/
 	//leggo ogni linea e creo una lista
-	lineeNonFormattate = Lists.popolaLineeNonFormattate(br);	
+	lineeNonFormattate = LineUtils.popolaLineeNonFormattate(br);	
 	
 	//creo una lista di linee con proprietà
-	linePropertyList =	Lists.popolaDatiLinee(lineeNonFormattate);
+	linePropertyList =	LineUtils.popolaDatiLinee(lineeNonFormattate);
 	
 	//creo lista ordinata
-	linePropertyListSort = Lists.cleanList(linePropertyList);
-	Lists.setFormattedLines(linePropertyListSort);
+	linePropertyListSort = LineUtils.cleanList(linePropertyList);
+	Model.setFormattedLines(linePropertyListSort);
 		
 	return linePropertyListSort;
 }
 
 
 
-public static String preparePrint(LinkedHashMap<Integer,LineProperty> linePropertyListSort, int tipo){
+public static String preparePrint(LinkedHashMap<Integer,LinePropertyBean> linePropertyListSort, int tipo){
 	String outPutLine ="";
 	int hierarchy = 0;
 	int counterOccurs = 0;
 	int numOccurs = 0;
 	int occursTab = 0;
 	boolean occursMode = false;
-	int count = Settings.getCount();
+	int count = Integer.parseInt(Model.getSettingsBean().getCount());
 	
 	
 	//listaOccurs
-	ArrayList<Occurs> occursList = new ArrayList<Occurs>();
+	ArrayList<OccursBean> occursList = new ArrayList<OccursBean>();
 	
 	
 	//Stampa
 	for(int i=1; i<linePropertyListSort.size(); i++){
 		
 		
-	LineProperty line = (LineProperty) linePropertyListSort.get(i);
+	LinePropertyBean line = (LinePropertyBean) linePropertyListSort.get(i);
 			
 		if(line.getOccurs() != 0 ){
-			Occurs occurs = new Occurs();
+			OccursBean occurs = new OccursBean();
 			occurs.setLineNum(i);
 			occurs.setHierarchy(hierarchy+1);
 			occurs.setNumOccurs(line.getOccurs());
@@ -181,7 +174,7 @@ public static String preparePrint(LinkedHashMap<Integer,LineProperty> lineProper
 
 			//occursMode = true;
 		}
-		Lists.setOccurs(occursList);
+		Model.setOccurs(occursList);
 
 	outPutLine = outPutLine + LineUtils.printLine(line);
 	
@@ -202,7 +195,7 @@ public static String preparePrint(LinkedHashMap<Integer,LineProperty> lineProper
 	count = count - counterOccurs; 
 	
 	/**** add Header e Filler ***/
-	if(!Settings.isHeaderPresente()){
+	if(!Model.getSettingsBean().isHeaderPresente()){
 	if(tipo == 0){
 		outPutLine = LineUtils.addHeader(outPutLine, "input");
 	}
@@ -210,7 +203,7 @@ public static String preparePrint(LinkedHashMap<Integer,LineProperty> lineProper
 		outPutLine = LineUtils.addHeader(outPutLine, "output");
 	}
 	}
-	if(!Settings.isFillerPresente()){
+	if(!Model.getSettingsBean().isFillerPresente()){
 	outPutLine = LineUtils.addFiller(outPutLine, count);
 	}
 
@@ -229,8 +222,6 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	fw.write(outPutLine);
 	fw.flush();
 	fw.close();
-
-	MessageDialog.openInformation(null, "Salvataggio File", "File "+fileSalvato+" Salvato con successo");
 
 }
 	

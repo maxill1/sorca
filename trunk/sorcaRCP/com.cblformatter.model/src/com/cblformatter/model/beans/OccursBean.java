@@ -1,6 +1,6 @@
 package com.cblformatter.model.beans;
 
-public class Occurs {
+public class OccursBean {
 	private int hierarchy;
 	private int numOccurs;
 	private int byteCount;
