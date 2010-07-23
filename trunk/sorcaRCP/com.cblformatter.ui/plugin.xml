@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.cblformatter.views.FilesView"
+            id="CBLFormatter.FilesView"
+            name="FilesView"
+            restorable="true">
+      </view>
+      <view
+            class="com.cblformatter.views.SettingsView"
+            id="CBLFormatter.OptionView"
+            name="OptionView"
+            restorable="true">
+      </view>
+      <view
+            class="com.cblformatter.views.ProcessView"
+            id="CBLFormatter.ProcessView"
+            name="ProcessView"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
