@@ -22,7 +22,7 @@ import org.eclipse.ui.part.ViewPart;
 import com.cblformatter.handler.CreateOutput;
 import com.cblformatter.handler.FillLinesHandler;
 import com.cblformatter.model.beans.Model;
-import com.cblformatter.utils.Costants;
+import com.cblformatter.views.utils.Costants;
 import com.cblformatter.views.utils.GuiUtils;
 
 

@@ -8,7 +8,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.cblformatter.model.beans.Model;
-import com.cblformatter.utils.Costants;
+import com.cblformatter.views.utils.Costants;
+import com.cblformatter.views.utils.GuiUtils;
 
 public class FillLinesHandler extends AbstractHandler {
 
@@ -21,8 +22,12 @@ public class FillLinesHandler extends AbstractHandler {
 //		CreateOutputOperation a = new CreateOutputOperation();
 
 
-    	String filePath = Model.getFileBean().getFileSelected();
-    	String folderPath = Model.getFileBean().getFolderSelected();
+		String filePath = "/opt/workspaces/I8DH471.TXT";
+		String folderPath = "/home/luca/Scrivania";
+		Model.getSettingsBean().setGenerateInput(true);
+		
+//    	String filePath = Model.getFileBean().getFileSelected();
+//    	String folderPath = Model.getFileBean().getFolderSelected();
     	
     	if(filePath == null || folderPath == null || filePath.equals("none") || folderPath.equals("none")){
     		MessageDialog.openError(null, "Errore", "Devi selezionare un file di input e una cartella di destinazione");
@@ -46,12 +51,13 @@ public class FillLinesHandler extends AbstractHandler {
     	    CreateOutput.createOutputFile(fileInput,fileOutput,Costants.output);    		
     	}    	
 
-		MessageDialog.openInformation(null, "Salvataggio File", "File Salvati con successo");
-
-	    System.out.println("File Input Salvato con successo");
+//		MessageDialog.openInformation(null, "Salvataggio File", "File Salvati con successo");
+//
+//	    System.out.println("File Input Salvato con successo");
 
  
 		
+	    GuiUtils.getEditViewTableViewer().refresh();
 		
 		return null;
 	}

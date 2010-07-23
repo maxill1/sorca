@@ -372,7 +372,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         //INIT DEL MODEL
         new Model();
         
-        configurer.setInitialSize(new Point(800, 600));
+        configurer.setInitialSize(new Point(1000, 600));
         configurer.setShowCoolBar(false);
         configurer.setShowStatusLine(false);
         configurer.setTitle("SORCA - Simple Opensource formatter for Raw Cobol Area");
