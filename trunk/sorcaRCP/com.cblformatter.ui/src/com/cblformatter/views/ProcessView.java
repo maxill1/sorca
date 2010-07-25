@@ -1,11 +1,8 @@
 package com.cblformatter.views;
-import java.io.File;
-
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,15 +11,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import com.cblformatter.handler.CreateOutput;
-import com.cblformatter.handler.FillLinesHandler;
+import com.cblformatter.handler.ImportFileHandler;
 import com.cblformatter.model.beans.Model;
-import com.cblformatter.views.utils.Costants;
 import com.cblformatter.views.utils.GuiUtils;
 
 
@@ -72,7 +64,7 @@ public class ProcessView extends ViewPart {
 			public void widgetSelected(SelectionEvent evt) {
 				
 				try {
-					GuiUtils.getHandlerService(ProcessView.ID).executeCommand(FillLinesHandler.ID, null);
+					GuiUtils.getHandlerService(ProcessView.ID).executeCommand(ImportFileHandler.ID, null);
 			
 				
 				} catch (ExecutionException e) {

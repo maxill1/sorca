@@ -32,10 +32,10 @@
       <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="com.cblformatter.handler.FillLinesHandler"
+            defaultHandler="com.cblformatter.handler.ImportFileHandler"
             description="read the file and fill the model with lines"
-            id="SORCA.fillLines"
-            name="SORCA.fillLines">
+            id="SORCA.importFile"
+            name="SORCA.importFile">
       </command>
    </extension>
 

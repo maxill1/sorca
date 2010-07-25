@@ -245,7 +245,7 @@ public class Counter {
 
 
 	public static int numOccurs(String inputLine) {
-		int numOccours = 0;
+		int numOccours = 1;
 		if(inputLine.contains("OCCURS")){
 			int inizio = inputLine.indexOf("OCCURS ")+7;
 			int fine = 0;

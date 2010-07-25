@@ -38,9 +38,10 @@ public class Pic {
 			inputLine = inputLine.replace("S9(13)", "X(14)");
 			inputLine = inputLine.replace("S9(013)", "X(14)");
 		}
-		if(inputLine.contains("PIC 9.") || inputLine.contains("PIC X.")){
-			inputLine = inputLine.replace("PIC 9.", "PIC 9(01)");
-			inputLine = inputLine.replace("PIC X.", "PIC X(01)");
+		if((inputLine.contains("PIC 9") || inputLine.contains("PIC X")) 
+				&& (!inputLine.contains("(") && !inputLine.contains(")"))){
+			inputLine = inputLine.replace("PIC 9", "PIC 9(01)");
+			inputLine = inputLine.replace("PIC X", "PIC X(01)");
 		}
 		
 		return inputLine;

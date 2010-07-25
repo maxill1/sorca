@@ -18,6 +18,9 @@ public class Model {
 		
 		 settingsBean = new SettingsViewBean();
 		 setFileBean(new FileViewBean());
+		 
+		 parentLine = new LinePropertyBean();
+		 parentLine.setField("PARENT");
 		
 	}
 	
@@ -27,7 +30,7 @@ public class Model {
 	private static LinkedHashMap<Integer, LinePropertyBean> lineProperty;
 	private static ArrayList<OccursBean> occurs;
 	
-
+	private static LinePropertyBean linea = new LinePropertyBean();
 
 	public static void setOccurs(ArrayList<OccursBean> occurs) {
 		Model.occurs = occurs;
@@ -80,6 +83,7 @@ public class Model {
 	
 	
 	private static ArrayList<LinePropertyBean> linee = new ArrayList<LinePropertyBean>();
+	private static ArrayList<LinePropertyBean> lineeNonPulite = new ArrayList<LinePropertyBean>();
 
 
 
@@ -89,6 +93,23 @@ public class Model {
 
 	public static ArrayList<LinePropertyBean> getLinee() {
 		return linee;
+	}
+
+	public static void setLineeNonPulite(
+			ArrayList<LinePropertyBean> lineeNonPulite) {
+
+		Model.lineeNonPulite = lineeNonPulite;
+	}
+	
+	private static LinePropertyBean parentLine;
+
+	public static LinePropertyBean getParentLine() {
+		
+		if(parentLine == null)
+			return new LinePropertyBean();
+		
+		return parentLine;
+		
 	}
 	
 	
