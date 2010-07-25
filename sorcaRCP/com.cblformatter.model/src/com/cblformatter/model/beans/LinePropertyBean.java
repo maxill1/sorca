@@ -9,44 +9,31 @@ public class LinePropertyBean {
 
 	public ArrayList<LinePropertyBean> child = new ArrayList<LinePropertyBean>();
 
-	public int counter;
-
-	public LinePropertyBean(int counter, LinePropertyBean parent) {
-		this.parent = parent;
-		this.counter = counter;
-	}
 
 	public String toString() {
-		String rv = "Item ";
-		if (parent != null) {
-			rv = parent.toString() + ".";
-		}
-
-		rv += counter;
+		String rv = getIndex() + " - " + getField();
 
 		return rv;
 	}
 
 	
 	public static LinePropertyBean createModel() {
-
-		LinePropertyBean root = new LinePropertyBean(0, null);
-		root.counter = 0;
-
-		LinePropertyBean tmp;
-		LinePropertyBean subItem;
-		for (int i = 1; i < 10; i++) {
-			tmp = new LinePropertyBean(i, root);
-			root.child.add(tmp);
-			for (int j = 1; j < i; j++) {
-				subItem = new LinePropertyBean(j, tmp);
-				subItem.child.add(new LinePropertyBean(j * 100, subItem));
-				tmp.child.add(subItem);
-			}
-		}
+		
+		LinePropertyBean root = Model.getParentLine();
+		root.setIndex("00");
+		root.setField("PARENT");
 
 		return root;
 	}
+	
+	
+	public static LinePropertyBean updateModel(ArrayList<LinePropertyBean> child) {
+
+		LinePropertyBean root = Model.getParentLine();
+		root.child = child;
+		
+		return root;
+}
 	
 	//END
 
@@ -60,9 +47,10 @@ public class LinePropertyBean {
 	private String picType;
 	private int picValue;
 	private int dichCount;
-	private int occurs;
+	private int occurs = 1;
 	private String fullLine;
 	private String specials;
+	private int childsPicValue;
 
 	private int numRiga;
 	
@@ -124,5 +112,28 @@ public class LinePropertyBean {
 	public void setNumRiga(int numRiga) {
 		this.numRiga = numRiga;
 		}
+
+
+	public void setChildsPicValue(int totPicChild) {
+		this.childsPicValue = totPicChild;
+	}
+
+
+	public int getChildsPicValue() {
+		int tmpOccurs = 1;
+		if(occurs != 0){
+			tmpOccurs = occurs;
+		}
+		
+		int count = getPicValue();
+		
+		for(int x=0;x<child.size();x++){
+			LinePropertyBean bean = child.get(x);
+			count += bean.getChildsPicValue();
+		}
+		
+		childsPicValue = count * tmpOccurs;
+		return childsPicValue;
+	}
 
 }

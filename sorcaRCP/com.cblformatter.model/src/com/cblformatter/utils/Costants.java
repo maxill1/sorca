@@ -48,6 +48,9 @@ public class Costants {
 		Index.addIndexSpaces()+"  03 NUM-CALL"+Pic.addPicSpaces("NUM-CALL","03")+"PIC 9."+EOL+
 		Index.addIndexSpaces()+"  03 TOT-CALL"+Pic.addPicSpaces("TOT-CALL","03")+"PIC 9."+EOL;
 
+	
+	public static final Object PARENT_INDEX = "00";
+
 
 
 	

@@ -41,7 +41,7 @@ public class CreateOutput {
 		boolean HandleErrors = Model.getSettingsBean().isHandleErrors();
 		
 
-		LinkedHashMap<Integer, LinePropertyBean> cblFormatted = processFile(inputFile, indexSpaces, picSpaces, add2ToIndex, programCall ,programCallAlt, codifica, EOL, HandleErrors);
+		LinkedHashMap<Integer, LinePropertyBean> cblFormatted = processFile();
 		
 //		//creo la stringa da stampare su file
 //		String toPrint = preparePrint(cblFormatted, tipo);
@@ -100,17 +100,19 @@ private static String encodeString(String toPrint) {
 
 
 
-private static LinkedHashMap<Integer,LinePropertyBean> processFile(File inputFile,
-									int indexSpaces,
-									int picSpaces,
-									boolean add2ToIndex,
-									String programCall,
-									String programCallAlt,
-									String codifica,
-									String EOL,
-									boolean HandleErrors) throws FileNotFoundException{
+public static LinkedHashMap<Integer,LinePropertyBean> processFile() throws FileNotFoundException{
 
 
+	int indexSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
+	int picSpaces = Integer.parseInt(Model.getSettingsBean().getIndexSpaces());
+	boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
+	String programCall = Model.getSettingsBean().getProgramCall();
+	String programCallAlt = Model.getSettingsBean().getProgramCallAlt();
+	String codifica = Model.getSettingsBean().getCodifica();
+	String EOL = Model.getSettingsBean().getEOL();
+	boolean HandleErrors = Model.getSettingsBean().isHandleErrors();
+	String filePath = Model.getFileBean().getFileSelected();
+	File inputFile = new File(filePath);
 
 	
 	/** variabili*/
@@ -134,12 +136,26 @@ private static LinkedHashMap<Integer,LinePropertyBean> processFile(File inputFil
 	//creo una lista di linee con proprietà
 	linePropertyList =	LineUtils.popolaDatiLinee(lineeNonFormattate);
 
-	Model.setLinee(LineUtils.popolaDatiLineeNUOVO(lineeNonFormattate));
+//	Model.setLinee(LineUtils.popolaDatiLineeNUOVO(lineeNonFormattate));
 	
 	//creo lista ordinata
 	linePropertyListSort = LineUtils.cleanList(linePropertyList);
 	Model.setFormattedLines(linePropertyListSort);
-		
+	
+	ArrayList<LinePropertyBean> linee = new ArrayList<LinePropertyBean>();
+	linee.addAll(0,linePropertyListSort.values());
+	
+	linee = searchForChild(linee,0,null);
+	
+	
+//	ArrayList<LinePropertyBean> lineeNew = new ArrayList<LinePropertyBean>();
+//	lineeNew.add(LinePropertyBean.updateModel(linee))
+	LinePropertyBean.updateModel(linee);
+	
+//	Model.setLinee(lineeNew);
+	
+//	LinePropertyBean.updateModel(lineeNew);
+	
 	return linePropertyListSort;
 }
 
@@ -255,5 +271,183 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	return outputFile;
 	
 }
+
+
+
+	private static ArrayList<LinePropertyBean> searchForChild(
+			ArrayList<LinePropertyBean> linee, int startCounter, LinePropertyBean parent) {
+	
+		
+		LinePropertyBean current = linee.get(startCounter);
+	
+		if(current.getField().contains("I8DH411-DICHIARATO")){
+			int x = 0;
+		}
+	
+		if(parent != null){
+			current.parent = parent;
+			parent.child.add(current);
+			
+		}
+	
+		LinePropertyBean next;
+		try{
+		next = linee.get(startCounter+1);
+		}catch (IndexOutOfBoundsException e) {
+			return linee;
+		}
+		
+			
+		int currentIndex = Integer.parseInt(current.getIndex());
+		int nextIndex =  Integer.parseInt(next.getIndex());
+			
+				if(currentIndex < nextIndex){
+					int childCounter = startCounter+1;
+					
+					searchForChild(linee,childCounter,current);
+
+					linee.remove(childCounter);
+					
+				}else if(currentIndex == nextIndex){
+					searchForChild(linee,startCounter+1,parent);
+					linee.remove(startCounter);
+					
+				}else if(currentIndex > nextIndex){
+					
+					//INDIVIDUA il parent dal livello
+					LinePropertyBean locParent = getParentFromIndex(current,next,parent);
+
+					searchForChild(linee,startCounter+1,locParent);
+					if(next.parent != null){
+						linee.remove(startCounter);
+					}
+				}
+
+		return linee;
+	}
+
+
+
+	private static LinePropertyBean getParentFromIndex(
+			LinePropertyBean current, LinePropertyBean next, LinePropertyBean parent) {
+		
+		int currentIndex = Integer.parseInt(current.getIndex());
+		int nextIndex =  Integer.parseInt(next.getIndex());
+	
+		LinePropertyBean locParent = Model.getParentLine();
+		
+		int indexDifference = currentIndex - nextIndex;
+		
+		switch (indexDifference) {
+		case 2:
+			locParent = parent.parent;
+			break;
+			
+		case 4:
+			locParent = parent.parent.parent;
+			break;
+			
+		case 6:
+			locParent = parent.parent.parent.parent;
+			break;
+			
+		case 8:
+			locParent = parent.parent.parent.parent.parent;
+			break;
+
+		default:
+			break;
+		}
+		
+	
+	return locParent;
+	}
+
+
+
+	private static ArrayList<LinePropertyBean> searchForChildTEST(
+			ArrayList<LinePropertyBean> linee, int startCounter, LinePropertyBean parent) {
+	
+		startCounter = 1;
+		
+		LinePropertyBean current = linee.get(startCounter);
+		
+//	
+//		if(parent != null){
+//			current.parent = parent;
+//			parent.child.add(current);
+//			
+//		}
+	
+		for(int x = 0; x< 3; x++){
+		LinePropertyBean next;
+		try{
+		next = linee.get(startCounter+1);
+		}catch (IndexOutOfBoundsException e) {
+			return linee;
+		}
+		
+			
+		int currentIndex = Integer.parseInt(current.getIndex());
+		int nextIndex =  Integer.parseInt(next.getIndex());
+			
+				if(currentIndex < nextIndex){
+					int childCounter = startCounter+1;
+					
+					next.parent = current;
+					current.child.add(next);
+					
+//					searchForChild(linee,childCounter,current);
+					
+					linee.remove(childCounter);
+					
+				}else if(currentIndex > nextIndex){
+					return linee;
+				}
+				
+				startCounter++;
+		}
+	
+		return linee;
+	}
+
+
+
+	public static boolean importFile() throws FileNotFoundException{
+	
+		
+    	String filePath = Model.getFileBean().getFileSelected();
+    	File inputFile = new File(filePath);
+	
+
+		String fileName = inputFile.getName();
+	
+		//lettura file selezionato
+		FileReader fr = new FileReader(inputFile);
+		BufferedReader br = new BufferedReader(fr);
+	
+		/***** controllo colonne e numeri ***/
+		//leggo ogni linea e creo una lista
+		LinkedHashMap<Integer,String> lineeNonFormattate = LineUtils.popolaLineeNonFormattate(br);	
+		
+		//creo una lista di linee con proprietà
+		LinkedHashMap<Integer,LinePropertyBean> linePropertyList =	LineUtils.popolaDatiLinee(lineeNonFormattate);
+	
+		//creo lista ordinata
+		LinkedHashMap<Integer,LinePropertyBean> linePropertyListSort = LineUtils.cleanList(linePropertyList);
+		
+		
+		//TRASFORMO IN ARRAYLIST
+		ArrayList<LinePropertyBean> linee = new ArrayList<LinePropertyBean>();
+		linee.addAll(0,linePropertyListSort.values());
+		
+		//CREO GERARCHIA FIGLI
+		linee = searchForChild(linee,0,null);
+
+		//AGGIORNO IL MODEL
+		LinePropertyBean.updateModel(linee);
+	
+		return true;
+	}
 	
 }

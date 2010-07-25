@@ -7,11 +7,16 @@ import org.eclipse.jface.viewers.Viewer;
 
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
+import com.cblformatter.views.utils.GuiUtils;
 
 public class EditViewContenProvider implements ITreeContentProvider {
 
 	public Object[] getElements(Object inputElement) {
-		return ((ArrayList<LinePropertyBean>) inputElement).toArray();
+//		if(((LinePropertyBean) inputElement).parent == null){
+			return ((LinePropertyBean)inputElement).child.toArray();
+//		}
+
+//			return ((LinePropertyBean) inputElement).child.toArray();
 	}
 
 	public void dispose() {
@@ -22,13 +27,15 @@ public class EditViewContenProvider implements ITreeContentProvider {
 		if (newInput == null) return;
 		if (!(newInput instanceof Model)) return;
 		
-		Model.setLinee((ArrayList<LinePropertyBean>) newInput);
+		 GuiUtils.getEditViewTableViewer().refresh();
+		
+//		Model.getLinee().set(((LinePropertyBean) newInput).getNumRiga(),(LinePropertyBean) newInput);
 
 		
 	}
 
 	public Object[] getChildren(Object parentElement) {
-		return getElements(parentElement);
+		return getElements((LinePropertyBean)parentElement);
 	}
 
 	public Object getParent(Object element) {

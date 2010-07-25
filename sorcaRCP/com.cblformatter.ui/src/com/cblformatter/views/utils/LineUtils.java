@@ -305,6 +305,7 @@ public static String formatNumber(int number) {
 			for(int i = 1; i<linePropertyList.size(); i++){
 				LinePropertyBean line = (LinePropertyBean) linePropertyList.get(i);
 				if(!line.getIndex().equals("") && !line.equals(null)){
+					line.setNumRiga(increaser);
 					linePropertyListSort.put(increaser, line);
 					increaser = increaser +1;
 				}

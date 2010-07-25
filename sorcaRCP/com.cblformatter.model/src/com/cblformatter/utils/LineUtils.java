@@ -425,6 +425,7 @@ public static String formatNumber(int number) {
 				line.setPicValue(searchLine.searchPicValue(inputLine));
 				line.setOccurs(searchLine.searchOccurs(inputLine));
 				line.setDichCount(searchLine.searchDichCount(inputLine));
+				line.setNumRiga(i);
 				
 				linePropertyList.put(i, line);	
 				

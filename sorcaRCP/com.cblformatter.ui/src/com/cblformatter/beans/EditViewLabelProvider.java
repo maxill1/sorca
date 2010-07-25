@@ -23,20 +23,21 @@ public class EditViewLabelProvider implements  ITableLabelProvider  {
 
 		case 2:
 
-			return r.getSpecials();
+			return getSpecial((LinePropertyBean)element);
 	
 		case 3:
 
-			return String.valueOf(r.getOccurs());
+
+			return r.getPicType();
 			
 		
 		case 4:
 
-			return r.getPicType();
+			return getPicValue(r.getPicValue());
 
 		case 5:
 			
-			return String.valueOf(r.getPicValue());
+			return String.valueOf(r.getChildsPicValue());
 			
 
 			
@@ -47,6 +48,26 @@ public class EditViewLabelProvider implements  ITableLabelProvider  {
 
 		return "";
 
+	}
+
+	private String getPicValue(int picValue) {
+
+		if(picValue == 0){
+			return "";
+		}
+		
+		return String.valueOf(picValue);
+	
+	}
+
+	private String getSpecial(LinePropertyBean element) {
+
+		if(element.getOccurs() != 0){
+			element.setSpecials("OCCURS "+ element.getOccurs());
+		}
+		
+		return element.getSpecials();
+	
 	}
 
 	@Override

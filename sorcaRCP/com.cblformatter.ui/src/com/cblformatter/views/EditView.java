@@ -1,10 +1,15 @@
 package com.cblformatter.views;
 
-import org.eclipse.jface.viewers.CellEditor;
+import java.io.File;
+import java.util.ArrayList;
+
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.FocusCellOwnerDrawHighlighter;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -14,15 +19,34 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.TreeViewerFocusCellManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.ViewPart;
 
+import com.cblformatter.beans.EditViewColumnCellEditor;
 import com.cblformatter.beans.EditViewContenProvider;
 import com.cblformatter.beans.EditViewLabelProvider;
+import com.cblformatter.handler.ExportFileHandler;
+import com.cblformatter.handler.ImportFileHandler;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
+import com.cblformatter.views.utils.GuiUtils;
 
 public class EditView extends ViewPart implements ISelectionChangedListener  {
+	
+
+	private Button output;
+	private Button input;
+	private Button process;
 
 	public static final String ID = "CBLFormatter.EditView";
 
@@ -31,15 +55,35 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 	public EditView() {
 
 	}
+	
+	private File fileSelection(){
+		Shell shell = new Shell();
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+	    dialog.setFilterNames(new String[] { "Cobol Files", "All Files (*.*)" });
+	    dialog.setFilterExtensions(new String[] { "*.txt;*.cbl;*.TXT;*.CBL", "*.*" });
+
+		String selected = dialog.open();
+		
+	    System.out.println("opening: " + selected);
+		return new File(selected);
+}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		
+	       parent.setLayout(new GridLayout());
+		
+		   createGruppoAzioni(parent);
+		   
+		   Composite tableContainer = new Composite(parent, SWT.NONE);
+		   tableContainer.setLayout(new FillLayout());
+		   tableContainer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		
 		
 //		Button b = new Button(parent,SWT.PUSH);
 //		b.setText("Remove column");
-		v = new TreeViewer(parent, SWT.BORDER
+		v = new TreeViewer(tableContainer, SWT.BORDER
 				| SWT.FULL_SELECTION);
 		
 //		b.addSelectionListener(new SelectionListener() {
@@ -75,33 +119,17 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		
 		final TextCellEditor textCellEditor = new TextCellEditor(v.getTree());
 		
-		String[] colNames = {"Index","Field","Special","Pic type","Pic Val"};
+		String[] colNames = {"Index","Field","OCC/REDEF","Pic type","Pic Val","Totale livello"};
+		int[] colSize = {80,200,120,80,80,80};
 		
 		for(int x= 0; x<colNames.length;x++){
 			TreeViewerColumn column = new TreeViewerColumn(v, SWT.NONE);
-			column.getColumn().setWidth(200);
+			column.getColumn().setWidth(colSize[x]);
 			column.getColumn().setMoveable(true);
 			column.getColumn().setText(colNames[x]);
 			
-			column.setEditingSupport(new EditingSupport(v) {
-				protected boolean canEdit(Object element) {
-					return false;
-				}
-
-				protected CellEditor getCellEditor(Object element) {
-					return textCellEditor;
-				}
-
-				protected Object getValue(Object element) {
-					return ((LinePropertyBean) element).counter + "";
-				}
-
-				protected void setValue(Object element, Object value) {
-					((LinePropertyBean) element).counter = Integer
-							.parseInt(value.toString());
-					v.update(element, null);
-				}
-			});
+			column.setEditingSupport(new EditViewColumnCellEditor(v,textCellEditor,x));
+			
 			
 		}
 	
@@ -109,108 +137,13 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		v.setLabelProvider(new EditViewLabelProvider());
 		v.setContentProvider(new EditViewContenProvider());
 
-		v.setInput(LinePropertyBean.createModel());
+		v.setInput(LinePropertyBean.updateModel(new ArrayList<LinePropertyBean>()));
 
 		v.addSelectionChangedListener(this);
 
-	
+		bindGui();
 	}
-	
-	public void temp(){
-//		TreeViewerColumn column = new TreeViewerColumn(v, SWT.NONE);
-//		column.getColumn().setWidth(200);
-//		column.getColumn().setMoveable(true);
-//		column.getColumn().setText("Index");
-//		column.setLabelProvider(new ColumnLabelProvider() {
-//
-//			public String getText(Object element) {
-//				return "Column 1 => " + element.toString();
-//			}
-//
-//		});
-//		column.setEditingSupport(new EditingSupport(v) {
-//			protected boolean canEdit(Object element) {
-//				return false;
-//			}
-//
-//			protected CellEditor getCellEditor(Object element) {
-//				return textCellEditor;
-//			}
-//
-//			protected Object getValue(Object element) {
-//				return ((LinePropertyBean) element).counter + "";
-//			}
-//
-//			protected void setValue(Object element, Object value) {
-//				((LinePropertyBean) element).counter = Integer
-//						.parseInt(value.toString());
-//				v.update(element, null);
-//			}
-//		});
-//
-//		column = new TreeViewerColumn(v, SWT.NONE);
-//		column.getColumn().setWidth(200);
-//		column.getColumn().setMoveable(true);
-//		column.getColumn().setText("Field Name");
-//		column.setLabelProvider(new ColumnLabelProvider() {
-//
-//			public String getText(Object element) {
-//				return "Column 2 => " + element.toString();
-//			}
-//
-//		});
-//		column.setEditingSupport(new EditingSupport(v) {
-//			protected boolean canEdit(Object element) {
-//				return true;
-//			}
-//
-//			protected CellEditor getCellEditor(Object element) {
-//				return textCellEditor;
-//			}
-//
-//			protected Object getValue(Object element) {
-//				return ((LinePropertyBean) element).counter + "";
-//			}
-//
-//			protected void setValue(Object element, Object value) {
-//				((LinePropertyBean) element).counter = Integer
-//						.parseInt(value.toString());
-//				v.update(element, null);
-//			}
-//		});
-//		
-//		column = new TreeViewerColumn(v, SWT.NONE);
-//		column.getColumn().setWidth(200);
-//		column.getColumn().setMoveable(true);
-//		column.getColumn().setText("Others");
-//		column.setLabelProvider(new ColumnLabelProvider() {
-//
-//			public String getText(Object element) {
-//				return "Column 3 => " + element.toString();
-//			}
-//
-//		});
-//		column.setEditingSupport(new EditingSupport(v) {
-//			protected boolean canEdit(Object element) {
-//				return true;
-//			}
-//
-//			protected CellEditor getCellEditor(Object element) {
-//				return textCellEditor;
-//			}
-//
-//			protected Object getValue(Object element) {
-//				return ((LinePropertyBean) element).counter + "";
-//			}
-//
-//			protected void setValue(Object element, Object value) {
-//				((LinePropertyBean) element).counter = Integer
-//						.parseInt(value.toString());
-//				v.update(element, null);
-//			}
-//		});
-//		
-	}
+
 
 	@Override
 	public void setFocus() {
@@ -226,6 +159,166 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 	
 	public TreeViewer getTv(){
 		return v;
+	}
+
+	private void bindGui() {
+
+	
+	}
+	
+	private void createGruppoAzioni(Composite top) {
+
+		Group grpInput = null;
+		
+		GridData gridData4 = new GridData();
+		gridData4.grabExcessHorizontalSpace = true;
+		gridData4.verticalAlignment = GridData.CENTER;
+		gridData4.horizontalAlignment = GridData.END;
+		GridData gridData3 = new GridData();
+		gridData3.grabExcessHorizontalSpace = true;
+		gridData3.verticalAlignment = GridData.CENTER;
+		gridData3.horizontalAlignment = GridData.END;
+		GridData gridData2 = new GridData();
+		gridData2.horizontalAlignment = GridData.BEGINNING;
+		gridData2.grabExcessHorizontalSpace = true;
+		gridData2.verticalAlignment = GridData.CENTER;
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = GridData.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.verticalAlignment = GridData.CENTER;
+		grpInput = new Group(top, SWT.NONE);
+		grpInput.setText("Azioni");
+	
+		grpInput.setLayout(gridLayout);
+		grpInput.setLayoutData(gridData);
+		
+		createGruppoImport(grpInput);
+	
+		createGruppoExport(grpInput);
+		
+		
+	
+		
+	}
+
+	private void createGruppoImport(Group grpInput) {
+		Button btnApriFile = null;
+		
+		Composite top = new Composite(grpInput, SWT.NONE);
+		GridLayout composite1Layout = new GridLayout();
+		composite1Layout.makeColumnsEqualWidth = true;
+		GridData topLData = new GridData();
+		topLData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+		topLData.grabExcessHorizontalSpace = true;
+		topLData.grabExcessVerticalSpace = true;
+		top.setLayoutData(topLData);
+		top.setLayout(composite1Layout);
+
+		Group grpProcess = new Group(top, SWT.NONE);
+		GridLayout grpProcessLayout = new GridLayout();
+		grpProcessLayout.numColumns = 3;
+		grpProcess.setLayout(grpProcessLayout);
+		GridData grpProcessLData = new GridData();
+		grpProcessLData.horizontalAlignment = GridData.CENTER;
+
+		grpProcess.setLayoutData(grpProcessLData);
+		grpProcess.setText("Importa");
+		
+		btnApriFile = new Button(grpProcess, SWT.NONE);
+		btnApriFile.setText("Apri File");
+		
+		btnApriFile.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				File fileSel = fileSelection();
+				Model.getFileBean().setFileSelected(fileSel.getPath());
+				
+				try {
+					GuiUtils.getHandlerService(EditView.ID).executeCommand(ImportFileHandler.ID, null);
+				} catch (ExecutionException e) {
+					
+				} catch (NotDefinedException e) {
+				
+					e.printStackTrace();
+				} catch (NotEnabledException e) {
+					
+					e.printStackTrace();
+				} catch (NotHandledException e) {
+			
+					e.printStackTrace();
+				}
+				
+				
+			}
+		});
+	}
+
+	private void createGruppoExport(Group grpInput) {
+
+
+		Composite top = new Composite(grpInput, SWT.NONE);
+		GridLayout composite1Layout = new GridLayout();
+		composite1Layout.makeColumnsEqualWidth = true;
+		GridData topLData = new GridData();
+		topLData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+		topLData.grabExcessHorizontalSpace = true;
+		topLData.grabExcessVerticalSpace = true;
+		top.setLayoutData(topLData);
+		top.setLayout(composite1Layout);
+
+		Group grpProcess = new Group(top, SWT.NONE);
+		GridLayout grpProcessLayout = new GridLayout();
+		grpProcessLayout.numColumns = 3;
+		grpProcess.setLayout(grpProcessLayout);
+		GridData grpProcessLData = new GridData();
+		grpProcessLData.horizontalAlignment = GridData.CENTER;
+
+		grpProcess.setLayoutData(grpProcessLData);
+		grpProcess.setText("Esporta");
+
+		process = new Button(grpProcess, SWT.NONE );
+		GridData btnInputLData = new GridData();
+		process.setLayoutData(btnInputLData);
+		process.setText("Apri cartella");
+		process.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				
+				try {
+					GuiUtils.getHandlerService(ProcessView.ID).executeCommand(ExportFileHandler.ID, null);
+			
+				
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotDefinedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotEnabledException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotHandledException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+
+			}
+		});
+
+		input = new Button(grpProcess, SWT.CHECK);
+		GridData btnOutputLData = new GridData();
+		input.setLayoutData(btnOutputLData);
+		input.setText("CBL Input");
+
+
+		output = new Button(grpProcess, SWT.CHECK );
+		GridData btnBothLData = new GridData();
+		output.setLayoutData(btnBothLData);
+		output.setText("CBL Output");
+
+
+
 	}
 
 
