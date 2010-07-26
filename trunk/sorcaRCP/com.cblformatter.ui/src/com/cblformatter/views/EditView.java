@@ -1,5 +1,6 @@
 package com.cblformatter.views;
 
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 	public static final String ID = "CBLFormatter.EditView";
 
 	private TreeViewer v;
+	private Label count;
 	
 	public EditView() {
 
@@ -120,7 +122,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		final TextCellEditor textCellEditor = new TextCellEditor(v.getTree());
 		
 		String[] colNames = {"Index","Field","OCC/REDEF","Pic type","Pic Val","Totale livello"};
-		int[] colSize = {80,200,120,80,80,80};
+		int[] colSize = {100,180,120,80,80,80};
 		
 		for(int x= 0; x<colNames.length;x++){
 			TreeViewerColumn column = new TreeViewerColumn(v, SWT.NONE);
@@ -141,6 +143,14 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 
 		v.addSelectionChangedListener(this);
 
+		Composite composite = new Composite(parent, SWT.BORDER);
+		composite.setLayoutData(new GridData(SWT.FILL));
+		Label label = new Label(composite,SWT.NONE);
+		label.setText("Tot Area");
+		
+		count = new Label(composite,SWT.NONE);
+
+		
 		bindGui();
 	}
 
@@ -162,8 +172,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 	}
 
 	private void bindGui() {
-
-	
+		GuiUtils.addBindingContext(count,Model.getFileBean(), "count");
 	}
 	
 	private void createGruppoAzioni(Composite top) {
@@ -249,6 +258,43 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 					e.printStackTrace();
 				}
 				
+				
+			}
+		});
+		
+		
+		
+		
+		btnApriFile = new Button(grpProcess, SWT.NONE);
+		btnApriFile.setText("Incolla testo");
+		
+		btnApriFile.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+
+				TextDialog d = new TextDialog(new Shell());
+				d.open();
+		
+				File fileSel = d.getFileTMP();
+				fileSel.deleteOnExit();
+	
+				Model.getFileBean().setFileSelected(fileSel.getPath());
+				
+				try {
+					GuiUtils.getHandlerService(EditView.ID).executeCommand(ImportFileHandler.ID, null);
+				} catch (ExecutionException e) {
+					
+				} catch (NotDefinedException e) {
+				
+					e.printStackTrace();
+				} catch (NotEnabledException e) {
+					
+					e.printStackTrace();
+				} catch (NotHandledException e) {
+			
+					e.printStackTrace();
+				}
+				
+
 				
 			}
 		});

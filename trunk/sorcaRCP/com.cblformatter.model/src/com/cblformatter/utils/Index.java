@@ -75,7 +75,7 @@ public class Index {
 	public static String checkIndexForErrorsAndClean(String inputLine){
 		if(!LineUtils.startWithIndex(inputLine) && ! LineUtils.startWith6Numbers(inputLine) && !inputLine.contains("*")){
 			if(Model.getSettingsBean().isHandleErrors() && !LineUtils.isHeader(inputLine)){
-				inputLine = "01 !!!!!!!ERROR!!!!!!!!" + inputLine;
+				inputLine = LineUtils.addError(inputLine);
 			}else{
 				inputLine = "";
 			}

@@ -23,8 +23,8 @@ import com.cblformatter.counters.Counter;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.OccursBean;
+import com.cblformatter.utils.LineUtils;
 import com.cblformatter.views.utils.GuiUtils;
-import com.cblformatter.views.utils.LineUtils;
 
 public class CreateOutput {
 
@@ -280,10 +280,8 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	
 		
 		LinePropertyBean current = linee.get(startCounter);
-	
-		if(current.getField().contains("I8DH411-DICHIARATO")){
-			int x = 0;
-		}
+
+
 	
 		if(parent != null){
 			current.parent = parent;
@@ -315,6 +313,7 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 					
 				}else if(currentIndex > nextIndex){
 					
+					
 					//INDIVIDUA il parent dal livello
 					LinePropertyBean locParent = getParentFromIndex(current,next,parent);
 
@@ -334,14 +333,15 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 		
 		
 		LinePropertyBean locParent = Model.getParentLine();
-		try{
 		
 		int currentIndex = Integer.parseInt(current.getIndex());
 		int nextIndex =  Integer.parseInt(next.getIndex());
 	
 
+		try{
 		
 		int indexDifference = currentIndex - nextIndex;
+		
 		
 		switch (indexDifference) {
 		case 2:
@@ -395,6 +395,10 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 			}
 		}
 		
+		//IF 01 then parent is root
+		if(nextIndex == 1 && locParent != null){
+			return Model.getParentLine();
+		}
 	
 	return locParent;
 	}
