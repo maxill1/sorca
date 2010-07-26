@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="com.cblformatter.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Main Perspective"
+            class="com.cblformatter.Perspective"
+            id="CBLFormatter.perspective">
+      </perspective>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.cblformatter.application.application"
+            name="sorca">
+         <property
+               name="appName"
+               value="sorca">
+         </property>
+      </product>
+   </extension>
+   <extension
+         id="sorca"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.cblformatter.application.application"
+            name="sorca">
+         <property
+               name="appName"
+               value="sorca">
+         </property>
+      </product>
+   </extension>
+  
+</plugin>
