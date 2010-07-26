@@ -2,9 +2,10 @@ package com.cblformatter.views.utils;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
@@ -122,5 +123,22 @@ public class GuiUtils {
 		// TODO Auto-generated method stub
 		return ((EditView)GuiUtils.getView(EditView.ID)).getTv();
 	}
+
+	
+	public static String getRoot () {
+			String path = null;
+			try {
+			path = FileLocator.toFileURL (
+			Platform.getBundle ("com.cblformatter.application"). getEntry ("sorca.ini")). getPath ();
+	
+			path = path.replaceAll("sorca.ini", "");
+			
+			} catch (Exception e) {
+				e.printStackTrace ();
+					
+			}
+			
+			return path;
+}
 	
 }

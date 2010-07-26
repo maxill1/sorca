@@ -46,6 +46,12 @@ public class LineUtils {
 		if(inputLine.contains("*") || inputLine.contains("SIGN IS LEADING SEPARATE")){
 			inputLine = "";
 		}
+		
+//		if(hasCharsAfterDot(inputLine)){
+//			inputLine = addError(inputLine);
+//			return inputLine;
+//		}
+		
 		if(!startWithIndex(inputLine) && !startWith6Numbers(inputLine)&&!inputLine.trim().equals("")){
 			inputLine = Index.checkIndexForErrorsAndClean(inputLine);
 			
@@ -78,6 +84,26 @@ public class LineUtils {
 		
 	}
 	
+	public static String addError(String inputLine) {
+		return inputLine = "01 !!!!!!!ERROR!!!!!!!!" + inputLine;
+	}
+
+	private static boolean hasCharsAfterDot(String inputLine) {
+		
+		if(inputLine.trim().equals("") || !inputLine.trim().contains(".")){
+			return false;
+		}
+
+		String charsAfterDot = inputLine.substring(inputLine.indexOf(".")).trim();
+		
+		if( charsAfterDot.length() > 1){
+			return true;	
+		}
+		
+		return false;
+		
+	}
+
 	/**
 	 * check if the line start with an index like 01, 02, 03 ...
 	 * @param inputLine the line to check
@@ -87,7 +113,7 @@ public class LineUtils {
 	public static boolean startWithIndex(String inputLine){
 		boolean start = false;
 		
-		for(int x = 0; x<13 ; x++){
+		for(int x = 0; x<20 ; x++){
 			
 			if(inputLine.trim().startsWith(formatNumber(x)+" ")){
 				start = true;
@@ -297,9 +323,12 @@ public static String formatNumber(int number) {
 			LinkedHashMap<Integer,LinePropertyBean> linePropertyListSort = new LinkedHashMap<Integer,LinePropertyBean>();
 			int increaser = 1;
 	
-			for(int i = 1; i<linePropertyList.size(); i++){
+			for(int i = 1; i<=linePropertyList.size()+1; i++){
 				LinePropertyBean line = (LinePropertyBean) linePropertyList.get(i);
-				if(!line.getIndex().equals("") && !line.equals(null)){
+				
+				if(line != null && !line.getIndex().equals("")){
+										
+					line.setNumRiga(increaser);
 					linePropertyListSort.put(increaser, line);
 					increaser = increaser +1;
 				}
@@ -405,13 +434,10 @@ public static String formatNumber(int number) {
 			LinkedHashMap<Integer, LinePropertyBean> linePropertyList =  new LinkedHashMap<Integer,LinePropertyBean>();
 			
 			//formatto linee
-			for(int i = 1; i<lineeNonFormattate.size(); i++){
+			for(int i = 1; i<=lineeNonFormattate.size(); i++){
 				inputLine = lineeNonFormattate.get(i).toString();
 				
 				LinePropertyBean line = new LinePropertyBean();
-				//TODO contatore raw
-				//countRaw = Counter.contatoreRaw(inputLine, countRaw);
-				
 		
 				if(LineUtils.isHeader(inputLine)){
 					inputLine = "";
@@ -425,55 +451,54 @@ public static String formatNumber(int number) {
 				line.setPicValue(searchLine.searchPicValue(inputLine));
 				line.setOccurs(searchLine.searchOccurs(inputLine));
 				line.setDichCount(searchLine.searchDichCount(inputLine));
-				line.setNumRiga(i);
+				line.setFullLine(inputLine);
 				
 				linePropertyList.put(i, line);	
-				
 						
 			}
 			
+
 			Model.setRawLines(linePropertyList);
 			return linePropertyList;
 		}
+
+	public static ArrayList<LinePropertyBean> popolaDatiLineeNUOVO(LinkedHashMap<Integer,String> lineeNonFormattate) {
+		
+		String inputLine = "";
+		ArrayList<LinePropertyBean> linePropertyList =  new ArrayList<LinePropertyBean>();
+		
+		//formatto linee
+		for(int i = 1; i<lineeNonFormattate.size(); i++){
+			inputLine = lineeNonFormattate.get(i).toString();
+			
+			LinePropertyBean line = new LinePropertyBean();
+			//TODO contatore raw
+			//countRaw = Counter.contatoreRaw(inputLine, countRaw);
+			
 	
-		
-		
-		public static ArrayList<LinePropertyBean> popolaDatiLineeNUOVO(LinkedHashMap<Integer,String> lineeNonFormattate) {
+			if(LineUtils.isHeader(inputLine)){
+				inputLine = "";
+					}
 			
-			String inputLine = "";
-			ArrayList<LinePropertyBean> linePropertyList =  new ArrayList<LinePropertyBean>();
+			inputLine = LineUtils.cleanLine(inputLine);
 			
-			//formatto linee
-			for(int i = 1; i<lineeNonFormattate.size(); i++){
-				inputLine = lineeNonFormattate.get(i).toString();
-				
-				LinePropertyBean line = new LinePropertyBean();
-				//TODO contatore raw
-				//countRaw = Counter.contatoreRaw(inputLine, countRaw);
-				
-		
-				if(LineUtils.isHeader(inputLine)){
-					inputLine = "";
-						}
-				
-				inputLine = LineUtils.cleanLine(inputLine);
-				
-				line.setIndex(searchLine.searchIndex(inputLine));
-				line.setField(searchLine.searchField(inputLine));
-				line.setPicType(searchLine.searchPicType(inputLine));
-				line.setPicValue(searchLine.searchPicValue(inputLine));
-				line.setOccurs(searchLine.searchOccurs(inputLine));
-				line.setDichCount(searchLine.searchDichCount(inputLine));
-				line.setNumRiga(i);
-				
-				linePropertyList.add(line);	
-				
-						
-			}
+			line.setIndex(searchLine.searchIndex(inputLine));
+			line.setField(searchLine.searchField(inputLine));
+			line.setPicType(searchLine.searchPicType(inputLine));
+			line.setPicValue(searchLine.searchPicValue(inputLine));
+			line.setOccurs(searchLine.searchOccurs(inputLine));
+			line.setDichCount(searchLine.searchDichCount(inputLine));
+			line.setNumRiga(i);
 			
-			Model.setLinee(linePropertyList);
-			return linePropertyList;
+			linePropertyList.add(line);	
+			
+					
 		}
+		
+		Model.setLinee(linePropertyList);
+		return linePropertyList;
+	}
+	
 	
 
 }

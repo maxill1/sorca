@@ -6,8 +6,7 @@ package com.cblformatter.counters;
 import java.util.LinkedHashMap;
 
 import com.cblformatter.model.beans.LinePropertyBean;
-import com.cblformatter.counters.OccursCounter;
-import com.cblformatter.views.utils.LineUtils;
+import com.cblformatter.utils.LineUtils;
 
 public class Counter {
 

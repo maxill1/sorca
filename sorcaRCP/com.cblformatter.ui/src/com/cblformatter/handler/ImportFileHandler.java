@@ -1,17 +1,12 @@
 package com.cblformatter.handler;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedHashMap;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 
-import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
-import com.cblformatter.views.utils.Costants;
 import com.cblformatter.views.utils.GuiUtils;
 
 public class ImportFileHandler extends AbstractHandler {

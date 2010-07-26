@@ -6,6 +6,7 @@ public class FileViewBean extends ModelObject{
 	
 	private String fileSelected;
 	private String folderSelected;
+	private String count;
 	
 	public void setFileSelected(String fileSelected) {
 		propertyChangeSupport.firePropertyChange("fileSelected", this.fileSelected,
@@ -20,6 +21,12 @@ public class FileViewBean extends ModelObject{
 	}
 	public String getFolderSelected() {
 		return folderSelected;
+	}
+	public void setCount(String count) {
+		this.count = count;
+	}
+	public String getCount() {
+		return count;
 	}
 
 }
