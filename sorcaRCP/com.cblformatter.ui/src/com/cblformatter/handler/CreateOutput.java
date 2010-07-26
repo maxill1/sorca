@@ -23,6 +23,7 @@ import com.cblformatter.counters.Counter;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.OccursBean;
+import com.cblformatter.views.utils.GuiUtils;
 import com.cblformatter.views.utils.LineUtils;
 
 public class CreateOutput {
@@ -331,10 +332,14 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	private static LinePropertyBean getParentFromIndex(
 			LinePropertyBean current, LinePropertyBean next, LinePropertyBean parent) {
 		
+		
+		LinePropertyBean locParent = Model.getParentLine();
+		try{
+		
 		int currentIndex = Integer.parseInt(current.getIndex());
 		int nextIndex =  Integer.parseInt(next.getIndex());
 	
-		LinePropertyBean locParent = Model.getParentLine();
+
 		
 		int indexDifference = currentIndex - nextIndex;
 		
@@ -354,9 +359,40 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 		case 8:
 			locParent = parent.parent.parent.parent.parent;
 			break;
+			
+		case 10:
+			locParent = parent.parent.parent.parent.parent.parent;
+			break;
+			
+		case 12:
+			locParent = parent.parent.parent.parent.parent.parent.parent;
+			break;
+			
+		case 14:
+			locParent = parent.parent.parent.parent.parent.parent.parent.parent;
+			break;
+			
+		case 16:
+			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent;
+			break;
+			
+		case 18:
+			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
+			break;
+			
+		case 20:
+			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
+			break;
 
 		default:
+			GuiUtils.showError("Si sono verificati degli errori relativi al livello ("+currentIndex+")...gestione da implementare meglio.");
 			break;
+		}
+		
+		}catch (NullPointerException e) {
+			if(locParent == null){
+				locParent = Model.getParentLine();
+			}
 		}
 		
 	
