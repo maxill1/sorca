@@ -48,7 +48,7 @@ public class EditViewColumnCellEditor extends EditingSupport {
 
 			case 2:
 
-				return r.getSpecials();
+				return r.getRedefines();
 							
 			case 3:
 
@@ -86,7 +86,7 @@ public class EditViewColumnCellEditor extends EditingSupport {
 				 break;
 			case 2:
 
-				r.setSpecials(value.toString());
+				r.setRedefines(value.toString());
 				 break;
 			
 			case 3:

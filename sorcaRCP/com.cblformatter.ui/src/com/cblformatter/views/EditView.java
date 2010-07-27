@@ -121,8 +121,8 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		
 		final TextCellEditor textCellEditor = new TextCellEditor(v.getTree());
 		
-		String[] colNames = {"Index","Field","OCC/REDEF","Pic type","Pic Val","Totale livello"};
-		int[] colSize = {100,180,120,80,80,80};
+		String[] colNames = {"Index","Field","OCC","P.type","P.Val","Totale livello","REDEFINES"};
+		int[] colSize = {100,180,50,50,50,80,100};
 		
 		for(int x= 0; x<colNames.length;x++){
 			TreeViewerColumn column = new TreeViewerColumn(v, SWT.NONE);

@@ -113,35 +113,35 @@ public class Counter {
 
 	public static int contatoreOccurs(LinkedHashMap lista, int count, int x) {
 		count = 0;
-		LinkedHashMap listaOcc = new LinkedHashMap();
-		int occursLineCount = 0;				
-
-		for(; x<lista.size(); x++){
-			LinePropertyBean line = (LinePropertyBean) lista.get(x);
-
-			if(line.getOccurs() == 0){
-
-				int value = line.getPicValue();
-				count = count - value;
-			}else {
-
-				occursLineCount = OccursCounter.occursLineCount(lista, x);
-				listaOcc = LineUtils.occursListTrim(lista, x, occursLineCount);
-
-				if(occursLineCount == 0){
-					count = count - (line.getPicValue()*line.getOccurs());
-
-				}
-
-				//TODO sommare i pin di input o output
-
-				if((line.getOccurs() != 0 && occursLineCount != 0)){
-					//countTemp = contatore(lista, countTemp,++x);
-					count = count - contatoreOccurs(listaOcc, count,++x);
-
-				}
-			}
-		}
+//		LinkedHashMap listaOcc = new LinkedHashMap();
+//		int occursLineCount = 0;				
+//
+//		for(; x<lista.size(); x++){
+//			LinePropertyBean line = (LinePropertyBean) lista.get(x);
+//
+//			if(line.getOccurs() == 0){
+//
+//				int value = line.getPicValue();
+//				count = count - value;
+//			}else {
+//
+//				occursLineCount = OccursCounter.occursLineCount(lista, x);
+//				listaOcc = LineUtils.occursListTrim(lista, x, occursLineCount);
+//
+//				if(occursLineCount == 0){
+//					count = count - (line.getPicValue()*line.getOccurs());
+//
+//				}
+//
+//				//TODO sommare i pin di input o output
+//
+//				if((line.getOccurs() != 0 && occursLineCount != 0)){
+//					//countTemp = contatore(lista, countTemp,++x);
+//					count = count - contatoreOccurs(listaOcc, count,++x);
+//
+//				}
+//			}
+//		}
 
 
 		return count;

@@ -49,11 +49,23 @@ public class LinePropertyBean {
 	private int dichCount;
 	private int occurs = 1;
 	private String fullLine;
-	private String specials;
+	private String redefines;
 	private int childsPicValue;
 
 	private int numRiga;
+
+	private int virtualFloat;
 	
+	public int getVirtualFloat() {
+		return virtualFloat;
+	}
+
+
+	public void setVirtualFloat(int virtualFloat) {
+		this.virtualFloat = virtualFloat;
+	}
+
+
 	public String getIndex() {
 		return index;
 	}
@@ -96,12 +108,12 @@ public class LinePropertyBean {
 	public String getFullLine() {
 		return fullLine;
 	}
-	public String getSpecials() {
+	public String getRedefines() {
 	
-		return specials;
+		return redefines;
 	}
-	public void setSpecials(String specials) {
-		this.specials = specials;
+	public void setRedefines(String redefines) {
+		this.redefines = redefines;
 	}
 
 	public int getNumRiga(){
@@ -125,7 +137,7 @@ public class LinePropertyBean {
 			tmpOccurs = occurs;
 		}
 		
-		int count = getPicValue();
+		int count = getPicValue() + getVirtualFloat();
 		
 		for(int x=0;x<child.size();x++){
 			LinePropertyBean bean = child.get(x);

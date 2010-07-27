@@ -23,7 +23,7 @@ public class EditViewLabelProvider implements  ITableLabelProvider  {
 
 		case 2:
 
-			return getSpecial((LinePropertyBean)element);
+			return getOccurs((LinePropertyBean)element);
 	
 		case 3:
 
@@ -38,6 +38,11 @@ public class EditViewLabelProvider implements  ITableLabelProvider  {
 		case 5:
 			
 			return String.valueOf(r.getChildsPicValue());
+		
+		case 6:
+			
+			return r.getRedefines();
+			
 			
 
 			
@@ -60,15 +65,16 @@ public class EditViewLabelProvider implements  ITableLabelProvider  {
 	
 	}
 
-	private String getSpecial(LinePropertyBean element) {
+	private String getOccurs(LinePropertyBean element) {
 
 		if(element.getOccurs() != 0){
-			element.setSpecials("OCCURS "+ element.getOccurs());
+			return String.valueOf(element.getOccurs());
 		}
 		
-		return element.getSpecials();
+		return "";
 	
 	}
+	
 
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
