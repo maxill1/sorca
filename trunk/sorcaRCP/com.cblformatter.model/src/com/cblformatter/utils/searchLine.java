@@ -1,6 +1,5 @@
 package com.cblformatter.utils;
 
-import com.cblformatter.model.counters.Counter;
 
 
 public class searchLine {
@@ -110,15 +109,25 @@ public class searchLine {
 	
 	public static int searchOccurs(String inputLine) {
 		
-		int occurs = 0;		
-		
+
+		int numOccours = 0;
 		if(inputLine.contains("OCCURS")){
-		
-			occurs = Counter.numOccurs(inputLine);
+			int inizio = inputLine.indexOf("OCCURS ")+7;
+			int fine = 0;
+			if(inputLine.length()>inizio+5){
+				fine = inizio+5;	
+			}else{
+				fine = inizio+(inputLine.length()-inizio);
+			}
+			String substring = inputLine.substring(inizio, fine).replace(".", "").trim();
+
+			int filler = Integer.parseInt(substring);
+			numOccours = filler;
 		}
+
+		return numOccours;
+	
 		
-		
-		return occurs;
 	}
 
 	public static int searchDichCount(String inputLine) {
@@ -145,6 +154,46 @@ public class searchLine {
 		
 
 		return dichNum;
+	}
+
+	public static int searchVirtualFloat(String inputLine) {
+		
+		int ret = 0;
+
+		//gestione virgola virtuale
+		if(inputLine.contains("V9(")){
+			int inizio = inputLine.lastIndexOf("V9(")+3;
+			int fine = inputLine.lastIndexOf(")");
+			String substring = inputLine.substring(inizio, fine).replace(".", "").trim();
+
+			 ret = ret + Integer.parseInt(substring);
+
+
+		}
+		
+		return ret;
+	}
+
+	public static String searchSpecials(String inputLine) {
+
+		String ret = "";
+		
+		if(inputLine.contains("REDEFINES")){
+			
+			String sub = inputLine.substring(inputLine.indexOf("REDEFINES"));
+			
+			if(sub.contains("PIC ")){
+				sub = sub.replace("PIC ", "");
+
+				int fine = sub.lastIndexOf(" ");
+				ret = sub.substring(0,fine);
+			}else{
+				ret =sub;
+			}
+	
+		}
+		
+		return ret.replace("REDEFINES", "").trim();
 	}
 
 	

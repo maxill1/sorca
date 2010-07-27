@@ -395,6 +395,7 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 			}
 		}
 		
+		//TODO TROVARE UN MODO MIGLIORE
 		//IF 01 then parent is root
 		if(nextIndex == 1 && locParent != null){
 			return Model.getParentLine();

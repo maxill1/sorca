@@ -13,8 +13,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
-import com.cblformatter.model.beans.OccursBean;
-import com.cblformatter.model.counters.OccursCounter;
 
 public class LineUtils {
 	
@@ -88,7 +86,7 @@ public class LineUtils {
 		return inputLine = "01 !!!!!!!ERROR!!!!!!!!" + inputLine;
 	}
 
-	private static boolean hasCharsAfterDot(String inputLine) {
+	public static boolean hasCharsAfterDot(String inputLine) {
 		
 		if(inputLine.trim().equals("") || !inputLine.trim().contains(".")){
 			return false;
@@ -156,10 +154,11 @@ public class LineUtils {
 		String EOL = Model.getSettingsBean().getEOL();
 		String indice="";
 		String campo="";
+		String redefines = "";
 		String PIC="";
+		int virtualFloat = 0; 
 		int value = 0;
-		int occurs = 0;
-		String occursStr = "";	
+		int occurs = 0;	
 		int dichCount = 0;
 	
 		
@@ -172,6 +171,8 @@ public class LineUtils {
 		campo = line.getField();
 		PIC = line.getPicType();
 		value = line.getPicValue();
+		virtualFloat = line.getVirtualFloat();
+		redefines = line.getRedefines();
 		occurs = line.getOccurs();
 					
 
@@ -185,10 +186,19 @@ public class LineUtils {
 			e.printStackTrace();
 		}
 		
-		if (occurs != 0){
-			occursStr = "   OCCURS " + occurs;
-			campo = campo + occursStr;
+
+			if (occurs != 0){
+				String occursStr = "OCCURS "+occurs;
+				campo = campo + occursStr;
+			}
+		
+		if (!redefines.equals("")){
+			redefines = redefines +" ";
+			campo = campo + redefines;
 		}
+
+		
+
 	
 		dichCount = line.getDichCount();
 		}
@@ -207,7 +217,8 @@ public class LineUtils {
 		if(!PIC.equals("")){
 			print = print + Pic.addPicSpaces(campo,indice)
 					+ PIC
-					+ Convert.covertPicValueToPrint(formatNumber(value));
+					+ Convert.covertPicValueToPrint(formatNumber(value))
+					+ Convert.covertFloatValueToPrint(formatNumber(virtualFloat));
 		}
 		
 		print = print
@@ -337,58 +348,6 @@ public static String formatNumber(int number) {
 			return linePropertyListSort;
 		}
 
-	public static LinkedHashMap occursListTrim(LinkedHashMap linePropertyList, int actualNumLine, int occursLineCount){
-		
-	int iterator = 0;
-	LinkedHashMap shortList = new LinkedHashMap();
-	
-	for(int k = actualNumLine; k<actualNumLine+occursLineCount; k++){
-		LinePropertyBean lineOcc = (LinePropertyBean) linePropertyList.get(k);						
-		shortList.put(iterator, lineOcc);
-		iterator = iterator +1;
-	}
-	return shortList;
-	}
-
-	public static LinkedHashMap noOccursListTrim(LinkedHashMap linePropertyList, ArrayList<OccursBean> occursList){
-			linePropertyList = new LinkedHashMap();
-			LinkedHashMap lineOccursList = new LinkedHashMap();
-			OccursBean occurs;
-			int numOccurs = 0;
-			
-			for(int x = 0; x<occursList.size(); x++){
-				occurs = occursList.get(x);
-			//	int hierarchy = occurs.getHierarchy();
-				int occIndex = occurs.getIndex();
-				numOccurs = occurs.getNumOccurs();
-				int numLine = occurs.getLineNum();
-				int byteCount = occurs.getByteCount();
-				
-				int occursLineCount = OccursCounter.occursLineCount(linePropertyList, numLine, numLine+1);
-		
-				lineOccursList = occursListTrim(linePropertyList, numLine, occursLineCount);
-	
-				//rimuovo le occurs
-				
-				for(int k = numLine; k<occursLineCount; k++){
-					
-						linePropertyList.remove(k);
-						
-			}
-			
-	
-	//		for(int k = 1; k<linePropertyList.size(); k++){
-	//				
-	//			if(numOccurs == 0){
-	//				LineProperty line = (LineProperty) linePropertyList.get(k);					
-	//				linePropertyList.put(k, line);
-	//			}
-	//		
-	//		
-			}
-			return linePropertyList;
-		}
-
 	/**
 	 * Scorre il buffered reader e crea una lista di Stringhe grezza
 	 * @param br un buffer reader
@@ -438,10 +397,20 @@ public static String formatNumber(int number) {
 				inputLine = lineeNonFormattate.get(i).toString();
 				
 				LinePropertyBean line = new LinePropertyBean();
-		
+	
 				if(LineUtils.isHeader(inputLine)){
 					inputLine = "";
 						}
+				
+				if(hasRedefinesOnTwoLines(inputLine)){
+					
+					i++;
+					
+					String nextLine = lineeNonFormattate.get(i).toString();
+					nextLine = LineUtils.cleanLine(nextLine);
+					inputLine = inputLine + " " + nextLine;
+					
+				}
 				
 				inputLine = LineUtils.cleanLine(inputLine);
 				
@@ -449,8 +418,10 @@ public static String formatNumber(int number) {
 				line.setField(searchLine.searchField(inputLine));
 				line.setPicType(searchLine.searchPicType(inputLine));
 				line.setPicValue(searchLine.searchPicValue(inputLine));
+				line.setVirtualFloat(searchLine.searchVirtualFloat(inputLine));
 				line.setOccurs(searchLine.searchOccurs(inputLine));
 				line.setDichCount(searchLine.searchDichCount(inputLine));
+				line.setRedefines(searchLine.searchSpecials(inputLine));
 				line.setFullLine(inputLine);
 				
 				linePropertyList.put(i, line);	
@@ -461,6 +432,26 @@ public static String formatNumber(int number) {
 			Model.setRawLines(linePropertyList);
 			return linePropertyList;
 		}
+		
+		/**
+		 * if it has redefines writter in more than one line.
+		 * 
+		 * ex:
+		 * <p>003800         10 I8DH541-FAM-FLAG-SOST-CONIUGE    REDEFINES</p>        
+		 * <p>003900            I8DH541-FAM-PERCENTUALE          PIC X(003). </p>     
+		 * 
+		 * @param inputLine
+		 * @return
+		 */
+
+	private static boolean hasRedefinesOnTwoLines(String inputLine) {
+	
+		if(inputLine.contains("REDEFINES") && inputLine.indexOf(".") == -1){
+			return true;
+		}
+		
+		return false;
+	}
 
 	public static ArrayList<LinePropertyBean> popolaDatiLineeNUOVO(LinkedHashMap<Integer,String> lineeNonFormattate) {
 		

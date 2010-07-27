@@ -55,5 +55,20 @@ public class Convert {
 		
 		return val;
 	}
+
+	
+	public static String covertFloatValueToPrint(String value) {
+
+		
+		if(!value.equals("00")){
+			value = "V9("+value +")";
+		}else{
+			value ="";
+		}
+
+		
+		return value;
+	
+	}
 	
 }
