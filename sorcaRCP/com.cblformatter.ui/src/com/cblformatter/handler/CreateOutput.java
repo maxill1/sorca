@@ -280,50 +280,24 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	
 		
 		LinePropertyBean current = linee.get(startCounter);
-
-
 	
 		if(parent != null){
 			current.parent = parent;
 			parent.child.add(current);
+			linee.remove(startCounter);
 			
 		}
 	
 		LinePropertyBean next;
 		try{
-		next = linee.get(startCounter+1);
+			next = linee.get(startCounter+1);
 		}catch (IndexOutOfBoundsException e) {
 			return linee;
 		}
 		
-			
-		int currentIndex = Integer.parseInt(current.getIndex());
-		int nextIndex =  Integer.parseInt(next.getIndex());
-			
-				if(currentIndex < nextIndex){
-					int childCounter = startCounter+1;
-					
-					searchForChild(linee,childCounter,current);
+		LinePropertyBean locParent = getParentFromIndex(current,next,parent);
 
-					linee.remove(childCounter);
-					
-				}else if(currentIndex == nextIndex){
-					searchForChild(linee,startCounter+1,parent);
-					linee.remove(startCounter);
-					
-				}else if(currentIndex > nextIndex){
-					
-					
-					//INDIVIDUA il parent dal livello
-					LinePropertyBean locParent = getParentFromIndex(current,next,parent);
-
-					searchForChild(linee,startCounter+1,locParent);
-					if(next.parent != null){
-						linee.remove(startCounter);
-					}
-				}
-
-		return linee;
+		return searchForChild(linee,startCounter+1,locParent);
 	}
 
 
@@ -331,75 +305,94 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 	private static LinePropertyBean getParentFromIndex(
 			LinePropertyBean current, LinePropertyBean next, LinePropertyBean parent) {
 		
-		
-		LinePropertyBean locParent = Model.getParentLine();
-		
 		int currentIndex = Integer.parseInt(current.getIndex());
 		int nextIndex =  Integer.parseInt(next.getIndex());
-	
-
-		try{
 		
-		int indexDifference = currentIndex - nextIndex;
-		
-		
-		switch (indexDifference) {
-		case 2:
-			locParent = parent.parent;
-			break;
-			
-		case 4:
-			locParent = parent.parent.parent;
-			break;
-			
-		case 6:
-			locParent = parent.parent.parent.parent;
-			break;
-			
-		case 8:
-			locParent = parent.parent.parent.parent.parent;
-			break;
-			
-		case 10:
-			locParent = parent.parent.parent.parent.parent.parent;
-			break;
-			
-		case 12:
-			locParent = parent.parent.parent.parent.parent.parent.parent;
-			break;
-			
-		case 14:
-			locParent = parent.parent.parent.parent.parent.parent.parent.parent;
-			break;
-			
-		case 16:
-			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent;
-			break;
-			
-		case 18:
-			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
-			break;
-			
-		case 20:
-			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
-			break;
-
-		default:
-			GuiUtils.showError("Si sono verificati degli errori relativi al livello ("+currentIndex+")...gestione da implementare meglio.");
-			break;
+		if(currentIndex == nextIndex){
+			return parent;
 		}
 		
-		}catch (NullPointerException e) {
-			if(locParent == null){
-				locParent = Model.getParentLine();
+		LinePropertyBean locParent = parent;
+			
+		if(currentIndex < nextIndex){
+			locParent = current;
+		}else{
+
+			if(parent.equals(Model.getParentLine())){
+				return parent;
+			}
+			int parentIndex = Integer.parseInt(parent.getIndex());
+			while(parentIndex != nextIndex){
+				locParent = locParent.parent;
+				if(locParent.equals(Model.getParentLine())){
+					break;
+				}
+				parentIndex = Integer.parseInt(locParent.getIndex());
 			}
 		}
-		
-		//TODO TROVARE UN MODO MIGLIORE
-		//IF 01 then parent is root
-		if(nextIndex == 1 && locParent != null){
-			return Model.getParentLine();
-		}
+
+//		try{
+//		
+//		int indexDifference = currentIndex - nextIndex;
+//		
+//		
+//		switch (indexDifference) {
+//		case 2:
+//			locParent = parent.parent;
+//			break;
+//			
+//		case 4:
+//			locParent = parent.parent.parent;
+//			break;
+//			
+//		case 6:
+//			locParent = parent.parent.parent.parent;
+//			break;
+//			
+//		case 8:
+//			locParent = parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 10:
+//			locParent = parent.parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 12:
+//			locParent = parent.parent.parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 14:
+//			locParent = parent.parent.parent.parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 16:
+//			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 18:
+//			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
+//			break;
+//			
+//		case 20:
+//			locParent = parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent;
+//			break;
+//
+//		default:
+//			GuiUtils.showError("Si sono verificati degli errori relativi al livello ("+currentIndex+")...gestione da implementare meglio.");
+//			break;
+//		}
+//		
+//		}catch (NullPointerException e) {
+//			if(locParent == null){
+//				locParent = Model.getParentLine();
+//			}
+//		}
+//		
+//		//TODO TROVARE UN MODO MIGLIORE
+//		//IF 01 then parent is root
+//		if(nextIndex == 1 && locParent != null){
+//			return Model.getParentLine();
+//		}
 	
 	return locParent;
 	}
@@ -483,12 +476,67 @@ public static void scriviSuFile(File fileOut,String outPutLine) throws IOExcepti
 		linee.addAll(0,linePropertyListSort.values());
 		
 		//CREO GERARCHIA FIGLI
-		linee = searchForChild(linee,0,null);
+		linee = searchForChild(linee,0,Model.getParentLine());
 
 		//AGGIORNO IL MODEL
 		LinePropertyBean.updateModel(linee);
 	
 		return true;
+	}
+
+
+
+	private static ArrayList<LinePropertyBean> searchForChildNEW(
+			ArrayList<LinePropertyBean> linee, int startCounter, LinePropertyBean parent) {
+	
+		
+		LinePropertyBean current = linee.get(startCounter);
+	
+		if(current.getField().contains("I8DH451-A-DEB-NR-A")){
+			current = linee.get(startCounter);
+		}
+	
+	
+		if(parent != null){
+			current.parent = parent;
+			parent.child.add(current);
+			
+		}
+	
+		LinePropertyBean next;
+		try{
+		next = linee.get(startCounter+1);
+		}catch (IndexOutOfBoundsException e) {
+			return linee;
+		}
+		
+			
+		int currentIndex = Integer.parseInt(current.getIndex());
+		int nextIndex =  Integer.parseInt(next.getIndex());
+			
+				if(currentIndex < nextIndex){
+					
+					searchForChild(linee,startCounter+1,current);
+	
+					linee.remove(startCounter+1);
+					
+				}else if(currentIndex == nextIndex){
+					searchForChild(linee,startCounter+1,parent);
+					linee.remove(startCounter);
+					
+				}else if(currentIndex > nextIndex){
+					
+					
+					//INDIVIDUA il parent dal livello
+					LinePropertyBean locParent = getParentFromIndex(current,next,parent);
+	
+					searchForChild(linee,startCounter+1,locParent);
+					if(next.parent != null){
+						linee.remove(startCounter);
+					}
+				}
+	
+		return linee;
 	}
 	
 }
