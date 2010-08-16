@@ -59,7 +59,7 @@ public class LineUtils {
 
 		}
 		
-		if(!inputLine.equals("") && (inputLine.contains(Costants.getProgramcall())) && !LineUtils.isHeader(inputLine)){							
+		if(isAValidLine(inputLine)){							
 
 
 			if(startWith6Numbers(inputLine)){
@@ -82,6 +82,14 @@ public class LineUtils {
 		
 	}
 	
+	private static boolean isAValidLine(String inputLine) {
+		boolean valid = !inputLine.equals("");
+//		valid = (inputLine.contains(Costants.getProgramcall())) ;
+		valid = !LineUtils.isHeader(inputLine);
+	
+		return valid;
+	}
+
 	public static String addError(String inputLine) {
 		return inputLine = "01 !!!!!!!ERROR!!!!!!!!" + inputLine;
 	}
@@ -177,7 +185,7 @@ public class LineUtils {
 					
 
 		if(!indice.equals("") && !LineUtils.isHeader(campo)){
-			indice = Index.replaceIndex(Integer.parseInt(indice));
+			indice = Index.increaseIndex(Integer.parseInt(indice));
 		}
 
 		} catch (NumberFormatException e) {

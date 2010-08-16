@@ -13,7 +13,19 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.beans;bundle-version="1.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.cblformatter.counters,
- com.cblformatter.handler,
- com.cblformatter.views,
- com.cblformatter.views.utils
+Export-Package: com.cblformatter.beans,
+ com.cblformatter.counters,
+ com.cblformatter.handler;uses:="org.eclipse.jface.operation,org.eclipse.core.runtime,org.eclipse.core.commands",
+ com.cblformatter.ui,
+ com.cblformatter.views;
+  uses:="org.eclipse.jface.viewers,
+   org.eclipse.ui.part,
+   org.eclipse.swt.widgets,
+   org.eclipse.jface.dialogs",
+ com.cblformatter.views.utils;
+  uses:="org.eclipse.ui.handlers,
+   org.eclipse.jface.viewers,
+   org.eclipse.swt.graphics,
+   com.cblformatter.model.beans,
+   org.eclipse.ui.part,
+   org.eclipse.swt.widgets"

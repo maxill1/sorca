@@ -1,8 +1,12 @@
 package com.cblformatter.model.beans.views;
 
+import java.beans.PropertyChangeEvent;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import com.cblformatter.model.beans.LinePropertyBean;
+import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.ModelObject;
 
 public class SettingsViewBean extends ModelObject{
@@ -21,6 +25,7 @@ public class SettingsViewBean extends ModelObject{
 	private  boolean fillerPresente = false;
 	private boolean generateInput = false;
 	private boolean generateOutput = false;
+	private boolean viewInnested = true;
 	
 	public SettingsViewBean(){
 		addPropertyChangeListener(this);
@@ -149,7 +154,8 @@ public class SettingsViewBean extends ModelObject{
 
 
 	public void setGenerateInput(boolean generateInput) {
-		this.generateInput = generateInput;
+		propertyChangeSupport.firePropertyChange("generateInput", this.generateInput,
+				this.generateInput = generateInput);
 	}
 
 
@@ -168,4 +174,34 @@ public class SettingsViewBean extends ModelObject{
 	}
 
 
+	public void setViewInnested(boolean viewInnested) {
+		propertyChangeSupport.firePropertyChange("viewInnested", this.viewInnested,
+				this.viewInnested = viewInnested);
+	}
+
+
+	public boolean isViewInnested() {
+		return viewInnested;
+	}
+
+
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.propertyChange(evt);
+		if(evt.getPropertyName().equals("add2ToIndex")){
+			String msg ="";
+			LinePropertyBean line = Model.getParentLine();
+			if(evt.getNewValue().equals(true)){
+				line.add2ToIndex();
+				msg = "ADDING";
+			}else{
+				line.remove2ToIndex();
+				msg = "REMOVING";
+			}
+			
+			System.out.println(msg+" 2 TO INDEX");
+		}
+
+		
+	}
+	
 }

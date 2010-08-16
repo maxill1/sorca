@@ -42,7 +42,7 @@ import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.views.utils.GuiUtils;
 
-public class EditView extends ViewPart implements ISelectionChangedListener  {
+public class EditView extends ViewPart implements ISelectionChangedListener {
 	
 
 	private Button output;
@@ -144,12 +144,18 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		v.addSelectionChangedListener(this);
 
 		Composite composite = new Composite(parent, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL));
+
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		composite.setLayout(layout);
+		
 		Label label = new Label(composite,SWT.NONE);
 		label.setText("Tot Area");
 		
-		count = new Label(composite,SWT.NONE);
-
+		count = new Label(composite,SWT.RIGHT);
+		count.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		bindGui();
 	}
@@ -212,9 +218,9 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		
 	}
 
-	private void createGruppoImport(Group grpInput) {
-		Button btnApriFile = null;
-		
+	private void createGruppoExport(Group grpInput) {
+
+
 		Composite top = new Composite(grpInput, SWT.NONE);
 		GridLayout composite1Layout = new GridLayout();
 		composite1Layout.makeColumnsEqualWidth = true;
@@ -232,6 +238,73 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		GridData grpProcessLData = new GridData();
 		grpProcessLData.horizontalAlignment = GridData.CENTER;
 
+		grpProcess.setLayoutData(grpProcessLData);
+		grpProcess.setText("Esporta");
+
+		process = new Button(grpProcess, SWT.NONE );
+		GridData btnInputLData = new GridData();
+		process.setLayoutData(btnInputLData);
+		process.setText("Apri cartella");
+		process.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				
+				try {
+					GuiUtils.getHandlerService(EditView.ID).executeCommand(ExportFileHandler.ID, null);
+			
+				
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotDefinedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotEnabledException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotHandledException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+
+			}
+		});
+
+		input = new Button(grpProcess, SWT.CHECK);
+		GridData btnOutputLData = new GridData();
+		input.setLayoutData(btnOutputLData);
+		input.setText("CBL Input");
+
+
+		output = new Button(grpProcess, SWT.CHECK );
+		GridData btnBothLData = new GridData();
+		output.setLayoutData(btnBothLData);
+		output.setText("CBL Output");
+
+
+
+	}
+
+	private void createGruppoImport(Group grpInput) {
+		Button btnApriFile = null;
+		
+		Composite top = new Composite(grpInput, SWT.NONE);
+		GridLayout composite1Layout = new GridLayout();
+		composite1Layout.makeColumnsEqualWidth = true;
+		GridData topLData = new GridData();
+		topLData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
+		topLData.grabExcessHorizontalSpace = true;
+		topLData.grabExcessVerticalSpace = true;
+		top.setLayoutData(topLData);
+		top.setLayout(composite1Layout);
+	
+		Group grpProcess = new Group(top, SWT.NONE);
+		GridLayout grpProcessLayout = new GridLayout();
+		grpProcessLayout.numColumns = 3;
+		grpProcess.setLayout(grpProcessLayout);
+		GridData grpProcessLData = new GridData();
+		grpProcessLData.horizontalAlignment = GridData.CENTER;
+	
 		grpProcess.setLayoutData(grpProcessLData);
 		grpProcess.setText("Importa");
 		
@@ -270,7 +343,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 		
 		btnApriFile.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
-
+	
 				TextDialog d = new TextDialog(new Shell());
 				d.open();
 		
@@ -294,78 +367,12 @@ public class EditView extends ViewPart implements ISelectionChangedListener  {
 					e.printStackTrace();
 				}
 				
-
+	
 				
 			}
 		});
 	}
 
-	private void createGruppoExport(Group grpInput) {
-
-
-		Composite top = new Composite(grpInput, SWT.NONE);
-		GridLayout composite1Layout = new GridLayout();
-		composite1Layout.makeColumnsEqualWidth = true;
-		GridData topLData = new GridData();
-		topLData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
-		topLData.grabExcessHorizontalSpace = true;
-		topLData.grabExcessVerticalSpace = true;
-		top.setLayoutData(topLData);
-		top.setLayout(composite1Layout);
-
-		Group grpProcess = new Group(top, SWT.NONE);
-		GridLayout grpProcessLayout = new GridLayout();
-		grpProcessLayout.numColumns = 3;
-		grpProcess.setLayout(grpProcessLayout);
-		GridData grpProcessLData = new GridData();
-		grpProcessLData.horizontalAlignment = GridData.CENTER;
-
-		grpProcess.setLayoutData(grpProcessLData);
-		grpProcess.setText("Esporta");
-
-		process = new Button(grpProcess, SWT.NONE );
-		GridData btnInputLData = new GridData();
-		process.setLayoutData(btnInputLData);
-		process.setText("Apri cartella");
-		process.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent evt) {
-				
-				try {
-					GuiUtils.getHandlerService(ProcessView.ID).executeCommand(ExportFileHandler.ID, null);
-			
-				
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NotDefinedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NotEnabledException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NotHandledException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-
-			}
-		});
-
-		input = new Button(grpProcess, SWT.CHECK);
-		GridData btnOutputLData = new GridData();
-		input.setLayoutData(btnOutputLData);
-		input.setText("CBL Input");
-
-
-		output = new Button(grpProcess, SWT.CHECK );
-		GridData btnBothLData = new GridData();
-		output.setLayoutData(btnBothLData);
-		output.setText("CBL Output");
-
-
-
-	}
 
 
 }

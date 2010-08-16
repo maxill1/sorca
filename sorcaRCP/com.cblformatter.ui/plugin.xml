@@ -37,6 +37,13 @@
             id="SORCA.importFile"
             name="SORCA.importFile">
       </command>
+      
+            <command
+            defaultHandler="com.cblformatter.handler.ExportFileHandler"
+            description="read the file and fill the model with lines"
+            id="SORCA.exportFile"
+            name="SORCA.exportFile">
+      </command>
    </extension>
 
 </plugin>

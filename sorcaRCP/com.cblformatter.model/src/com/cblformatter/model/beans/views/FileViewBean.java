@@ -23,7 +23,8 @@ public class FileViewBean extends ModelObject{
 		return folderSelected;
 	}
 	public void setCount(String count) {
-		this.count = count;
+		propertyChangeSupport.firePropertyChange("count", this.count,
+		this.count = count);
 	}
 	public String getCount() {
 		return count;

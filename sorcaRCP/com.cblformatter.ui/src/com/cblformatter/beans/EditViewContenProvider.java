@@ -1,10 +1,9 @@
 package com.cblformatter.beans;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import com.cblformatter.handler.CreateOutput;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.views.utils.GuiUtils;
@@ -28,6 +27,8 @@ public class EditViewContenProvider implements ITreeContentProvider {
 		if (!(newInput instanceof Model)) return;
 		
 		 GuiUtils.getEditViewTableViewer().refresh();
+		 
+		 CreateOutput.countFiller();
 		
 //		Model.getLinee().set(((LinePropertyBean) newInput).getNumRiga(),(LinePropertyBean) newInput);
 
