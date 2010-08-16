@@ -52,6 +52,7 @@ public class ImportFileHandler extends AbstractHandler {
 		try {
 			
 			CreateOutput.importFile();
+			CreateOutput.countFiller();
 		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

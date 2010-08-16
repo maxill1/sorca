@@ -39,6 +39,7 @@ public class SettingsView extends ViewPart {
 	private Button fillerPresente;
 	private Button headerPresente;
 	private Button add2ToIndex;
+	private Button viewInnested;
 	private Button handleRedefines = null;
 	private Button handleErrors = null;
 	private Combo comboEOL = null;
@@ -70,7 +71,8 @@ public class SettingsView extends ViewPart {
 				fillerPresente,Model.getSettingsBean(), "fillerPresente");
 		GuiUtils.addBindingContext(
 				add2ToIndex,Model.getSettingsBean(), "add2ToIndex");
-	
+		GuiUtils.addBindingContext(
+				viewInnested,Model.getSettingsBean(), "viewInnested");
 		
 		
 	}
@@ -184,7 +186,12 @@ public class SettingsView extends ViewPart {
     		add2ToIndex = new Button(controlliSpeciali, SWT.CHECK);
     		add2ToIndex.setSelection(true);
 
-    	
+    		aggiungi2IndiceLabel = new Label(controlliSpeciali, SWT.NONE);
+    		aggiungi2IndiceLabel.setText("Visulizz.strut. dati innestata");
+   
+    		
+    		viewInnested = new Button(controlliSpeciali, SWT.CHECK);
+    		viewInnested.setSelection(false);
     
 
 	}

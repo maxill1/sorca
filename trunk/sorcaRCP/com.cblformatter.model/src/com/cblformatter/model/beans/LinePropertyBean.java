@@ -2,7 +2,9 @@ package com.cblformatter.model.beans;
 
 import java.util.ArrayList;
 
-public class LinePropertyBean {
+import com.cblformatter.utils.Index;
+
+public class LinePropertyBean extends ModelObject{
 	
 	//MODELINIT
 	public LinePropertyBean parent;
@@ -70,7 +72,8 @@ public class LinePropertyBean {
 		return index;
 	}
 	public void setIndex(String index) {
-		this.index = index;
+		propertyChangeSupport.firePropertyChange("index", this.index,
+				this.index = index);
 	}
 	public String getField() {
 		return field;
@@ -147,5 +150,29 @@ public class LinePropertyBean {
 		childsPicValue = count * tmpOccurs;
 		return childsPicValue;
 	}
+	
+	public void add2ToIndex() {
 
+		for(int x=0;x<child.size();x++){
+			LinePropertyBean bean = child.get(x);
+			if(index != null){
+				bean.setIndex(Index.increaseIndex(Integer.parseInt(index)));
+			}
+			bean.add2ToIndex();
+		}
+
+	}
+	
+	public void remove2ToIndex() {
+
+		for(int x=0;x<child.size();x++){
+			LinePropertyBean bean = child.get(x);
+			if(index != null){
+				bean.setIndex(Index.decreaseIndex(Integer.parseInt(index)));
+			}
+			bean.remove2ToIndex();
+		}
+
+	}
+	
 }

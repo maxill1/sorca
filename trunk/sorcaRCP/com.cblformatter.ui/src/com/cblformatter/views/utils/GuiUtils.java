@@ -120,7 +120,6 @@ public class GuiUtils {
 	}
 
 	public static  TreeViewer getEditViewTableViewer() {
-		// TODO Auto-generated method stub
 		return ((EditView)GuiUtils.getView(EditView.ID)).getTv();
 	}
 

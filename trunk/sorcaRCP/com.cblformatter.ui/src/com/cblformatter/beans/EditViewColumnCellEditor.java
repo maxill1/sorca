@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 
+import com.cblformatter.handler.CreateOutput;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.views.utils.GuiUtils;
 
@@ -105,6 +106,8 @@ public class EditViewColumnCellEditor extends EditingSupport {
 			v.update(element, null);
 
 		    GuiUtils.getEditViewTableViewer().refresh();
+			 
+			 CreateOutput.countFiller();
 			
 		}catch (NumberFormatException e) {
 			GuiUtils.showError("Il valore deve essere numerico");

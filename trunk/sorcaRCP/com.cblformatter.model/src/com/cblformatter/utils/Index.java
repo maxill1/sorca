@@ -90,19 +90,35 @@ public class Index {
 	 * @return a String with 2 char increased by 2
 	 */
 	
-public static String replaceIndex(int index) {
-	
-	boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
-	
-	if(add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
-		if(index > 0){
-		index = index + 2;
+	public static String increaseIndex(int index) {
+
+		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
+
+		if(add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
+			if(index > 0){
+				index = index + 2;
+			}
+
 		}
-		
-	}
 		String indexStr = LineUtils.formatNumber(index);
+
+
+		return indexStr;
+	}
 	
-		
+	public static String decreaseIndex(int index) {
+
+		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
+
+		if(!add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
+			if(index > 0){
+				index = index - 2;
+			}
+
+		}
+		String indexStr = LineUtils.formatNumber(index);
+
+
 		return indexStr;
 	}
 	

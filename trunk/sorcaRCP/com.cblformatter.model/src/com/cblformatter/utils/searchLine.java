@@ -1,5 +1,7 @@
 package com.cblformatter.utils;
 
+import com.cblformatter.model.beans.Model;
+
 
 
 public class searchLine {
@@ -10,7 +12,13 @@ public class searchLine {
 		
 		if(!inputLine.equals("") && !LineUtils.startWith6Numbers(inputLine)){
 			
-		index = inputLine.trim().substring(0, 2);
+//		index = inputLine.trim().substring(0, 2);
+		index = inputLine.trim().split(" ")[0].trim();
+		
+		if(Model.getSettingsBean().isAdd2ToIndex()){
+			index = Index.increaseIndex(Integer.parseInt(index));
+		}
+		
 		}
 		
 		return index;
@@ -20,31 +28,31 @@ public class searchLine {
 	public static String searchField(String inputLine){
 		String field = "";
 		if(!inputLine.equals("")){
-	
-			field = inputLine;
-	
-		int fine = 0;
-		if(field.contains("PIC")){
-			fine = field.indexOf("PIC");	
-		}else{ 
-			if(field.contains("(")){
-				fine=field.indexOf("(");
-			}else{
-			fine = field.length();
-			}
-		}
-		if(!field.equals("")){
-		field = field.substring(3, fine).replace(".", "").trim();	
-		}
-		if(field.contains(" OCCURS ")){
-			fine = field.indexOf("OCCURS");	
-			
-			field = field.substring(0, fine).replace(".", "").trim();
-		}
-			
-		
-		
-		
+			field = inputLine.trim().split(" ")[1].trim();
+//			field = inputLine;
+//	
+//		int fine = 0;
+//		if(field.contains("PIC")){
+//			fine = field.indexOf("PIC");	
+//		}else{ 
+//			if(field.contains("(")){
+//				fine=field.indexOf("(");
+//			}else{
+//			fine = field.length();
+//			}
+//		}
+//		if(!field.equals("")){
+//		field = field.substring(3, fine).replace(".", "").trim();	
+//		}
+//		if(field.contains(" OCCURS ")){
+//			fine = field.indexOf("OCCURS");	
+//			
+//			field = field.substring(0, fine).replace(".", "").trim();
+//		}
+//			
+//		
+//		
+//		
 		}
 		return field;
 		
