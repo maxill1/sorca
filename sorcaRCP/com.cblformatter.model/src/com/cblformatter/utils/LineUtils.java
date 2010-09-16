@@ -157,7 +157,7 @@ public class LineUtils {
 	 */
 
 
-	public static String printLine(LinePropertyBean line){
+	public String toString(LinePropertyBean line){
 		String print = "";
 		String EOL = Model.getSettingsBean().getEOL();
 		String indice="";
@@ -247,7 +247,7 @@ public class LineUtils {
 	public static boolean isHeader(String print){
 		boolean isHeader = false;
 		
-		if(Costants.getHeaderInput().contains(print.trim()) || Costants.getHeaderOutput().contains(print.trim())){
+		if(Constants.headerInput.contains(print.trim()) || Constants.headerOutput.contains(print.trim())){
 		
 		isHeader = true;
 		}
@@ -266,14 +266,15 @@ public class LineUtils {
 	 * @return a string with header at top of the input string
 	 */
 	
-	public static String addHeader(String print, String header){
-		if(header.equals("input")){
-			print = Costants.getHeaderInput() + print;
-		}else if(header.equals("output")){
-			print = Costants.getHeaderOutput() + print;
-		}
-		return print;
+	public static String addHeader(String print, String type){
 		
+		if(type.equals(Constants.INPUT_AREA)){
+			print = Constants.headerInput + print;
+		}else if(type.equals(Constants.OUTPUT_AREA)){
+			print = Constants.headerOutput + print;
+		}
+		
+		return print;
 	}
 	
 	/**

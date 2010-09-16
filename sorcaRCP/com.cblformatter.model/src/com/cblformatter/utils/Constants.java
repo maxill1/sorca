@@ -4,7 +4,7 @@ import com.cblformatter.model.beans.Model;
 
 
 
-public class Costants {
+public class Constants {
 
 	
 	/******** costanti Header e contatore ***********/
@@ -20,11 +20,11 @@ public class Costants {
 	public static String ISO88591 = "ISO-8859-1";
 	
 
-	private static String EOL = Model.getSettingsBean().getEOL();
+	public static String EOL = Model.getSettingsBean().getEOL();
 	
 
 
-	private final static String headerOutput = 
+	public final static String headerOutput = 
 		Index.addIndexSpaces()+"IDENTIFICATION DIVISION."+EOL+
 		Index.addIndexSpaces()+"PROGRAM-ID. LOGZ."+EOL+
 		Index.addIndexSpaces()+"ENVIRONMENT DIVISION."+EOL+
@@ -37,7 +37,7 @@ public class Costants {
 		Index.addIndexSpaces()+"    05 COD-ERR"+Pic.addPicSpaces("COD-ERR","05")+"PIC X(2)."+EOL+
 		Index.addIndexSpaces()+"    05 DATI-DESC"+Pic.addPicSpaces("DATI-DESC","05")+"PIC X(80)."+EOL;
 	
-	private final static String headerInput =
+	public final static String headerInput =
 		Index.addIndexSpaces()+"IDENTIFICATION DIVISION."+EOL+
 		Index.addIndexSpaces()+"PROGRAM-ID. LOGZ."+EOL+
 		Index.addIndexSpaces()+"ENVIRONMENT DIVISION."+EOL+
@@ -49,29 +49,10 @@ public class Costants {
 		Index.addIndexSpaces()+"  03 TOT-CALL"+Pic.addPicSpaces("TOT-CALL","03")+"PIC 9."+EOL;
 
 	
-	public static final Object PARENT_INDEX = "00";
-
-
-
-	
-
-	public static String getHeaderOutput() {
-		return headerOutput;
-	}
-
-	public static String getHeaderInput() {
-		return headerInput;
-	}
-
-	
-
-	public static String getProgramcall() {
-		return programCall;
-	}
-
-	public static String getProgramcallalt() {
-		return programCallAlt;
-	}
-
-	
+	public static final Object PARENT_INDEX 	= "00";
+	public static final String SINGLE_AREA 		= "SINGLE_AREA";
+	public static final String INPUT_AREA 		= "INPUT_AREA";
+	public static final String OUTPUT_AREA 		= "OUTPUT_AREA";
+	public static final String BOTH_AREA 		= "BOTH_AREA";
+		
 }
