@@ -2,7 +2,12 @@ package com.cblformatter.model.beans;
 
 import java.util.ArrayList;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+
+import com.cblformatter.utils.Convert;
 import com.cblformatter.utils.Index;
+import com.cblformatter.utils.LineUtils;
+import com.cblformatter.utils.Pic;
 
 public class LinePropertyBean extends ModelObject{
 	
@@ -13,9 +18,91 @@ public class LinePropertyBean extends ModelObject{
 
 
 	public String toString() {
-		String rv = getIndex() + " - " + getField();
+		
 
-		return rv;
+		String print = "";
+		String EOL = Model.getSettingsBean().getEOL();
+		String indice="";
+		String campo="";
+		String redefines = "";
+		String PIC="";
+		int virtualFloat = 0; 
+		int value = 0;
+		int occurs = 0;	
+		int dichCount = 0;
+	
+		
+		
+		if(!getIndex().equals("") && !getField().equals("")){
+			
+		try{
+
+		indice = getIndex();
+		campo = getField();
+		PIC = getPicType();
+		value = getPicValue();
+		virtualFloat = getVirtualFloat();
+		redefines = getRedefines();
+		occurs = getOccurs();
+					
+
+		if(!indice.equals("") && !LineUtils.isHeader(campo)){
+			indice = Index.increaseIndex(Integer.parseInt(indice));
+		}
+
+		} catch (NumberFormatException e) {
+			MessageDialog.openError(null, "Errore","Si è verificato un errore \n"+
+			"Controlla che non ci siano commenti non asteriscati sul campo: " + campo);
+			e.printStackTrace();
+		}
+		
+
+			if (occurs != 0){
+				String occursStr = "OCCURS "+occurs;
+				campo = campo + occursStr;
+			}
+		
+		if (!redefines.equals("")){
+			redefines = redefines +" ";
+			campo = campo + redefines;
+		}
+
+		
+
+	
+		dichCount = getDichCount();
+		}
+		
+		if(dichCount != 0){
+			print = "";
+		}else if (!campo.equals("")){
+			
+		indice = Index.addIndexSpaces(indice);
+		
+
+		print = indice 
+				+ " " 
+				+ campo;
+		
+		if(!PIC.equals("")){
+			print = print + Pic.addPicSpaces(campo,indice)
+					+ PIC
+					+ Convert.covertPicValueToPrint(LineUtils.formatNumber(value))
+					+ Convert.covertFloatValueToPrint(LineUtils.formatNumber(virtualFloat));
+		}
+		
+		print = print
+				+ "."
+				+EOL;
+		
+		}
+		
+		return print;
+	
+		
+//		String rv = getIndex() + " - " + getField();
+//
+//		return rv;
 	}
 
 	
@@ -149,6 +236,18 @@ public class LinePropertyBean extends ModelObject{
 		
 		childsPicValue = count * tmpOccurs;
 		return childsPicValue;
+	}
+	
+	public String toStringChilds() {
+		
+		String childsLine = "";
+		
+		for(int x=0;x<child.size();x++){
+			LinePropertyBean bean = child.get(x);
+			childsLine += bean.toStringChilds();
+		}
+		
+		return toString()+childsLine;
 	}
 	
 	public void add2ToIndex() {

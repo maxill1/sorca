@@ -94,7 +94,7 @@ public class Index {
 
 		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
 
-		if(add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
+		if(add2ToIndex && Model.getSettingsBean().isPrintHeader()){
 			if(index > 0){
 				index = index + 2;
 			}
@@ -110,7 +110,7 @@ public class Index {
 
 		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
 
-		if(!add2ToIndex && !Model.getSettingsBean().isHeaderPresente()){
+		if(!add2ToIndex && Model.getSettingsBean().isPrintHeader()){
 			if(index > 0){
 				index = index - 2;
 			}

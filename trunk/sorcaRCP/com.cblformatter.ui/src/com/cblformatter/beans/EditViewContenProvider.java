@@ -3,10 +3,10 @@ package com.cblformatter.beans;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.cblformatter.handler.CreateOutput;
 import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.views.utils.GuiUtils;
+import com.cblformatter.views.utils.ProcessUtils;
 
 public class EditViewContenProvider implements ITreeContentProvider {
 
@@ -28,7 +28,7 @@ public class EditViewContenProvider implements ITreeContentProvider {
 		
 		 GuiUtils.getEditViewTableViewer().refresh();
 		 
-		 CreateOutput.countFiller();
+		 ProcessUtils.countFiller();
 		
 //		Model.getLinee().set(((LinePropertyBean) newInput).getNumRiga(),(LinePropertyBean) newInput);
 

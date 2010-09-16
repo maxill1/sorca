@@ -1,5 +1,9 @@
 package com.cblformatter.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
 import com.cblformatter.model.beans.Model;
 
 
@@ -28,7 +32,17 @@ public class searchLine {
 	public static String searchField(String inputLine){
 		String field = "";
 		if(!inputLine.equals("")){
-			field = inputLine.trim().split(" ")[1].trim();
+			ArrayList<String> fieldArray = new ArrayList<String>(Arrays.asList(inputLine.trim().split(" ")));
+	
+			for (int x = 0; x<fieldArray.size(); x++) {
+				String string = (String) fieldArray.get(x);
+				if(string != null && string.trim().equals("")){
+					fieldArray.remove(string);
+				}
+			}
+
+			field = fieldArray.get(1).trim();
+
 //			field = inputLine;
 //	
 //		int fine = 0;

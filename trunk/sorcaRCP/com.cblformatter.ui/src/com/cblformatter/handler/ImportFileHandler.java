@@ -1,13 +1,18 @@
 package com.cblformatter.handler;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.views.utils.GuiUtils;
+import com.cblformatter.views.utils.ProcessUtils;
 
 public class ImportFileHandler extends AbstractHandler {
 
@@ -47,24 +52,31 @@ public class ImportFileHandler extends AbstractHandler {
 //    	}    	
     	
 
-		
+    	//Progress
+		Shell sh = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+		.getShell();
 
 		try {
-			
-			CreateOutput.importFile();
-			CreateOutput.countFiller();
-		
-		} catch (FileNotFoundException e) {
+
+			new ProgressMonitorDialog(sh).run(true, true, 
+					new ImportOperation());
+
+		} catch (InvocationTargetException e) {
+
 			e.printStackTrace();
+
+			GuiUtils.showError(e.getCause().getMessage());
+
+			return null;
+
+		} catch (InterruptedException e) {
+
+			GuiUtils.showError(e.getMessage());
+			return null;
+
 		}
-		
-
-//		MessageDialog.openInformation(null, "Salvataggio File", "File Salvati con successo");
-//
-//	    System.out.println("File Input Salvato con successo");
-
  
-		
+		ProcessUtils.countFiller();
 	    GuiUtils.getEditViewTableViewer().refresh();
 		
 		return null;

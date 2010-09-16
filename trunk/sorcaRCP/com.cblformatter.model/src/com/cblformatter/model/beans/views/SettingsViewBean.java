@@ -1,12 +1,8 @@
 package com.cblformatter.model.beans.views;
 
-import java.beans.PropertyChangeEvent;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import com.cblformatter.model.beans.LinePropertyBean;
-import com.cblformatter.model.beans.Model;
 import com.cblformatter.model.beans.ModelObject;
 
 public class SettingsViewBean extends ModelObject{
@@ -21,18 +17,15 @@ public class SettingsViewBean extends ModelObject{
 	private  String EOL = "\r\n";
 	private  boolean HandleErrors = true;
 	private  boolean HandleRedefines= true;
-	private  boolean headerPresente = false;
-	private  boolean fillerPresente = false;
+	private  boolean printHeader = true;
+	private  boolean printFiller = true;
 	private boolean generateInput = false;
 	private boolean generateOutput = false;
 	private boolean viewInnested = true;
 	
-	public SettingsViewBean(){
-		addPropertyChangeListener(this);
-		
+	public SettingsViewBean(){	
 	}
-	
-	
+
 	public  String getCodifica() {
 		return codifica;
 	}
@@ -57,14 +50,14 @@ public class SettingsViewBean extends ModelObject{
 	public  boolean isAdd2ToIndex() {
 		return add2ToIndex;
 	}
-	public  boolean isFillerPresente() {
-		return fillerPresente;
+	public  boolean isPrintFiller() {
+		return printFiller;
 	}
 	public  boolean isHandleErrors() {
 		return HandleErrors;
 	}
-	public  boolean isHeaderPresente() {
-		return headerPresente;
+	public  boolean isPrintHeader() {
+		return printHeader;
 	}
 	public  void setAdd2ToIndex(boolean add2ToIndex) {
 		propertyChangeSupport.firePropertyChange("add2ToIndex", this.add2ToIndex,
@@ -94,17 +87,17 @@ public class SettingsViewBean extends ModelObject{
 		propertyChangeSupport.firePropertyChange("EOL", this.EOL,
 		EOL = eOL);
 	}
-	public  void setFillerPresente(boolean fillerPresente) {
-		propertyChangeSupport.firePropertyChange("fillerPresente", this.fillerPresente,
-		this.fillerPresente = fillerPresente);
+	public  void setPrintFiller(boolean PrintFiller) {
+		propertyChangeSupport.firePropertyChange("PrintFiller", this.printFiller,
+		this.printFiller = PrintFiller);
 	}
 	public  void setHandleErrors(boolean handleErrors) {
 		propertyChangeSupport.firePropertyChange("HandleErrors", this.HandleErrors,
 		HandleErrors = handleErrors);
 	}
-	public  void setHeaderPresente(boolean headerPresente) {
-		propertyChangeSupport.firePropertyChange("headerPresente", this.headerPresente,
-		this.headerPresente = headerPresente);
+	public  void setPrintHeader(boolean PrintHeader) {
+		propertyChangeSupport.firePropertyChange("PrintHeader", this.printHeader,
+		this.printHeader = PrintHeader);
 	}
 	public  void setIndexSpaces(String indexSpaces) {
 		
@@ -184,24 +177,5 @@ public class SettingsViewBean extends ModelObject{
 		return viewInnested;
 	}
 
-
-	public void propertyChange(PropertyChangeEvent evt) {
-		super.propertyChange(evt);
-		if(evt.getPropertyName().equals("add2ToIndex")){
-			String msg ="";
-			LinePropertyBean line = Model.getParentLine();
-			if(evt.getNewValue().equals(true)){
-				line.add2ToIndex();
-				msg = "ADDING";
-			}else{
-				line.remove2ToIndex();
-				msg = "REMOVING";
-			}
-			
-			System.out.println(msg+" 2 TO INDEX");
-		}
-
-		
-	}
 	
 }

@@ -60,7 +60,7 @@ public class SettingsView extends ViewPart {
 		GuiUtils.addBindingContext(
 				handleRedefines,Model.getSettingsBean(), "handleRedefines");	
 		GuiUtils.addBindingContext(
-				headerPresente,Model.getSettingsBean(), "headerPresente");
+				headerPresente,Model.getSettingsBean(), "printHeader");
 		GuiUtils.addBindingContext(
 				spacePic,Model.getSettingsBean(), "picSpaces");
 
@@ -68,7 +68,7 @@ public class SettingsView extends ViewPart {
 				spaceIndex,Model.getSettingsBean(), "indexSpaces");
 		
 		GuiUtils.addBindingContext(
-				fillerPresente,Model.getSettingsBean(), "fillerPresente");
+				fillerPresente,Model.getSettingsBean(), "printFiller");
 		GuiUtils.addBindingContext(
 				add2ToIndex,Model.getSettingsBean(), "add2ToIndex");
 		GuiUtils.addBindingContext(
@@ -167,12 +167,14 @@ public class SettingsView extends ViewPart {
     	controlliSpeciali.setText("Controlli Speciali");
 
     		Label header = new Label(controlliSpeciali, SWT.NONE);
-    		header.setText("Header Presente");
+    		header.setText("Stampa Header");
+    		header.setToolTipText("Seleziona per non stampare il l'header");
 
     		headerPresente = new Button(controlliSpeciali, SWT.CHECK);
- 
+
     		Label fillerPresenteLabel = new Label(controlliSpeciali, SWT.NONE);
-    		fillerPresenteLabel.setText("Filler Presente");
+    		fillerPresenteLabel.setText("Stampa Filler");
+    		fillerPresenteLabel.setToolTipText("Seleziona per non stampare il filler (area unica di INPUT/OUTPUT o filler già presente) ");
 
     		GridData button3LData = new GridData();
     		button3LData.widthHint = 24;

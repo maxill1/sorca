@@ -1,6 +1,8 @@
 package com.cblformatter.views;
 
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -42,19 +44,22 @@ import com.cblformatter.model.beans.LinePropertyBean;
 import com.cblformatter.model.beans.Model;
 import com.cblformatter.views.utils.GuiUtils;
 
-public class EditView extends ViewPart implements ISelectionChangedListener {
+public class EditView extends ViewPart implements ISelectionChangedListener,PropertyChangeListener {
 	
 
-	private Button output;
-	private Button input;
+	private Button separateOutputCheck;
+	private Button separateInputCheck;
 	private Button process;
 
 	public static final String ID = "CBLFormatter.EditView";
 
 	private TreeViewer v;
 	private Label count;
+	private Button singleAreaCheck;
 	
 	public EditView() {
+		Model.getFileBean().addPropertyChangeListener(this);
+		Model.getSettingsBean().addPropertyChangeListener(this);
 
 	}
 	
@@ -179,6 +184,9 @@ public class EditView extends ViewPart implements ISelectionChangedListener {
 
 	private void bindGui() {
 		GuiUtils.addBindingContext(count,Model.getFileBean(), "count");
+		GuiUtils.addBindingContext(singleAreaCheck,Model.getFileBean(), "exportSingleArea");
+		GuiUtils.addBindingContext(separateInputCheck,Model.getFileBean(), "exportSeparateInputArea");
+		GuiUtils.addBindingContext(separateOutputCheck,Model.getFileBean(), "exportSeparateOutputArea");
 	}
 	
 	private void createGruppoAzioni(Composite top) {
@@ -210,11 +218,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener {
 		grpInput.setLayoutData(gridData);
 		
 		createGruppoImport(grpInput);
-	
 		createGruppoExport(grpInput);
-		
-		
-	
 		
 	}
 
@@ -249,39 +253,53 @@ public class EditView extends ViewPart implements ISelectionChangedListener {
 			public void widgetSelected(SelectionEvent evt) {
 				
 				try {
-					GuiUtils.getHandlerService(EditView.ID).executeCommand(ExportFileHandler.ID, null);
-			
-				
+					GuiUtils.getHandlerService(EditView.ID)
+						.executeCommand(ExportFileHandler.ID, null);
 				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NotDefinedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NotEnabledException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NotHandledException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			
-
+			}
+		});
+		
+		singleAreaCheck = new Button(grpProcess, SWT.CHECK);
+		GridData btnOutputLData = new GridData();
+		singleAreaCheck.setLayoutData(btnOutputLData);
+		singleAreaCheck.setText("CBL Input/Output");
+		singleAreaCheck.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent evt) {
+				
+				boolean multipleEnabled = true;
+				
+				if(singleAreaCheck.getSelection()){
+					multipleEnabled = false;	
+				}else{
+					multipleEnabled = true;
+				}
+				
+				Model.getFileBean().setExportSeparateInputArea(multipleEnabled);
+				Model.getFileBean().setExportSeparateOutputArea(multipleEnabled);
+				separateInputCheck.setEnabled(multipleEnabled);
+				separateOutputCheck.setEnabled(multipleEnabled);
+				Model.getSettingsBean().setPrintFiller(!multipleEnabled);
+		
 			}
 		});
 
-		input = new Button(grpProcess, SWT.CHECK);
-		GridData btnOutputLData = new GridData();
-		input.setLayoutData(btnOutputLData);
-		input.setText("CBL Input");
+		separateInputCheck = new Button(grpProcess, SWT.CHECK);
+		btnOutputLData = new GridData();
+		separateInputCheck.setLayoutData(btnOutputLData);
+		separateInputCheck.setText("CBL Input");
 
-
-		output = new Button(grpProcess, SWT.CHECK );
+		separateOutputCheck = new Button(grpProcess, SWT.CHECK );
 		GridData btnBothLData = new GridData();
-		output.setLayoutData(btnBothLData);
-		output.setText("CBL Output");
-
-
+		separateOutputCheck.setLayoutData(btnBothLData);
+		separateOutputCheck.setText("CBL Output");
 
 	}
 
@@ -366,11 +384,34 @@ public class EditView extends ViewPart implements ISelectionChangedListener {
 			
 					e.printStackTrace();
 				}
-				
-	
-				
+		
 			}
 		});
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+
+		System.out.println(evt.getPropertyName() + " changed to: "+evt.getNewValue());
+		
+		handleAdd2ToIndex(evt);
+		
+	}
+
+	private void handleAdd2ToIndex(PropertyChangeEvent evt) {
+		if(evt.getPropertyName().equals("add2ToIndex")){
+			String msg ="";
+			LinePropertyBean line = Model.getParentLine();
+			if(evt.getNewValue().equals(true)){
+				line.add2ToIndex();
+				msg = "ADDING";
+			}else{
+				line.remove2ToIndex();
+				msg = "REMOVING";
+			}
+			System.out.println(msg+" 2 TO INDEX");
+		}	
+
 	}
 
 
