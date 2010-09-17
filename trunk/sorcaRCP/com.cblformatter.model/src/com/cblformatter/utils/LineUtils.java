@@ -150,94 +150,6 @@ public class LineUtils {
 	
 
 	/**
-	 * This prepare a line with all the info contained in the line
-	 * @param line the line object containing values
-	 * @return a String ready to output file. 
-	 * ex: 02 FIELD OCCOURS 1 PIC X(01).
-	 */
-
-
-	public String toString(LinePropertyBean line){
-		String print = "";
-		String EOL = Model.getSettingsBean().getEOL();
-		String indice="";
-		String campo="";
-		String redefines = "";
-		String PIC="";
-		int virtualFloat = 0; 
-		int value = 0;
-		int occurs = 0;	
-		int dichCount = 0;
-	
-		
-		
-		if(!line.getIndex().equals("") && !line.getField().equals("")){
-			
-		try{
-
-		indice = line.getIndex();
-		campo = line.getField();
-		PIC = line.getPicType();
-		value = line.getPicValue();
-		virtualFloat = line.getVirtualFloat();
-		redefines = line.getRedefines();
-		occurs = line.getOccurs();
-					
-
-		if(!indice.equals("") && !LineUtils.isHeader(campo)){
-			indice = Index.increaseIndex(Integer.parseInt(indice));
-		}
-
-		} catch (NumberFormatException e) {
-			MessageDialog.openError(null, "Errore","Si è verificato un errore \n"+
-			"Controlla che non ci siano commenti non asteriscati sul campo: " + campo);
-			e.printStackTrace();
-		}
-		
-
-			if (occurs != 0){
-				String occursStr = "OCCURS "+occurs;
-				campo = campo + occursStr;
-			}
-		
-		if (!redefines.equals("")){
-			redefines = redefines +" ";
-			campo = campo + redefines;
-		}
-
-		
-
-	
-		dichCount = line.getDichCount();
-		}
-		
-		if(dichCount != 0){
-			print = "";
-		}else if (!campo.equals("")){
-			
-		indice = Index.addIndexSpaces(indice);
-		
-
-		print = indice 
-				+ " " 
-				+ campo;
-		
-		if(!PIC.equals("")){
-			print = print + Pic.addPicSpaces(campo,indice)
-					+ PIC
-					+ Convert.covertPicValueToPrint(formatNumber(value))
-					+ Convert.covertFloatValueToPrint(formatNumber(virtualFloat));
-		}
-		
-		print = print
-				+ "."
-				+EOL;
-		
-		}
-		
-		return print;
-	}
-	/**
 	 * check if this line is part of an header
 	 * @param print a String line
 	 * @return
@@ -247,7 +159,7 @@ public class LineUtils {
 	public static boolean isHeader(String print){
 		boolean isHeader = false;
 		
-		if(Constants.headerInput.contains(print.trim()) || Constants.headerOutput.contains(print.trim())){
+		if(Constants.getHeaderSingleArea().contains(print.trim()) ||Constants.getHeaderInput().contains(print.trim()) || Constants.getHeaderOutput().contains(print.trim())){
 		
 		isHeader = true;
 		}
@@ -268,10 +180,12 @@ public class LineUtils {
 	
 	public static String addHeader(String print, String type){
 		
-		if(type.equals(Constants.INPUT_AREA)){
-			print = Constants.headerInput + print;
+		if(type.equals(Constants.SINGLE_AREA)){
+			print = Constants.getHeaderSingleArea() + print;
+		}else if(type.equals(Constants.INPUT_AREA)){
+			print = Constants.getHeaderInput() + print;
 		}else if(type.equals(Constants.OUTPUT_AREA)){
-			print = Constants.headerOutput + print;
+			print = Constants.getHeaderOutput() + print;
 		}
 		
 		return print;

@@ -1,4 +1,4 @@
-package com.cblformatter;
+package com.sorca;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.IWorkbenchWindow;

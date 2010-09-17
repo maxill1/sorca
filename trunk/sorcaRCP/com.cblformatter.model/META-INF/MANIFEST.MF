@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Model
-Bundle-SymbolicName: com.cblformatter.model;singleton:=true
+Bundle-SymbolicName: com.sorca.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.cblformatter.model.Activator
 Bundle-Vendor: CBLFORMATTER

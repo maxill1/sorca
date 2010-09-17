@@ -1,4 +1,4 @@
-package com.cblformatter;
+package com.sorca;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;

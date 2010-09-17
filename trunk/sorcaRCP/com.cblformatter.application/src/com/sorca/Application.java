@@ -1,4 +1,4 @@
-package com.cblformatter;
+package com.sorca;
 
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
