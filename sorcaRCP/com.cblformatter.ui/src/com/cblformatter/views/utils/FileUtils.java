@@ -36,10 +36,10 @@ public class FileUtils {
 		String fileName = inputFile.getName();
 		String filePath = outputFile.getAbsolutePath()+"/";
 		
-		fileName = fileName.toLowerCase().replace(".txt","").replace(".cbl","").replace("BEAN", "").replace("-", "").replace("_", "")
-		+"_"+type+".cbl"; 
+		fileName = fileName.toLowerCase().replace(".txt","").replace(".cbl","")
+		+"_"+type; 
 		
-		fileName = fileName.toUpperCase();
+		fileName = fileName.toUpperCase()+".cbl";
 		
 		String fileFormatted = filePath+fileName;	
 		outputFile = new File(fileFormatted);

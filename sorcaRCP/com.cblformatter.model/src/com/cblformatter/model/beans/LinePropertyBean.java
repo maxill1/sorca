@@ -16,12 +16,17 @@ public class LinePropertyBean extends ModelObject{
 
 	public ArrayList<LinePropertyBean> child = new ArrayList<LinePropertyBean>();
 
+	/**
+	 * This prepare a line with all the info contained in the line
+	 * @param line the line object containing values
+	 * @return a String ready to output file. 
+	 * ex: 02 FIELD OCCOURS 1 PIC X(01).
+	 */
 
 	public String toString() {
-		
 
 		String print = "";
-		String EOL = Model.getSettingsBean().getEOL();
+		String EOL = Convert.decodeEOL();
 		String indice="";
 		String campo="";
 		String redefines = "";
@@ -30,8 +35,6 @@ public class LinePropertyBean extends ModelObject{
 		int value = 0;
 		int occurs = 0;	
 		int dichCount = 0;
-	
-		
 		
 		if(!getIndex().equals("") && !getField().equals("")){
 			
@@ -98,11 +101,6 @@ public class LinePropertyBean extends ModelObject{
 		}
 		
 		return print;
-	
-		
-//		String rv = getIndex() + " - " + getField();
-//
-//		return rv;
 	}
 
 	

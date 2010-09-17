@@ -1,5 +1,7 @@
 package com.cblformatter.utils;
 
+import com.cblformatter.model.beans.Model;
+
 public class Convert {
 	
 /**
@@ -69,6 +71,14 @@ public class Convert {
 		
 		return value;
 	
+	}
+	
+	public static String decodeEOL(){
+		if(Model.getSettingsBean().getEOL().equals("UNIX")){
+			return "\n";
+		}else{
+			return "\r\n";
+		}
 	}
 	
 }

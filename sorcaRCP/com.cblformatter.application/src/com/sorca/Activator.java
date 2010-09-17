@@ -1,4 +1,4 @@
-package com.cblformatter;
+package com.sorca;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

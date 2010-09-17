@@ -105,7 +105,11 @@ public class ExportOperation implements IRunnableWithProgress {
 		int count = Integer.parseInt(Model.getFileBean().getCount());
 		
 		if(Model.getSettingsBean().isPrintHeader()){
-			if(type.equals(Constants.SINGLE_AREA) || type.equals(Constants.INPUT_AREA)){
+			if(type.equals(Constants.SINGLE_AREA) ){
+				
+				outputLines = LineUtils.addHeader(outputLines, Constants.SINGLE_AREA);
+				count = count + 0;
+			}else if (type.equals(Constants.INPUT_AREA)){
 				
 				outputLines = LineUtils.addHeader(outputLines, Constants.INPUT_AREA);
 				count = count + 3;
