@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Model
 Bundle-SymbolicName: com.sorca.model;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.cblformatter.model.Activator
+Bundle-Activator: com.sorca.model.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.cblformatter.model.beans,
- com.cblformatter.model.beans.views,
- com.cblformatter.utils
+Export-Package: com.sorca.model.beans,
+ com.sorca.model.beans.views,
+ com.sorca.utils

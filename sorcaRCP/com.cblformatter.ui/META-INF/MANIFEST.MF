@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ui
 Bundle-SymbolicName: com.sorca.ui;singleton:=true
 Bundle-Version: 0.0.1.qualifier
-Bundle-Activator: com.cblformatter.ui.Activator
+Bundle-Activator: com.sorca.ui.Activator
 Require-Bundle: org.eclipse.ui;bundle-version="3.5.2",
  org.eclipse.core.runtime;bundle-version="3.5.0",
  com.sorca.model;bundle-version="0.0.1",
@@ -12,16 +12,16 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.5.2",
  org.eclipse.core.databinding.beans;bundle-version="1.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.cblformatter.beans,
- com.cblformatter.counters,
- com.cblformatter.handler;uses:="org.eclipse.jface.operation,org.eclipse.core.runtime,org.eclipse.core.commands",
- com.cblformatter.ui,
- com.cblformatter.views;
+Export-Package: com.sorca.beans,
+ com.sorca.counters,
+ com.sorca.handler;uses:="org.eclipse.jface.operation,org.eclipse.core.runtime,org.eclipse.core.commands",
+ com.sorca.ui,
+ com.sorca.views;
   uses:="org.eclipse.jface.viewers,
    org.eclipse.ui.part,
    org.eclipse.swt.widgets,
    org.eclipse.jface.dialogs",
- com.cblformatter.views.utils;
+ com.sorca.views.utils;
   uses:="org.eclipse.ui.handlers,
    org.eclipse.jface.viewers,
    org.eclipse.swt.graphics,
