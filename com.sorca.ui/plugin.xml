@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.5"?>
+<plugin>
+ <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="com.sorca.views.FilesView"
+            id="CBLFormatter.FilesView"
+            name="FilesView"
+            restorable="true">
+      </view>
+      <view
+            class="com.sorca.views.SettingsView"
+            id="CBLFormatter.OptionView"
+            name="OptionView"
+            restorable="true">
+      </view>
+      <view
+            class="com.sorca.views.ProcessView"
+            id="CBLFormatter.ProcessView"
+            name="ProcessView"
+            restorable="true">
+      </view>
+      <view
+            class="com.sorca.views.EditView"
+            id="CBLFormatter.EditView"
+            name="EditView"
+            restorable="true">
+      </view>
+   </extension>
+   
+      <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.sorca.handler.ImportFileHandler"
+            description="read the file and fill the model with lines"
+            id="SORCA.importFile"
+            name="SORCA.importFile">
+      </command>
+      
+            <command
+            defaultHandler="com.sorca.handler.ExportFileHandler"
+            description="read the file and fill the model with lines"
+            id="SORCA.exportFile"
+            name="SORCA.exportFile">
+      </command>
+   </extension>
+
+</plugin>
