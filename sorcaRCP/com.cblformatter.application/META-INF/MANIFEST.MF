@@ -7,8 +7,8 @@ Bundle-Activator: com.sorca.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.update.ui,
- org.eclipse.update.core,
  org.eclipse.update.configurator,
+ org.eclipse.update.core,
  org.eclipse.update.scheduler,
  com.sorca.model;bundle-version="0.0.1",
  com.sorca.ui;bundle-version="0.0.1"

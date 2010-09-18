@@ -24,10 +24,10 @@
    </plugins>
 
    <features>
-      <feature id="Feature.com.sorca.core" version="0.0.1.qualifier"/>
+      <feature id="Feature.com.sorca.core" version="1.0.0.qualifier"/>
       <feature id="Feature.com.sorca.application" version="0.0.1.qualifier"/>
-      <feature id="Feature.com.sorca.ui" version="0.0.1.qualifier"/>
       <feature id="Feature.com.sorca.model" version="0.0.1.qualifier"/>
+      <feature id="Feature.com.sorca.ui" version="0.0.1.qualifier"/>
    </features>
 
 
