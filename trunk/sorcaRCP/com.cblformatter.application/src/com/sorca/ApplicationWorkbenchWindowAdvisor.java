@@ -32,8 +32,8 @@ import org.eclipse.update.operations.OperationsManager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 
-import com.cblformatter.model.beans.Model;
-import com.cblformatter.views.utils.GuiUtils;
+import com.sorca.model.beans.Model;
+import com.sorca.views.utils.GuiUtils;
 
 
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
