@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="SORCA" uid="com.sorca.product" id="com.sorca.core.sorcaProduct" application="com.sorca.core.application" version="0.0.1" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <launcher name="sorca">
+      <linux icon="/com.sorca.core/icons/sorca.xpm"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="/com.sorca.core/icons/sorca.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="Feature.com.sorca.core" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.model" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.ui" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.libs" version="1.0.0.qualifier"/>
+   </features>
+
+
+</product>

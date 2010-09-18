@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.5"?>
+<?eclipse version="3.6"?>
 <plugin>
 
    <extension
@@ -72,6 +72,30 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="com.sorca.application.application"
+            name="SORCA">
+         <property
+               name="appName"
+               value="SORCA">
+         </property>
+      </product>
+   </extension>
+   <extension
+         id="coreProduct"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.sorca.core.application"
+            name="SORCA">
+         <property
+               name="appName"
+               value="SORCA">
+         </property>
+      </product>
+   </extension>
+   <extension
+         id="sorcaProduct"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.sorca.core.application"
             name="SORCA">
          <property
                name="appName"

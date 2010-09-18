@@ -54,7 +54,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 			Properties props = new Properties();
 			
-			Bundle bundle = Platform.getBundle("com.sorca.application");
+			Bundle bundle = Platform.getBundle("com.sorca.core");
 			
 			props.load(bundle.getEntry("/" + nomeFileProps).openStream());
 			
