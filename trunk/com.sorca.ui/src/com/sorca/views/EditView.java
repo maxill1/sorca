@@ -412,6 +412,9 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 			System.out.println(msg+" 2 TO INDEX");
 		}	
 
+		 GuiUtils.getEditViewTableViewer().refresh();
+		 
+		
 	}
 
 
