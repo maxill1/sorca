@@ -26,6 +26,7 @@ import org.eclipse.update.configuration.ILocalSite;
 import org.eclipse.update.core.IFeatureReference;
 import org.eclipse.update.core.ISite;
 import org.eclipse.update.core.SiteManager;
+import org.eclipse.update.internal.core.SiteFile;
 import org.eclipse.update.operations.IInstallFeatureOperation;
 import org.eclipse.update.operations.IUninstallFeatureOperation;
 import org.eclipse.update.operations.OperationsManager;
@@ -67,12 +68,12 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			
 			if (flagUpdate) {
 				
-				if(GuiUtils.showConfirmDialog("Cercare aggiornamenti?")){
+//				if(GuiUtils.showConfirmDialog("Cercare aggiornamenti?")){
 					
 					updateServer = props.getProperty("sorca.update.server");
 					
 					update(updateServer);
-				}
+//				}
 				
 			}
 			
@@ -96,6 +97,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			IRunnableWithProgress op = new IRunnableWithProgress (){
 			
 				 
+				@SuppressWarnings({ "rawtypes", "deprecation" })
 				public void run(IProgressMonitor monitor) throws 
 			
 			    	InvocationTargetException, InterruptedException {
@@ -131,8 +133,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    		for(int i = 0; i < localFeatures.length; i++) {			    		
 			    			System.out.println("LOCAL " + localFeatures[i].getVersionedIdentifier());			    		
 			    		}
-			    			
-			    		//Scorre ogni feature remota
+			    		
+		    			boolean updateNowAnswered = false;
+		    			
+			    		//Scorre ogni feature remotatrue
 			    		for(int i = 0; i < remoteFeatures.length; i++) {
 			    			
 			    			//Recupera versione feature remota
@@ -144,7 +148,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    					toString()
 			    				);
 			    			
-			    			boolean found = false;
+			    			boolean found = false;		    			
 			    			
 			    			//Scorre ogni feature locale
 			    			for (int j = 0; j < localFeatures.length; j++) {
@@ -173,9 +177,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    					//Se versione remota è più recente di locale
 			    					if (rv.compareTo(lv)>0){
 			    						
+			    						if((!updateNowAnswered)){
+			    							boolean dontInstall = 
+			    								!GuiUtils.showConfirmDialog("Trovati nuovi aggiornamenti, installare ora?");
+			    								updateNowAnswered = true;
+			    							if(dontInstall){
+			    								return;
+			    							}
+			    						}
+			    							
+		
+//			    						featureUpdatedInstalled.add(remoteFeatures[i].getVersionedIdentifier().getIdentifier());
 			    						
-			    						GuiUtils.showInfo("Nuova Versione Feature : " +
-			    								remoteFeatures[i].getVersionedIdentifier(), "Nuova Feature");
+//			    						GuiUtils.showInfo("Nuova Versione Feature : " +
+//			    								remoteFeatures[i].getVersionedIdentifier(), "Nuova Feature");
 			    						
 			    						//Aggiungi a Lista installazione nuova versione
 			    						installOps.add(			    								
@@ -204,7 +219,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    			//Se non trova una nuova versione allora è nuova Feature
 			    			if (!found){
 			    				
-			    				GuiUtils.showInfo("Nuova Feature : " +remoteFeatures[i].getVersionedIdentifier(),"Nuova Feature");
+//			    				featureNewInstalled.add(remoteFeatures[i].getVersionedIdentifier().getIdentifier());
+	    						
+//			    				GuiUtils.showInfo("Nuova Feature : " +remoteFeatures[i].getVersionedIdentifier(),"Nuova Feature");
 			    				
 			    				//Aggiungi a Lista installazione
 	    						installOps.add(			    								
@@ -246,7 +263,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    			//Se non è stessa feature
 			    			if (!found){
 			    				
-			    				GuiUtils.showInfo("Feature da rimuovere: " +localFeatures[i].getVersionedIdentifier(),"Feature da rimuovere");
+//			    				featureRemoved.add(remoteFeatures[i].getVersionedIdentifier().getIdentifier());
+
+//			    				GuiUtils.showInfo("Feature da rimuovere: " +localFeatures[i].getVersionedIdentifier(),"Feature da rimuovere");
 			    				
 	    						/*installOps.add(			    								
 		    							OperationsManager.getOperationFactory()
@@ -275,6 +294,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    		
 			    		////////////////
 			    		
+		    			ArrayList<String> featureInstalled = new ArrayList<String>();
+		    			ArrayList<String> featureRemoved = new ArrayList<String>();
+		    			
+		    			
 			    		
 			    		//Se la lista delle installazioni  o delle disinstallazioni presenta degli oggetti
 			    		if (installOps.size()> 0 ||disinstallOps.size() > 0) {
@@ -292,9 +315,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    				
 			    				op.execute(monitor, null);
 			    				
-			    				
-			    				
+			    				featureInstalled.add(op.getFeature().getVersionedIdentifier().getIdentifier() 
+			    						+ " ver: "+ op.getFeature().getVersionedIdentifier().getVersion());			    				
 			    			}
+			    			
 			    			
 			    			//Scorri la lista disinstallazioni
 			    			for (Iterator iter = disinstallOps.iterator(); iter.hasNext();) {
@@ -309,13 +333,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    				
 			    				
 			    				op.execute(monitor, null);
+			    				featureRemoved.add(op.getFeature().getVersionedIdentifier().getIdentifier()
+			    						+ " ver: "+ op.getFeature().getVersionedIdentifier().getVersion());
+			    				
 			    			}
 			    			
 			    			
 			    			//Salva il LOCALSITE
 			    			ls.save();
 			    			
-			    			GuiUtils.showInfo("Aggiornamento effettuato","Info");
+			    			GuiUtils.showInfo("Aggiornamento effettuato:\n"
+			    					+"installati:\n"
+			    					+getFeatureList(featureInstalled)+"\n"
+			    					+"rimossi:\n"
+			    					+getFeatureList(featureRemoved),"Info");
 			    			
 			    			PlatformUI.getWorkbench().restart();
 			    			
@@ -353,6 +384,19 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			    		
 			    	}
 			    }
+
+				private String getFeatureList(ArrayList<String> featureList) {
+					
+					String list = "";
+					
+					for (Iterator<String> iterator = featureList.iterator(); iterator
+							.hasNext();) {
+						String string = iterator.next();
+						list = list + string + "\n";
+					}
+
+					return list;
+				}
 			  };
 			  
 			  Display display =  Display.getCurrent();
