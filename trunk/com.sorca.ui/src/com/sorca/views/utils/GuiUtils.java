@@ -1,6 +1,7 @@
 package com.sorca.views.utils;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -74,12 +75,17 @@ public class GuiUtils {
 	}
 
 	public static void addBindingContext(Control widget, ModelObject bean, String valueToBind) {
+		addBindingContext(widget, bean, valueToBind,null,null);
+	}
+	
+	public static void addBindingContext(Control widget, ModelObject bean, String valueToBind,
+			UpdateValueStrategy targetToModel, UpdateValueStrategy modelToTarget) {
 		
 		if(widget instanceof Button ){
 			
 			DataBindingContext dbc = new DataBindingContext();
 			dbc.bindValue(SWTObservables.observeSelection(widget),
-					BeansObservables.observeValue(bean,valueToBind),null,null);
+					BeansObservables.observeValue(bean,valueToBind),targetToModel,modelToTarget);
 			 
 			}
 		
@@ -87,7 +93,7 @@ public class GuiUtils {
 		
 		DataBindingContext dbc = new DataBindingContext();
 		 dbc.bindValue(SWTObservables.observeSelection(widget),
-			 BeansObservables.observeValue(bean,valueToBind),null,null);
+			 BeansObservables.observeValue(bean,valueToBind),targetToModel,modelToTarget);
 		 
 		}
 		
@@ -95,7 +101,7 @@ public class GuiUtils {
 			
 			DataBindingContext dbc = new DataBindingContext();
 			dbc.bindValue(SWTObservables.observeText(widget),
-					BeansObservables.observeValue(bean,valueToBind),null,null);
+					BeansObservables.observeValue(bean,valueToBind),targetToModel,modelToTarget);
 			 
 			}
 		
@@ -104,7 +110,7 @@ public class GuiUtils {
 			
 			DataBindingContext dbc = new DataBindingContext();
 			dbc.bindValue(SWTObservables.observeText(widget,SWT.Modify),
-					BeansObservables.observeValue(bean,valueToBind),null,null);
+					BeansObservables.observeValue(bean,valueToBind),targetToModel,modelToTarget);
 			 
 			}
 		

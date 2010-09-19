@@ -40,6 +40,7 @@ import com.sorca.beans.EditViewContenProvider;
 import com.sorca.beans.EditViewLabelProvider;
 import com.sorca.handler.ExportFileHandler;
 import com.sorca.handler.ImportFileHandler;
+import com.sorca.language.Messages;
 import com.sorca.model.beans.LinePropertyBean;
 import com.sorca.model.beans.Model;
 import com.sorca.views.utils.GuiUtils;
@@ -66,12 +67,12 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 	private File fileSelection(){
 		Shell shell = new Shell();
 		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-	    dialog.setFilterNames(new String[] { "Cobol Files", "All Files (*.*)" });
-	    dialog.setFilterExtensions(new String[] { "*.txt;*.cbl;*.TXT;*.CBL", "*.*" });
+	    dialog.setFilterNames(new String[] { Messages.fileSelectionNameCBLTXT, Messages.fileSelectionNameAllFiles });
+	    dialog.setFilterExtensions(new String[] { Messages.fileSelectionFilterCBLTXT, Messages.fileSelectionFilterALL });
 
 		String selected = dialog.open();
 		
-	    System.out.println("opening: " + selected);
+	    System.out.println("opening:" + selected);
 		return new File(selected);
 }
 
@@ -126,7 +127,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		
 		final TextCellEditor textCellEditor = new TextCellEditor(v.getTree());
 		
-		String[] colNames = {"Index","Field","OCC","P.type","P.Val","Totale livello","REDEFINES"};
+		String[] colNames = {Messages.TableIndex,Messages.TableField,Messages.TableOccurs,Messages.TablePicType,Messages.TablePicValue,Messages.TableTotLevel,Messages.TableRedefines};
 		int[] colSize = {100,180,50,50,50,80,100};
 		
 		for(int x= 0; x<colNames.length;x++){
@@ -157,7 +158,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		composite.setLayout(layout);
 		
 		Label label = new Label(composite,SWT.NONE);
-		label.setText("Tot Area");
+		label.setText(Messages.TableTotArea);
 		
 		count = new Label(composite,SWT.RIGHT);
 		count.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -212,7 +213,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.verticalAlignment = GridData.CENTER;
 		grpInput = new Group(top, SWT.NONE);
-		grpInput.setText("Azioni");
+		grpInput.setText(Messages.GroupActions);
 	
 		grpInput.setLayout(gridLayout);
 		grpInput.setLayoutData(gridData);
@@ -243,12 +244,12 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		grpProcessLData.horizontalAlignment = GridData.CENTER;
 
 		grpProcess.setLayoutData(grpProcessLData);
-		grpProcess.setText("Esporta");
+		grpProcess.setText(Messages.GroupExport);
 
 		process = new Button(grpProcess, SWT.NONE );
 		GridData btnInputLData = new GridData();
 		process.setLayoutData(btnInputLData);
-		process.setText("Apri cartella");
+		process.setText(Messages.OpenFolder);
 		process.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
 				
@@ -270,7 +271,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		singleAreaCheck = new Button(grpProcess, SWT.CHECK);
 		GridData btnOutputLData = new GridData();
 		singleAreaCheck.setLayoutData(btnOutputLData);
-		singleAreaCheck.setText("CBL Input/Output");
+		singleAreaCheck.setText(Messages.LabelSingleArea);
 		singleAreaCheck.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
 				
@@ -294,12 +295,12 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		separateInputCheck = new Button(grpProcess, SWT.CHECK);
 		btnOutputLData = new GridData();
 		separateInputCheck.setLayoutData(btnOutputLData);
-		separateInputCheck.setText("CBL Input");
+		separateInputCheck.setText(Messages.LabelInputArea);
 
 		separateOutputCheck = new Button(grpProcess, SWT.CHECK );
 		GridData btnBothLData = new GridData();
 		separateOutputCheck.setLayoutData(btnBothLData);
-		separateOutputCheck.setText("CBL Output");
+		separateOutputCheck.setText(Messages.LabelOutputArea);
 
 	}
 
@@ -324,10 +325,10 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		grpProcessLData.horizontalAlignment = GridData.CENTER;
 	
 		grpProcess.setLayoutData(grpProcessLData);
-		grpProcess.setText("Importa");
+		grpProcess.setText(Messages.Import);
 		
 		btnApriFile = new Button(grpProcess, SWT.NONE);
-		btnApriFile.setText("Apri File");
+		btnApriFile.setText(Messages.OpenFile);
 		
 		btnApriFile.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {
@@ -357,7 +358,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		
 		
 		btnApriFile = new Button(grpProcess, SWT.NONE);
-		btnApriFile.setText("Incolla testo");
+		btnApriFile.setText(Messages.pasteText);
 		
 		btnApriFile.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent evt) {

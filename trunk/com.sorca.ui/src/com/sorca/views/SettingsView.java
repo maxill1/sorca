@@ -14,22 +14,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
+import com.sorca.beans.fromModelToNameEOLConverter;
+import com.sorca.beans.fromNameToModelEOLConverter;
+import com.sorca.language.Messages;
 import com.sorca.model.beans.Model;
+import com.sorca.utils.Constants;
+import com.sorca.utils.PlatformUtils;
 import com.sorca.views.utils.GuiUtils;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class SettingsView extends ViewPart {
 
 	private Composite top = null;
@@ -39,7 +31,7 @@ public class SettingsView extends ViewPart {
 	private Button fillerPresente;
 	private Button headerPresente;
 	private Button add2ToIndex;
-	private Button viewInnested;
+	private Button autoUpdate;
 	private Button handleRedefines = null;
 	private Button handleErrors = null;
 	private Combo comboEOL = null;
@@ -50,9 +42,12 @@ public class SettingsView extends ViewPart {
 		
 		
 		GuiUtils.addBindingContext(
-				comboCodifica,Model.getSettingsBean(), "codifica");
+				comboCodifica,Model.getSettingsBean(), "encoding");
 		GuiUtils.addBindingContext(
-				comboEOL,Model.getSettingsBean(), "EOL");
+				comboEOL,Model.getSettingsBean(), "EOL",
+				new fromNameToModelEOLConverter(),
+				new fromModelToNameEOLConverter());
+		
 		GuiUtils.addBindingContext(
 				txtbyte,Model.getSettingsBean(), "count");
 		GuiUtils.addBindingContext(
@@ -72,7 +67,7 @@ public class SettingsView extends ViewPart {
 		GuiUtils.addBindingContext(
 				add2ToIndex,Model.getSettingsBean(), "add2ToIndex");
 		GuiUtils.addBindingContext(
-				viewInnested,Model.getSettingsBean(), "viewInnested");
+				autoUpdate,Model.getSettingsBean(), "autoUpdate");
 		
 		
 	}
@@ -119,40 +114,35 @@ public class SettingsView extends ViewPart {
         	Group opzioni = new Group(top, SWT.NONE);
         	GridLayout gridLayout = new GridLayout();
         	gridLayout.numColumns = 2;
-        	opzioni.setText("Opzioni");
+        	opzioni.setText(Messages.GroupOptions);
         	opzioni.setLayout(gridLayout);
         		Label codificaLabel = new Label(opzioni, SWT.NONE);
-        		codificaLabel.setText("Codifica");
+        		codificaLabel.setText(Messages.Encoding);
   
     			comboCodifica = new Combo(opzioni, SWT.READ_ONLY);
-    			comboCodifica.setItems(new String[] { "ISO-8859-1", "UTF-8"});
-    			comboCodifica.setText("ISO-8859-1");
-    	
-    				ComboViewer comboViewer2 = new ComboViewer(comboCodifica, SWT.NULL);
-    	
-    	
+    			comboCodifica.setItems(Constants.EncodingName);
+    			comboCodifica.setText(PlatformUtils.getEncoding());
 
 			Label lineaCapo = new Label(opzioni, SWT.NONE);
-			lineaCapo.setText("Linea a Capo");
+			lineaCapo.setText(Messages.EOL);
 
 			comboEOL = new Combo(opzioni, SWT.READ_ONLY);
-			comboEOL.setItems(new String[] { "DOS", "UNIX"});
-			comboEOL.setText("DOS");
-			
-				ComboViewer comboViewer1 = new ComboViewer(comboEOL, SWT.NULL);
-	
+			comboEOL.setItems(Constants.EOLname);
+			comboEOL.setText(PlatformUtils.getEOL());
 		
 			Label stampaErrLabel = new Label(opzioni, SWT.NONE);
-			stampaErrLabel.setText("Stampa Errori");
+			stampaErrLabel.setText(Messages.PrintErrors);
 		
 			handleErrors = new Button(opzioni, SWT.CHECK);
 			handleErrors.setSelection(true);
 		
 		
 			Label label3 = new Label(opzioni, SWT.NONE);
-			label3.setText("Gestisci Redefines");
+			label3.setText(Messages.HandleRedefines);
 	
 			handleRedefines = new Button(opzioni, SWT.CHECK);	
+			//TODO da completare
+			handleRedefines.setEnabled(false);
 		
 	}
 
@@ -164,17 +154,17 @@ public class SettingsView extends ViewPart {
     	group1Layout.numColumns = 2;
     	group1Layout.makeColumnsEqualWidth = true;
     	controlliSpeciali.setLayout(group1Layout);
-    	controlliSpeciali.setText("Controlli Speciali");
+    	controlliSpeciali.setText(Messages.GroupSpecial);
 
     		Label header = new Label(controlliSpeciali, SWT.NONE);
-    		header.setText("Stampa Header");
-    		header.setToolTipText("Seleziona per non stampare il l'header");
+    		header.setText(Messages.PrintHeader);
+    		header.setToolTipText(Messages.PrintHeaderHint);
 
     		headerPresente = new Button(controlliSpeciali, SWT.CHECK);
 
     		Label fillerPresenteLabel = new Label(controlliSpeciali, SWT.NONE);
-    		fillerPresenteLabel.setText("Stampa Filler");
-    		fillerPresenteLabel.setToolTipText("Seleziona per non stampare il filler (area unica di INPUT/OUTPUT o filler già presente) ");
+    		fillerPresenteLabel.setText(Messages.PrintFiller);
+    		fillerPresenteLabel.setToolTipText(Messages.PrintFillerHint);
 
     		GridData button3LData = new GridData();
     		button3LData.widthHint = 24;
@@ -183,17 +173,18 @@ public class SettingsView extends ViewPart {
     		fillerPresente.setLayoutData(button3LData);
     
     		Label aggiungi2IndiceLabel = new Label(controlliSpeciali, SWT.NONE);
-    		aggiungi2IndiceLabel.setText("Aggiungi 2 All'indice");
+    		aggiungi2IndiceLabel.setText(Messages.Add2ToIndex);
    
     		add2ToIndex = new Button(controlliSpeciali, SWT.CHECK);
     		add2ToIndex.setSelection(true);
+    		//TODO da completare
+    		add2ToIndex.setEnabled(false);
 
     		aggiungi2IndiceLabel = new Label(controlliSpeciali, SWT.NONE);
-    		aggiungi2IndiceLabel.setText("Visulizz.strut. dati innestata");
-   
+    		aggiungi2IndiceLabel.setText(Messages.AutoUpdate);
     		
-    		viewInnested = new Button(controlliSpeciali, SWT.CHECK);
-    		viewInnested.setSelection(false);
+    		autoUpdate = new Button(controlliSpeciali, SWT.CHECK);
+    		autoUpdate.setSelection(false);
     
 
 	}
@@ -207,10 +198,10 @@ public class SettingsView extends ViewPart {
 			group1Layout1.numColumns = 2;
 			group1Layout1.makeColumnsEqualWidth = true;
 			costanti.setLayout(group1Layout1);
-			costanti.setText("Opzioni");
+			costanti.setText(Messages.GroupOptions);
 			
 				Label byteLabel = new Label(costanti, SWT.NONE);
-				byteLabel.setText("Byte Count");
+				byteLabel.setText(Messages.ByteCount);
 		
 				txtbyte = new Text(costanti, SWT.NONE);
 				txtbyte.setText(Model.getSettingsBean().getCount()+"");
@@ -220,7 +211,7 @@ public class SettingsView extends ViewPart {
 				txtbyte.setLayoutData(txtbyteLData);
 		
 				Label indexLabel = new Label(costanti, SWT.NONE);
-				indexLabel.setText("Spazi Indice");
+				indexLabel.setText(Messages.IndexSpaces);
 		
 				spaceIndex = new Text(costanti, SWT.NONE);
 				spaceIndex.setText(Model.getSettingsBean().getIndexSpaces()+"");
@@ -231,7 +222,7 @@ public class SettingsView extends ViewPart {
 			
 		
 				Label PicLabel = new Label(costanti, SWT.NONE);
-				PicLabel.setText("Pic Space");
+				PicLabel.setText(Messages.PicSpaces);
 		
 				spacePic = new Text(costanti, SWT.NONE);
 				spacePic.setText(Model.getSettingsBean().getPicSpaces()+"");

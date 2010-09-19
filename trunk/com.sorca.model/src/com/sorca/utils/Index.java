@@ -110,7 +110,7 @@ public class Index {
 
 		boolean add2ToIndex = Model.getSettingsBean().isAdd2ToIndex();
 
-		if(!add2ToIndex && Model.getSettingsBean().isPrintHeader()){
+		if(!add2ToIndex /* && Model.getSettingsBean().isPrintHeader()*/){
 			if(index > 0){
 				index = index - 2;
 			}

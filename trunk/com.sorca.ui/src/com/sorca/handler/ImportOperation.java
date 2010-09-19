@@ -70,10 +70,9 @@ public class ImportOperation implements IRunnableWithProgress {
 		linee.addAll(0,linePropertyListSort.values());
 		monitor.worked(20);
 		
-		//CREO GERARCHIA FIGLI
-		if(Model.getSettingsBean().isViewInnested()){
-			linee = ProcessUtils.searchForChild(linee,0,null);
-		}
+		//CREO GERARCHIA FIGLI	
+		linee = ProcessUtils.searchForChild(linee,0,null);
+		
 		monitor.worked(25);
 	
 		//AGGIORNO IL MODEL

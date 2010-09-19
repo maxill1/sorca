@@ -8,13 +8,14 @@ public class Constants {
 	
 	/******** costanti Header e contatore ***********/
 	
-
-	private final static String programCall = "I8D";
-	private final static String programCallAlt = "FI8";
 	public static int input = 0;
 	public static int output = 1;
+	
+	public static String[] EOLname = new String[] { "DOS", "UNIX"};
 	public static String dos = "\r\n";
 	public static String unix = "\n";
+	
+	public static String[] EncodingName = new String[] { "ISO-8859-1", "UTF-8"};
 	public static String UTF8 = "UTF-8";
 	public static String ISO88591 = "ISO-8859-1";
 

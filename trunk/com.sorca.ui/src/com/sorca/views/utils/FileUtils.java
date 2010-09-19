@@ -51,9 +51,9 @@ public class FileUtils {
 	public static String encodeString(String toPrint) {
 		String codificata = "";
 		Charset charset = null;
-		if(Model.getSettingsBean().getCodifica().equals("UTF-8")){
+		if(Model.getSettingsBean().getEncoding().equals("UTF-8")){
 			charset = Charset.forName("UTF-8");
-			}else if(Model.getSettingsBean().getCodifica().equals("ISO-8859-1")){
+			}else if(Model.getSettingsBean().getEncoding().equals("ISO-8859-1")){
 		    charset = Charset.forName("ISO-8859-1");
 			}    
 		    

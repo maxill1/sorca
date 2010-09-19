@@ -1,33 +1,49 @@
 package com.sorca.model.beans.views;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import com.sorca.model.beans.ModelObject;
+import com.sorca.utils.CoreUtils;
+import com.sorca.utils.PlatformUtils;
 
 public class SettingsViewBean extends ModelObject{
 
-	private  String count = "32084"; 
-	private  String indexSpaces = "9";
-	private  String picSpaces = "58";
-	private  boolean add2ToIndex = true;
-	private  String programCall = "I8D";
-	private  String programCallAlt = "FI8";
-	private  String codifica = "UTF-8";
-	private  String EOL = "\r\n";
-	private  boolean HandleErrors = true;
-	private  boolean HandleRedefines= true;
-	private  boolean printHeader = true;
-	private  boolean printFiller = true;
-	private boolean generateInput = false;
-	private boolean generateOutput = false;
-	private boolean viewInnested = true;
+	private  String count; 
+	private  String indexSpaces;
+	private  String picSpaces;
+	private  boolean add2ToIndex;
+	private  String encoding;
+	private  String EOL;
+	private  boolean handleErrors;
+	private  boolean handleRedefines;
+	private  boolean printHeader ;
+	private  boolean printFiller;
+	private boolean generateInput;
+	private boolean generateOutput;
+	private boolean autoUpdate;
 	
 	public SettingsViewBean(){	
+		
+		EOL = PlatformUtils.getEOL();
+		encoding = PlatformUtils.getEncoding();
+		count = System.getProperty("sorca.count");; 
+		indexSpaces = System.getProperty("sorca.indexSpaces");
+		picSpaces = System.getProperty("sorca.picSpaces");
+		add2ToIndex = Boolean.valueOf(System.getProperty("sorca.add2ToIndex"));
+		handleErrors = Boolean.valueOf(System.getProperty("sorca.handleErrors"));
+		handleRedefines=  Boolean.valueOf(System.getProperty("sorca.handleRedefines"));
+		printHeader =  Boolean.valueOf(System.getProperty("sorca.printHeader"));
+		printFiller =  Boolean.valueOf(System.getProperty("sorca.printFiller"));
+		generateInput = Boolean.valueOf(System.getProperty("sorca.generateInput"));
+		generateOutput = Boolean.valueOf(System.getProperty("sorca.generateOuput"));
+		autoUpdate = Boolean.valueOf(System.getProperty("sorca.update"));
+		
 	}
 
-	public  String getCodifica() {
-		return codifica;
+	public  String getEncoding() {
+		return encoding;
 	}
 	public  String getCount() {
 		return count;
@@ -41,12 +57,7 @@ public class SettingsViewBean extends ModelObject{
 	public  String getPicSpaces() {
 		return picSpaces;
 	}
-	public  String getProgramCall() {
-		return programCall;
-	}
-	public  String getProgramCallAlt() {
-		return programCallAlt;
-	}
+
 	public  boolean isAdd2ToIndex() {
 		return add2ToIndex;
 	}
@@ -54,7 +65,7 @@ public class SettingsViewBean extends ModelObject{
 		return printFiller;
 	}
 	public  boolean isHandleErrors() {
-		return HandleErrors;
+		return handleErrors;
 	}
 	public  boolean isPrintHeader() {
 		return printHeader;
@@ -63,9 +74,9 @@ public class SettingsViewBean extends ModelObject{
 		propertyChangeSupport.firePropertyChange("add2ToIndex", this.add2ToIndex,
 				this.add2ToIndex = add2ToIndex);
 	}
-	public  void setCodifica(String codifica) {
-		propertyChangeSupport.firePropertyChange("codifica", this.codifica,
-				this.codifica = codifica);
+	public  void setEncoding(String codifica) {
+		propertyChangeSupport.firePropertyChange("codifica", this.encoding,
+				this.encoding = codifica);
 
 	}
 	public  void setCount(String count) {
@@ -92,8 +103,8 @@ public class SettingsViewBean extends ModelObject{
 		this.printFiller = PrintFiller);
 	}
 	public  void setHandleErrors(boolean handleErrors) {
-		propertyChangeSupport.firePropertyChange("HandleErrors", this.HandleErrors,
-		HandleErrors = handleErrors);
+		propertyChangeSupport.firePropertyChange("HandleErrors", this.handleErrors,
+		handleErrors = handleErrors);
 	}
 	public  void setPrintHeader(boolean PrintHeader) {
 		propertyChangeSupport.firePropertyChange("PrintHeader", this.printHeader,
@@ -125,24 +136,16 @@ public class SettingsViewBean extends ModelObject{
 		propertyChangeSupport.firePropertyChange("picSpaces", this.picSpaces,
 		this.picSpaces = picSpaces);
 	}
-	public  void setProgramCall(String programCall) {
-		propertyChangeSupport.firePropertyChange("programCall", this.programCall,
-		this.programCall = programCall);
-	}
-	public  void setProgramCallAlt(String programCallAlt) {
-		propertyChangeSupport.firePropertyChange("programCallAlt", this.programCallAlt,
-		this.programCallAlt = programCallAlt);
-	}
 
 
 	public void setHandleRedefines(boolean handleRedefines) {
-		propertyChangeSupport.firePropertyChange("handleRedefines", this.HandleRedefines,
-		this.HandleRedefines = handleRedefines);
+		propertyChangeSupport.firePropertyChange("handleRedefines", this.handleRedefines,
+		this.handleRedefines = handleRedefines);
 	}
 
 
 	public boolean isHandleRedefines() {
-		return HandleRedefines;
+		return handleRedefines;
 	}
 
 
@@ -158,7 +161,8 @@ public class SettingsViewBean extends ModelObject{
 
 
 	public void setGenerateOutput(boolean generateOutput) {
-		this.generateOutput = generateOutput;
+		propertyChangeSupport.firePropertyChange("generateOutput", this.generateOutput,
+		this.generateOutput = generateOutput);
 	}
 
 
@@ -166,15 +170,13 @@ public class SettingsViewBean extends ModelObject{
 		return generateOutput;
 	}
 
-
-	public void setViewInnested(boolean viewInnested) {
-		propertyChangeSupport.firePropertyChange("viewInnested", this.viewInnested,
-				this.viewInnested = viewInnested);
+	public void setAutoUpdate(boolean autoUpdate) {
+		propertyChangeSupport.firePropertyChange("autoUpdate", this.autoUpdate,
+		this.autoUpdate = autoUpdate);
 	}
 
-
-	public boolean isViewInnested() {
-		return viewInnested;
+	public boolean isAutoUpdate() {
+		return autoUpdate;
 	}
 
 	
