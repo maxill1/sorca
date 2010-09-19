@@ -34,6 +34,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 
 import com.sorca.model.beans.Model;
+import com.sorca.utils.CoreUtils;
 import com.sorca.views.utils.GuiUtils;
 
 
@@ -42,12 +43,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     @Override
 	public void postWindowOpen() {
 		super.postWindowOpen();
-		
-		//TODO UPDATE SITE!
-		
-		
+				
 		/*
-		 * caricamento delle proprieta' dal file sanzioni.ini
+		 * caricamento delle proprieta' dal file ini
 		 */
 		String nomeFileProps = "sorca.ini";
 		String updateServer  = null;
@@ -430,7 +428,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-        
+
+		//File config e properties
+		CoreUtils.initConfigFile();
         //INIT DEL MODEL
         new Model();
         
@@ -440,4 +440,11 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setTitle("SORCA - Simple Opensource formatter for Raw Cobol Area");
         
     }
+    
+	@Override
+	public void postWindowClose() {
+		CoreUtils.saveConfigFile();
+	}
+
+    
 }

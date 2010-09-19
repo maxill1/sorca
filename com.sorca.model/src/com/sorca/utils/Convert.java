@@ -74,11 +74,13 @@ public class Convert {
 	}
 	
 	public static String decodeEOL(){
-		if(Model.getSettingsBean().getEOL().equals("UNIX")){
-			return "\n";
-		}else{
-			return "\r\n";
+		String eol = Model.getSettingsBean().getEOL();
+		if(eol.equals("UNIX")){
+			eol = "\n";
+		}else if(eol.equals("DOS")){
+			eol = "\r\n";
 		}
+		return eol;
 	}
 	
 }
