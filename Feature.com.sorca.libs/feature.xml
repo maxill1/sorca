@@ -2,7 +2,7 @@
 <feature
       id="Feature.com.sorca.libs"
       label="Libs"
-      version="1.0.0.qualifier">
+      version="1.0.0">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -126,14 +126,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.update.core.win32"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.update.ui"
          download-size="0"
          install-size="0"
@@ -152,14 +144,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.update.core.linux"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
    <plugin

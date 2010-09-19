@@ -29,7 +29,7 @@
       <feature id="Feature.com.sorca.core" version="1.0.0.qualifier"/>
       <feature id="Feature.com.sorca.model" version="1.0.0.qualifier"/>
       <feature id="Feature.com.sorca.ui" version="1.0.0.qualifier"/>
-      <feature id="Feature.com.sorca.libs" version="1.0.0.qualifier"/>
+      <feature id="Feature.com.sorca.libs" version="1.0.0"/>
    </features>
 
 
