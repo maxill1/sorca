@@ -121,7 +121,8 @@ public class ExportOperation implements IRunnableWithProgress {
 				}
 			}
 		}
-		if(Model.getSettingsBean().isPrintFiller() && !Model.getFileBean().isExportSingleArea()){
+		//LM su richiesta goran anche le aree singole possono avere filler
+		if(Model.getSettingsBean().isPrintFiller() /*&& !Model.getFileBean().isExportSingleArea()*/){
 			
 			int fillerSize = 
 				Integer.parseInt(Model.getSettingsBean().getCount()) - count; 
