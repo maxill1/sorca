@@ -134,7 +134,7 @@ public class GuiUtils {
 			String path = null;
 			try {
 			path = FileLocator.toFileURL (
-			Platform.getBundle ("com.cblformatter.application"). getEntry ("sorca.ini")). getPath ();
+			Platform.getBundle ("com.sorca.core"). getEntry ("sorca.ini")). getPath ();
 	
 			path = path.replaceAll("sorca.ini", "");
 			

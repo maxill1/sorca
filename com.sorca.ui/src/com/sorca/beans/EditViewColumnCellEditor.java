@@ -10,8 +10,19 @@ import com.sorca.views.utils.GuiUtils;
 import com.sorca.views.utils.ProcessUtils;
 
 public class EditViewColumnCellEditor extends EditingSupport {
+	/**
+	 * @uml.property  name="v"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	TreeViewer v;
+	/**
+	 * @uml.property  name="textCellEditor"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	TextCellEditor textCellEditor;
+	/**
+	 * @uml.property  name="columnIndex"
+	 */
 	int columnIndex;
 	
 
@@ -23,7 +34,8 @@ public class EditViewColumnCellEditor extends EditingSupport {
 		}
 
 		protected boolean canEdit(Object element) {
-			if(columnIndex == 5){
+			if(columnIndex == 0
+					|| columnIndex == 5){
 				return false;
 			}
 			return true;

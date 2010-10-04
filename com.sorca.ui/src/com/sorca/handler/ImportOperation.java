@@ -37,9 +37,10 @@ public class ImportOperation implements IRunnableWithProgress {
 			e.printStackTrace();
 		}
 
-
+		
 		monitor.worked(50);
 		monitor.done();
+		
 
 	}
 

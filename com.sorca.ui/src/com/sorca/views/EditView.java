@@ -48,14 +48,38 @@ import com.sorca.views.utils.GuiUtils;
 public class EditView extends ViewPart implements ISelectionChangedListener,PropertyChangeListener {
 	
 
+	/**
+	 * @uml.property  name="separateOutputCheck"
+	 * @uml.associationEnd  
+	 */
 	private Button separateOutputCheck;
+	/**
+	 * @uml.property  name="separateInputCheck"
+	 * @uml.associationEnd  
+	 */
 	private Button separateInputCheck;
+	/**
+	 * @uml.property  name="process"
+	 * @uml.associationEnd  
+	 */
 	private Button process;
 
 	public static final String ID = "CBLFormatter.EditView";
 
+	/**
+	 * @uml.property  name="v"
+	 * @uml.associationEnd  
+	 */
 	private TreeViewer v;
+	/**
+	 * @uml.property  name="count"
+	 * @uml.associationEnd  
+	 */
 	private Label count;
+	/**
+	 * @uml.property  name="singleAreaCheck"
+	 * @uml.associationEnd  
+	 */
 	private Button singleAreaCheck;
 	
 	public EditView() {
@@ -71,6 +95,9 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 	    dialog.setFilterExtensions(new String[] { Messages.fileSelectionFilterCBLTXT, Messages.fileSelectionFilterALL });
 
 		String selected = dialog.open();
+		if(selected==null || selected.equals("")){
+			return null;
+		}
 		
 	    System.out.println("opening:" + selected);
 		return new File(selected);
@@ -238,7 +265,7 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 
 		Group grpProcess = new Group(top, SWT.NONE);
 		GridLayout grpProcessLayout = new GridLayout();
-		grpProcessLayout.numColumns = 3;
+		grpProcessLayout.numColumns = 2;
 		grpProcess.setLayout(grpProcessLayout);
 		GridData grpProcessLData = new GridData();
 		grpProcessLData.horizontalAlignment = GridData.CENTER;
@@ -291,12 +318,18 @@ public class EditView extends ViewPart implements ISelectionChangedListener,Prop
 		
 			}
 		});
+		
+		Label lbl = new Label(grpProcess, SWT.NONE);
+		lbl.setLayoutData(new GridData());
 
 		separateInputCheck = new Button(grpProcess, SWT.CHECK);
 		btnOutputLData = new GridData();
 		separateInputCheck.setLayoutData(btnOutputLData);
 		separateInputCheck.setText(Messages.LabelInputArea);
 
+		lbl = new Label(grpProcess, SWT.NONE);
+		lbl.setLayoutData(new GridData());
+		
 		separateOutputCheck = new Button(grpProcess, SWT.CHECK );
 		GridData btnBothLData = new GridData();
 		separateOutputCheck.setLayoutData(btnBothLData);

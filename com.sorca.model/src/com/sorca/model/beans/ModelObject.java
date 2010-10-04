@@ -5,10 +5,20 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 public class ModelObject {
 
+	/**
+	 * @uml.property  name="propertyChangeSupport"
+	 */
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
+	/**
+	 * @uml.property  name="id"
+	 */
 	private String id;
 
+	/**
+	 * @uml.property  name="propertyChangelisteners"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.beans.PropertyChangeListener"
+	 */
 	private ArrayList<PropertyChangeListener> propertyChangelisteners = new ArrayList<PropertyChangeListener>();
 
 	public void clear(){
@@ -42,6 +52,10 @@ public class ModelObject {
 		propertyChangeSupport.firePropertyChange(propertyName, oldValue,newValue);
 	}
 
+	/**
+	 * @param string
+	 * @uml.property  name="id"
+	 */
 	public void setId(String string) {
 		Object oldValue = id;
 		id = string;

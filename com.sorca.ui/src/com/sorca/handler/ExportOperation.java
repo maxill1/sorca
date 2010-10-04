@@ -126,8 +126,9 @@ public class ExportOperation implements IRunnableWithProgress {
 			
 			int fillerSize = 
 				Integer.parseInt(Model.getSettingsBean().getCount()) - count; 
-			
-			outputLines = LineUtils.addFiller(outputLines, fillerSize);
+			if(fillerSize != 0){
+				outputLines = LineUtils.addFiller(outputLines, fillerSize);
+			}
 		}
 	
 		return outputLines;
@@ -153,7 +154,7 @@ public class ExportOperation implements IRunnableWithProgress {
 
 			LinePropertyBean line = (LinePropertyBean) linee.get(i);
 
-			outputLines = line.toStringChilds();
+			outputLines = outputLines + line.toStringChilds();
 
 		}
 

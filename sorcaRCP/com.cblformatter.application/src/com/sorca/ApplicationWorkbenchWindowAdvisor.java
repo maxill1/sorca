@@ -1,5 +1,6 @@
 package com.sorca;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -26,7 +27,6 @@ import org.eclipse.update.configuration.ILocalSite;
 import org.eclipse.update.core.IFeatureReference;
 import org.eclipse.update.core.ISite;
 import org.eclipse.update.core.SiteManager;
-import org.eclipse.update.internal.core.SiteFile;
 import org.eclipse.update.operations.IInstallFeatureOperation;
 import org.eclipse.update.operations.IUninstallFeatureOperation;
 import org.eclipse.update.operations.OperationsManager;
@@ -34,6 +34,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 
 import com.sorca.model.beans.Model;
+import com.sorca.ui.SystemTraySupport;
 import com.sorca.utils.CoreUtils;
 import com.sorca.views.utils.GuiUtils;
 
@@ -43,6 +44,10 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     @Override
 	public void postWindowOpen() {
 		super.postWindowOpen();
+		
+		//Supporto per la tray (istanzia il primo oggetto)
+		new SystemTraySupport();
+		
 				
 		/*
 		 * caricamento delle proprieta' dal file ini
@@ -62,7 +67,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 			System.setProperty(key, props.getProperty(key));
 			
 			// flag per l'update
-			boolean flagUpdate = props.getProperty("sorca.update").equals("true");
+			boolean flagUpdate = props.getProperty("sorca.update").equals("true") && !isDevelopment();
 			
 			if (flagUpdate) {
 				
@@ -84,6 +89,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	
 	
+	private boolean isDevelopment() {
+
+		return new File(GuiUtils.getRoot()+"noUpdate").exists();
+	}
+
+
+
 	private void update(String updateServer) {
 		
 	
@@ -441,6 +453,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         
     }
     
+
 	@Override
 	public void postWindowClose() {
 		CoreUtils.saveConfigFile();
