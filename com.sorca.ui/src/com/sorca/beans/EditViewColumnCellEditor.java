@@ -4,6 +4,10 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.ui.PlatformUI;
 
 import com.sorca.model.beans.LinePropertyBean;
 import com.sorca.views.utils.GuiUtils;
@@ -31,6 +35,7 @@ public class EditViewColumnCellEditor extends EditingSupport {
 			this.v = v;
 			this.textCellEditor =textCellEditor;
 			this.columnIndex = columnIndex;
+			
 		}
 
 		protected boolean canEdit(Object element) {
@@ -39,6 +44,45 @@ public class EditViewColumnCellEditor extends EditingSupport {
 				return false;
 			}
 			return true;
+		}
+
+		@Override
+		protected void saveCellEditorValue(CellEditor cellEditor,
+				ViewerCell cell) {
+		
+			setBackgroundColorToCell(cellEditor,cell);
+			
+			super.saveCellEditorValue(cellEditor, cell);
+		}
+		/*
+		 * TODO set colors on init
+		 */
+
+		private void setBackgroundColorToCell(CellEditor cellEditor,
+				ViewerCell cell) {
+			Color red = PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED);
+			Color white = PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_WHITE);
+					
+			
+			if(columnIndex == 6){
+				
+				if(!cellEditor.getValue().toString().trim().equals("")){
+					cell.setBackground(red);
+				}else{
+					cell.setBackground(white);
+				}
+			}
+			
+		}
+
+		@Override
+		protected void initializeCellEditorValue(CellEditor cellEditor,
+				ViewerCell cell) {
+		
+			super.initializeCellEditorValue(cellEditor, cell);
+			
+			setBackgroundColorToCell(cellEditor,cell);
+			
 		}
 
 		protected CellEditor getCellEditor(Object element) {
@@ -60,7 +104,7 @@ public class EditViewColumnCellEditor extends EditingSupport {
 				return r.getField();
 
 			case 2:
-
+				
 				return r.getRedefines();
 							
 			case 3:
