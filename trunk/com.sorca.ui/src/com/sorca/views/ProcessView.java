@@ -20,10 +20,30 @@ import com.sorca.views.utils.GuiUtils;
 
 public class ProcessView extends ViewPart {
 	protected static final String ID = "CBLFormatter.ProcessView";;
+	/**
+	 * @uml.property  name="grpProcess"
+	 * @uml.associationEnd  
+	 */
 	private Group grpProcess;
+	/**
+	 * @uml.property  name="top"
+	 * @uml.associationEnd  
+	 */
 	private Composite top;
+	/**
+	 * @uml.property  name="output"
+	 * @uml.associationEnd  
+	 */
 	private Button output;
+	/**
+	 * @uml.property  name="input"
+	 * @uml.associationEnd  
+	 */
 	private Button input;
+	/**
+	 * @uml.property  name="process"
+	 * @uml.associationEnd  
+	 */
 	private Button process;
 
 	public ProcessView() {

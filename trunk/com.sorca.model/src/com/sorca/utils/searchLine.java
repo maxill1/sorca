@@ -2,7 +2,6 @@ package com.sorca.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 import com.sorca.model.beans.Model;
 
@@ -131,20 +130,26 @@ public class searchLine {
 	
 	public static int searchOccurs(String inputLine) {
 		
-
+		inputLine = inputLine.trim();
 		int numOccours = 0;
 		if(inputLine.contains("OCCURS")){
-			int inizio = inputLine.indexOf("OCCURS ")+7;
-			int fine = 0;
-			if(inputLine.length()>inizio+5){
-				fine = inizio+5;	
-			}else{
-				fine = inizio+(inputLine.length()-inizio);
-			}
-			String substring = inputLine.substring(inizio, fine).replace(".", "").trim();
-
-			int filler = Integer.parseInt(substring);
-			numOccours = filler;
+			
+			String[] lineSplit = inputLine.split("OCCURS");
+			String[] lineSplitSpaces = lineSplit[1].trim().split(" ");
+			numOccours = Integer.parseInt(lineSplitSpaces[0].trim());
+//			numOccours = lineSplit[1];
+//			
+//			int inizio = inputLine.indexOf("OCCURS ")+7;
+//			int fine = 0;
+//			if(inputLine.length()>inizio+5){
+//				fine = inizio+5;	
+//			}else{
+//				fine = inizio+(inputLine.length()-inizio);
+//			}
+//			String substring = inputLine.substring(inizio, fine).replace(".", "").trim();
+//
+			
+//			numOccours = filler;
 		}
 
 		return numOccours;

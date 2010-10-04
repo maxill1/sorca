@@ -1,6 +1,5 @@
 package com.sorca.handler;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -10,13 +9,15 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import com.sorca.language.Messages;
 import com.sorca.model.beans.Model;
+import com.sorca.ui.SystemTraySupport;
 import com.sorca.views.utils.GuiUtils;
 import com.sorca.views.utils.ProcessUtils;
 
 public class ImportFileHandler extends AbstractHandler {
 
-	public static final String ID = "SORCA.importFile";
+	public static final String ID = "SORCA.importFile"; //$NON-NLS-1$
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -28,30 +29,6 @@ public class ImportFileHandler extends AbstractHandler {
     		return null;
     	}
     	
-
-//    	if(filePath == null || folderPath == null || filePath.equals("none") || folderPath.equals("none")){
-//    		MessageDialog.openError(null, "Errore", "Devi selezionare un file di input e una cartella di destinazione");
-//    		return null;
-//    	}
-//
-//    	if(!Model.getSettingsBean().isGenerateInput() && !Model.getSettingsBean().isGenerateOutput()){
-//    		MessageDialog.openError(null, "Errore", "Devi selezionare almeno una tipologia di file cbl da generare");
-//    		return null;
-//    	}
-    	
-
-//    	File fileInput = new File(filePath);
-//    	File fileOutput = new File(folderPath);
-    	
-//    	if(Model.getSettingsBean().isGenerateInput()){
-//    	    CreateOutput.createOutputFile(fileInput,fileOutput,Costants.input);    		
-//    	}    	
-//
-//    	if(Model.getSettingsBean().isGenerateOutput()){
-//    	    CreateOutput.createOutputFile(fileInput,fileOutput,Costants.output);    		
-//    	}    	
-    	
-
     	//Progress
 		Shell sh = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 		.getShell();
@@ -79,6 +56,12 @@ public class ImportFileHandler extends AbstractHandler {
 		ProcessUtils.countFiller();
 	    GuiUtils.getEditViewTableViewer().refresh();
 		
+	    
+		
+		SystemTraySupport sys = new SystemTraySupport();
+
+		sys.updateTrayMessage(Messages.Diagn_importDone, Messages.Diagn_importMessagePart1+ filePath + Messages.Diagn_importMessagePart2);
+	    
 		return null;
 	}
 

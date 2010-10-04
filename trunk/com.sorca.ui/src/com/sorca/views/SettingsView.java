@@ -1,17 +1,24 @@
 package com.sorca.views;
 
 
-import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolTip;
+import org.eclipse.swt.widgets.Tray;
+import org.eclipse.swt.widgets.TrayItem;
 import org.eclipse.ui.part.ViewPart;
 
 import com.sorca.beans.fromModelToNameEOLConverter;
@@ -24,17 +31,65 @@ import com.sorca.views.utils.GuiUtils;
 
 public class SettingsView extends ViewPart {
 
+	/**
+	 * @uml.property  name="top"
+	 * @uml.associationEnd  
+	 */
 	private Composite top = null;
+	/**
+	 * @uml.property  name="spacePic"
+	 * @uml.associationEnd  
+	 */
 	private Text spacePic;
+	/**
+	 * @uml.property  name="spaceIndex"
+	 * @uml.associationEnd  
+	 */
 	private Text spaceIndex;
+	/**
+	 * @uml.property  name="txtbyte"
+	 * @uml.associationEnd  
+	 */
 	private Text txtbyte;
+	/**
+	 * @uml.property  name="fillerPresente"
+	 * @uml.associationEnd  
+	 */
 	private Button fillerPresente;
+	/**
+	 * @uml.property  name="headerPresente"
+	 * @uml.associationEnd  
+	 */
 	private Button headerPresente;
+	/**
+	 * @uml.property  name="add2ToIndex"
+	 * @uml.associationEnd  
+	 */
 	private Button add2ToIndex;
+	/**
+	 * @uml.property  name="autoUpdate"
+	 * @uml.associationEnd  
+	 */
 	private Button autoUpdate;
+	/**
+	 * @uml.property  name="handleRedefines"
+	 * @uml.associationEnd  
+	 */
 	private Button handleRedefines = null;
+	/**
+	 * @uml.property  name="handleErrors"
+	 * @uml.associationEnd  
+	 */
 	private Button handleErrors = null;
+	/**
+	 * @uml.property  name="comboEOL"
+	 * @uml.associationEnd  
+	 */
 	private Combo comboEOL = null;
+	/**
+	 * @uml.property  name="comboCodifica"
+	 * @uml.associationEnd  
+	 */
 	private Combo comboCodifica = null;
 	
 	private void bindGUI() {
@@ -163,9 +218,9 @@ public class SettingsView extends ViewPart {
     		headerPresente = new Button(controlliSpeciali, SWT.CHECK);
 
     		Label fillerPresenteLabel = new Label(controlliSpeciali, SWT.NONE);
-    		fillerPresenteLabel.setText(Messages.PrintFiller);
+    		fillerPresenteLabel.setText(Messages.PrintFiller);    	    
     		fillerPresenteLabel.setToolTipText(Messages.PrintFillerHint);
-
+    	
     		GridData button3LData = new GridData();
     		button3LData.widthHint = 24;
     		button3LData.heightHint = 22;

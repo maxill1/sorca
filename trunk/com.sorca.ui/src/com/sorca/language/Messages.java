@@ -7,6 +7,14 @@ public class Messages extends NLS {
 	public static String Add2ToIndex;
 	public static String AutoUpdate;
 	public static String ByteCount;
+	public static String Check_selectExportType;
+	public static String Check_selectFolder;
+	public static String Check_selectInputFile;
+	public static String Diagn_exportDone;
+	public static String Diagn_exportMessage;
+	public static String Diagn_importDone;
+	public static String Diagn_importMessagePart1;
+	public static String Diagn_importMessagePart2;
 	public static String Encoding;
 	public static String EOL;
 	public static String fileSelectionFilterALL;

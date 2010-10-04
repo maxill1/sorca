@@ -24,7 +24,14 @@ import com.sorca.views.utils.GuiUtils;
 
 public class TextDialog extends Dialog {
 
+	/**
+	 * @uml.property  name="textArea"
+	 * @uml.associationEnd  
+	 */
 	private StyledText textArea; 
+	/**
+	 * @uml.property  name="fileTMP"
+	 */
 	private File fileTMP;
 	
 	@Override
@@ -61,10 +68,18 @@ public class TextDialog extends Dialog {
 	}
 
 
+	/**
+	 * @param fileTMP
+	 * @uml.property  name="fileTMP"
+	 */
 	public void setFileTMP(File fileTMP) {
 		this.fileTMP = fileTMP;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="fileTMP"
+	 */
 	public File getFileTMP() {
 		return fileTMP;
 	}

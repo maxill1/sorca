@@ -24,14 +24,46 @@ public class FilesView extends ViewPart {
 	
 	public static final String ID = "CBLFormatter.FilesView";
 	
+	/**
+	 * @uml.property  name="top"
+	 * @uml.associationEnd  
+	 */
 	private Composite top = null;
+	/**
+	 * @uml.property  name="grpInput"
+	 * @uml.associationEnd  
+	 */
 	private Group grpInput = null;
+	/**
+	 * @uml.property  name="lblFile"
+	 * @uml.associationEnd  
+	 */
 	private Label lblFile = null;
+	/**
+	 * @uml.property  name="btnApriFile"
+	 * @uml.associationEnd  
+	 */
 	private Button btnApriFile = null;
+	/**
+	 * @uml.property  name="btnApriFolder"
+	 * @uml.associationEnd  
+	 */
 	private Button btnApriFolder = null;
+	/**
+	 * @uml.property  name="folderPath"
+	 * @uml.associationEnd  
+	 */
 	private Label FolderPath;
 	
+	/**
+	 * @uml.property  name="filePath"
+	 * @uml.associationEnd  
+	 */
 	private Label FilePath;
+	/**
+	 * @uml.property  name="fileSelezionato"
+	 * @uml.associationEnd  
+	 */
 	private Label fileSelezionato = null;
 
 	
