@@ -56,10 +56,10 @@ public class LinePropertyBean extends ModelObject{
 		redefines = getRedefines();
 		occurs = getOccurs();
 					
-
-		if(!indice.equals("") && !LineUtils.isHeader(campo)){
-			indice = Index.increaseIndex(Integer.parseInt(indice));
-		}
+//Spostato l'incremento in importazione
+//		if(!indice.equals("") && !LineUtils.isHeader(campo)){
+//			indice = Index.increaseIndex(Integer.parseInt(indice));
+//		}
 
 		} catch (NumberFormatException e) {
 			MessageDialog.openError(null, "Errore","Si è verificato un errore \n"+
