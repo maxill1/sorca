@@ -98,6 +98,15 @@ public class searchLine {
 		int virgola = 0;
 	
 		inputLine = Pic.checkPic(inputLine);
+		
+//		if(inputLine.contains("(")){
+//			String[] tempLine = inputLine.split("(");
+//			String[] tempLine2 = tempLine[1].split(")");
+//			String tempValue = tempLine2[0];
+//			value = Integer.parseInt(tempValue);
+//		}else{
+//			
+//		}
 				
 		if(inputLine.contains("9(")||inputLine.contains("X(")){
 			int inizio = inputLine.indexOf("(")+1;
@@ -120,9 +129,10 @@ public class searchLine {
 				}
 			
 		}else{
-			if(inputLine.contains("PIC X.") || inputLine.contains("PIC 9.")){
+			if(inputLine.contains("PIC X") || inputLine.contains("PIC 9")){
 				value = 1;
 			}
+
 		}
 		
 		return value;
